@@ -1,0 +1,6 @@
+E:\PDS\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll.config
+E:\PDS\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+E:\PDS\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+E:\PDS\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+E:\PDS\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+E:\PDS\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
