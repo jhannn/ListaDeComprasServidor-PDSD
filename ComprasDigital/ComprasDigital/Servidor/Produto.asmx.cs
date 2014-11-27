@@ -26,12 +26,12 @@ namespace ComprasDigital.Servidor
         {
 
             //Alterar local de conexão
-            SqlConnection sqlConnection1 = new SqlConnection("Data Source=MARCELO;Initial Catalog=SistemaDeCompras;Integrated Security=True");
+            SqlConnection sqlConnection1 = new SqlConnection("Data Source=BRUNO;Initial Catalog=SistemaDeCompras;Integrated Security=True");
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
 
             //SQL "injector" 
-            cmd.CommandText = "INSERT INTO () VALUES ()";
+            cmd.CommandText = "INSERT INTO (tb_produto) VALUES (nomeDoProduto,codigoDeBarras,formatoCodigoDeBarras)";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = sqlConnection1;
 
