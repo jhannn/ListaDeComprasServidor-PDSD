@@ -31,7 +31,7 @@ namespace ComprasDigital.Servidor
             SqlDataReader reader;
 
             //SQL "injector" 
-            cmd.CommandText = "INSERT INTO (tb_produto) VALUES (nomeDoProduto,codigoDeBarras,formatoCodigoDeBarras)";
+            cmd.CommandText = "INSERT INTO tb_produto VALUES (nomeDoProduto,codigoDeBarras,formatoCodigoDeBarras)";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = sqlConnection1;
 
