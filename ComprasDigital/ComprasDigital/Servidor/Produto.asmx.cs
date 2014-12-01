@@ -39,7 +39,7 @@ namespace ComprasDigital.Servidor
 
             reader = cmd.ExecuteReader();
 
-
+			sqlConnection1.Close();
         }
 
     }
