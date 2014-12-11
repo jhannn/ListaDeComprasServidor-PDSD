@@ -166,6 +166,7 @@ BEGIN
 		SET @testarEmail = (SELECT IDENT_CURRENT('tb_Usuario'));
 	END
 	ELSE BEGIN --email nao cadastrado
+		UPDATE tb_Usuario SET token = null WHERE token = @token;
 		INSERT INTO tb_Usuario VALUES (@nomeUsuario,@email,@senha,@token);
 		SET @testarEmail = -1
 	END
@@ -194,6 +195,37 @@ BEGIN
 		SET @testarLogin = -1
 	END
 	RETURN @testarLogin
+END
+
+--Verificação com o token e email para ppular tela login
+ALTER PROCEDURE usp_verificarLogin
+	@email varchar(50) output,
+	@token varchar(50) output
+AS
+BEGIN
+	DECLARE @usuarioLogado int
+	SET @usuarioLogado = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND token = @token);
+	IF(@usuarioLogado = 1) BEGIN --usuario esta logado
+		RETURN 1
+	END
+	RETURN -1
+END
+
+--Atualizar cadastro de usuario
+ALTER PROCEDURE usp_atualizarSenhaUsuario
+	@email varchar(50) output,
+	@senha varchar(50) output,
+	@novaSenha varchar(50) output
+
+AS
+BEGIN
+	DECLARE @usuarioExistente int
+	SET @usuarioExistente = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND senha = @senha);
+	IF(@usuarioExistente = 1) BEGIN --usuario existente
+		UPDATE tb_Usuario SET senha = @senha WHERE email = @email;
+		RETURN 1
+	END
+	RETURN -1
 END
 
 USE SistemaDeCompras

@@ -126,5 +126,43 @@ namespace ComprasDigital.Servidor
 
         }
 
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+		[WebMethod]
+		public string verificarLogin(string email, string token)
+		{
+			int resultado;
+
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
+			{
+				conexao.Open();
+				using (SqlCommand cmd = new SqlCommand("usp_verificarLogin", conexao)) //producer a ser executada
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+
+					cmd.Parameters.AddWithValue("@email", email); //parametros
+					cmd.Parameters.AddWithValue("@token", token); //parametros
+
+					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
+					returnValue.Direction = ParameterDirection.ReturnValue;
+					cmd.Parameters.Add(returnValue);
+
+					cmd.ExecuteNonQuery();
+					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
+				}
+			}
+
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			if (resultado == -1) //deu treta
+			{
+				return js.Serialize("-1");
+			}
+			else //usuario cadastrado
+			{
+				return js.Serialize(resultado.ToString());
+			}
+
+		}
+
     }
 }
