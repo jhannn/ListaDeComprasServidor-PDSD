@@ -68,7 +68,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\cEstabelecimento.cs" />
+    <Compile Include="Classes\cItem.cs" />
+    <Compile Include="Classes\cListaDeItens.cs" />
+    <Compile Include="Classes\cListaDeProdutos.cs" />
     <Compile Include="Classes\cProduto.cs" />
+    <Compile Include="Classes\cUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servidor\Estabelecimento.asmx.cs">
       <DependentUpon>Estabelecimento.asmx</DependentUpon>

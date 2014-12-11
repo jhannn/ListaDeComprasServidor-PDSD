@@ -44,3 +44,8 @@ C:\Users\Jhannn\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigita
 C:\Users\Jhannn\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
 C:\Users\Jhannn\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
 C:\Users\Jhannn\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
+C:\Users\Marcos\Desktop\PDSD\Server\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\Marcos\Desktop\PDSD\Server\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\Marcos\Desktop\PDSD\Server\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\Marcos\Desktop\PDSD\Server\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+C:\Users\Marcos\Desktop\PDSD\Server\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb

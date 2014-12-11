@@ -11,6 +11,7 @@ using System.Web.Services.Protocols;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Web.Script.Services;
+using ComprasDigital.Classes;
 
 
 namespace ComprasDigital.Servidor

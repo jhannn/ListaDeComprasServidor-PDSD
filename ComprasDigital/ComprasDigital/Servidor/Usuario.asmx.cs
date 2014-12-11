@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.Web.Script.Services;
 using System.Web.Security; //pacote de seguraça do ASP.NET
+using ComprasDigital.Classes;
 
 
 namespace ComprasDigital.Servidor

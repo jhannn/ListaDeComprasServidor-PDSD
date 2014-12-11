@@ -6,19 +6,21 @@ using System.Web.Script.Serialization;
 
 namespace ComprasDigital.Classes
 {
-	public class cProduto
+	public class cUsuario
 	{
-		public string nome { get; set; }
-		public string codigoDeBarras { get; set; }
-		public string tipoCodigo { get; set; }
 		public int id { get; set; }
+		public string nome { get; set; }
+		public string email { get; set; }
+		public string token { get; set; }
+		private string senha;
 
-		public cProduto(int id, string nome, string codigoDeBarras, string tipoCodigo)
+		public cUsuario(int id, string nome, string email, string token, string senha)
 		{
 			this.id = id;
 			this.nome = nome;
-			this.codigoDeBarras = codigoDeBarras;
-			this.tipoCodigo = tipoCodigo;
+			this.email = email;
+			this.token = token;
+			this.senha = senha;
 		}
 
 		public string ToJson()
