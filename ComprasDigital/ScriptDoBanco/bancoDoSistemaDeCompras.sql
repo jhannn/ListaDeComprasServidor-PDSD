@@ -150,6 +150,25 @@ END
 
 
 
+CREATE PROCEDURE usp_criarProduto
+	@idLista int output,
+	@idProduto int output,
+	@nomeProduto varchar(50) output,
+	@codigoDeBarras varchar(50) output,
+	@tipoCodigo varchar(50) output,
+	@quantidade int output
+AS
+BEGIN
+	DECLARE @listaExistente int
+	SET @listaExistente = (SELECT COUNT(*) FROM tb_ListaDeProdutos WHERE id_lista = @idLista);
+	IF(@listaExistente != 1) BEGIN
+		RETURN -1
+	END
+	
+END
+
+
+
 --Retorna o ID do usuario criado
 --Caso não cadastre o usuario, retornará -1
 ALTER PROCEDURE usp_cadastrarUsuario

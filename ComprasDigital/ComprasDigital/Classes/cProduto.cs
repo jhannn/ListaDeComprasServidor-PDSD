@@ -13,6 +13,11 @@ namespace ComprasDigital.Classes
 		public string tipoCodigo { get; set; }
 		public int id { get; set; }
 
+		public cProduto()
+		{
+			/*vazio*/
+		}
+
 		public cProduto(int id, string nome, string codigoDeBarras, string tipoCodigo)
 		{
 			this.id = id;

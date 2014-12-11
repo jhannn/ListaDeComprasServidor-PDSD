@@ -88,9 +88,14 @@ namespace ComprasDigital.Servidor
 
 		//_______________________________________ ATUALIZAR PRODUTOS ___________________________________________//
         [WebMethod]
-        public string atualizarProduto(string produtos,int idLista)
+        public string atualizarProdutos(string produtosJson,int idLista)
         {
-			return "[{\"first_name\":\"Andrews\",\"last_name\":\"Medina\"},{\"first_name\":\"José\",\"last_name\":\"Carlos\"}]";
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			
+			cProduto[] pros = new cProduto[5]; for (int i = 0; i < 5; i++) pros[i] = new cProduto(i, "a" + i, "", ""); produtosJson = js.Serialize(pros);
+
+			List<cProduto> produtos = js.Deserialize<List<cProduto>>(produtosJson);
+			return produtos[0].nome;
         }
 
 	
