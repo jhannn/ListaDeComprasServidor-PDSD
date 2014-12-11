@@ -222,7 +222,21 @@ BEGIN
 	DECLARE @usuarioExistente int
 	SET @usuarioExistente = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND senha = @senha);
 	IF(@usuarioExistente = 1) BEGIN --usuario existente
-		UPDATE tb_Usuario SET senha = @senha WHERE email = @email;
+		UPDATE tb_Usuario SET senha = @novaSenha WHERE email = @email;
+		RETURN 1
+	END
+	RETURN -1
+END
+
+--Logout
+ALTER PROCEDURE usp_logout
+	@email varchar(50) output
+AS
+BEGIN
+	DECLARE @usuarioExistente int
+	SET @usuarioExistente = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email);
+	IF(@usuarioExistente = 1) BEGIN --usuario existente
+		UPDATE tb_Usuario SET token = NULL WHERE email = @email;
 		RETURN 1
 	END
 	RETURN -1

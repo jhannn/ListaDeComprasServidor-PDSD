@@ -164,5 +164,84 @@ namespace ComprasDigital.Servidor
 
 		}
 
+		//Atualizar Senha
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+		[WebMethod]
+		public string atualizarSenhaUsuario(string email, string senha, string novaSenha)
+		{
+
+			int resultado;
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			string senhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(senha, "sha1"); //criptografando a senha
+			string novaSenhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(novaSenha, "sha1");
+
+				String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+				using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
+				{
+					conexao.Open();
+					using (SqlCommand cmd = new SqlCommand("usp_atualizarSenhaUsuario", conexao)) //producer a ser executada
+					{
+						cmd.CommandType = CommandType.StoredProcedure;
+
+						cmd.Parameters.AddWithValue("@email", email); //parametros
+						cmd.Parameters.AddWithValue("@senha", senhaCriptografada); //parametros
+						cmd.Parameters.AddWithValue("@novaSenha", novaSenhaCriptografada); //parametros
+
+
+						SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
+						returnValue.Direction = ParameterDirection.ReturnValue;
+						cmd.Parameters.Add(returnValue);
+
+						cmd.ExecuteNonQuery();
+						resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
+					}
+				}
+
+				if (resultado == 1) //tudo ok
+				{
+					return js.Serialize("0");
+				}
+				else //ja possui uma conta com esse email
+				{
+					return js.Serialize("1");
+				}
+		}
+
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+		[WebMethod]
+		public string logout(string email)
+		{
+
+			int resultado;
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
+			{
+				conexao.Open();
+				using (SqlCommand cmd = new SqlCommand("usp_logout", conexao)) //producer a ser executada
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+
+					cmd.Parameters.AddWithValue("@email", email); //parametros
+
+					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
+					returnValue.Direction = ParameterDirection.ReturnValue;
+					cmd.Parameters.Add(returnValue);
+
+					cmd.ExecuteNonQuery();
+					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
+				}
+			}
+
+			if (resultado == 1) //tudo ok
+			{
+				return js.Serialize("0");
+			}
+			else //ja possui uma conta com esse email
+			{
+				return js.Serialize("1");
+			}
+		}
     }
 }

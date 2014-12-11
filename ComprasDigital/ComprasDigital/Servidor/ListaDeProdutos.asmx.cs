@@ -85,10 +85,13 @@ namespace ComprasDigital.Servidor
 
         }
 
+		//_______________________________________ ATUALIZAR PRODUTOS ___________________________________________//
         [WebMethod]
-        public string HelloWorld()
+        public string atualizarProduto(string produtos,int idLista)
         {
-            return "Hello World";
+			return "[{\"first_name\":\"Andrews\",\"last_name\":\"Medina\"},{\"first_name\":\"José\",\"last_name\":\"Carlos\"}]";
         }
+
+	
     }
 }
