@@ -4,3 +4,37 @@ E:\PDS\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
 E:\PDS\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
 E:\PDS\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
 E:\PDS\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll.config
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
+C:\Users\jonnatha\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll.config
+C:\Users\jonnatha\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\jonnatha\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\jonnatha\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\jonnatha\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+C:\Users\jonnatha\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
+C:\Users\20131014040145\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\20131014040145\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\20131014040145\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\20131014040145\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+C:\Users\20131014040145\Desktop\criar lista\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
+C:\Users\20131014040145\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\20131014040145\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\20131014040145\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\20131014040145\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+C:\Users\20131014040145\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
+C:\Users\Jhannn\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll.config
+C:\Users\Jhannn\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\Jhannn\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\Jhannn\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\Jhannn\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+C:\Users\Jhannn\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
+C:\Users\Jhannn\Desktop\Nova pasta\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll.config
+C:\Users\Jhannn\Desktop\Nova pasta\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\Jhannn\Desktop\Nova pasta\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\Jhannn\Desktop\Nova pasta\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\Jhannn\Desktop\Nova pasta\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+C:\Users\Jhannn\Desktop\Nova pasta\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb

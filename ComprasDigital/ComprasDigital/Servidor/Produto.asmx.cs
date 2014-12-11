@@ -17,7 +17,7 @@ namespace ComprasDigital.Servidor
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-    // [System.Web.Script.Services.ScriptService]
+    [System.Web.Script.Services.ScriptService]
     public class Produto : System.Web.Services.WebService
     {
 
@@ -26,12 +26,13 @@ namespace ComprasDigital.Servidor
         {
 
             //Alterar local de conexão
-            SqlConnection sqlConnection1 = new SqlConnection("Data Source=BRUNO;Initial Catalog=SistemaDeCompras;Integrated Security=True");
+            SqlConnection sqlConnection1 = new SqlConnection("Data Source=BRUNO\\SQLEXPRESS;Initial Catalog=SistemaDeCompras;Integrated Security=True");
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
 
+
             //SQL "injector" 
-            cmd.CommandText = "INSERT INTO tb_produto VALUES (nomeDoProduto,codigoDeBarras,formatoCodigoDeBarras)";
+            cmd.CommandText = "INSERT INTO tb_produto VALUES('" + nomeDoProduto + "','" + codigoDeBarras + "','" + formatoCodigoDeBarras + "')";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = sqlConnection1;
 
@@ -39,8 +40,9 @@ namespace ComprasDigital.Servidor
 
             reader = cmd.ExecuteReader();
 
-			sqlConnection1.Close();
+
         }
 
     }
 }
+
