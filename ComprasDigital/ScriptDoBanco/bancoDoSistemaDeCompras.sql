@@ -23,7 +23,7 @@ CREATE TABLE tb_Produto
 (
 	id_produto INT PRIMARY KEY IDENTITY(1,1),
 	nome VARCHAR(50) NOT NULL, 
-	codigoDeBarras VARCHAR(50) NOT NULL,
+	codigoDeBarras VARCHAR(50),
 	tipoCodigoDeBarras VARCHAR(50)
 );
 
@@ -158,44 +158,47 @@ END
 
 
 
-CREATE PROCEDURE usp_criarProduto
+ALTER PROCEDURE usp_criarProduto
 	@idLista int output,
-	@idProduto int output,
 	@nomeProduto varchar(50) output,
 	@codigoDeBarras varchar(50) output,
 	@tipoCodigo varchar(50) output,
 	@quantidade int output
 AS
 BEGIN
-	IF((SELECT COUNT(*) FROM tb_ListaDeProdutos WHERE id_lista = @idLista) != 1) BEGIN
+	IF((SELECT COUNT(*) FROM tb_ListaDeProdutos WHERE id_listaDeProdutos = @idLista) != 1) BEGIN
 		RETURN -1 --Lista não existe
 	END
-	IF(@nomeProduto = '') BEGIN
-		RETURN -2 --Nome do produto inválido
-	END
-	IF (@codigoDeBarras = '') BEGIN
+	DECLARE @idProduto int
+	IF (@codigoDeBarras IS NULL ) BEGIN
 		--Produto sem código de barras
-		IF((SELECT COUNT(*) FROM tb_Produto WHERE nomeProduto = @nomeProduto) < 1) BEGIN
+		IF((SELECT COUNT(*) FROM tb_Produto WHERE nome = @nomeProduto) < 1) BEGIN
 			--Produto não existe
-			INSERT INTO tb_Produto VALUES (@nomeProduto, '', '');
+			INSERT INTO tb_Produto VALUES (@nomeProduto, NULL, NULL);
 			SET @idProduto = (SELECT IDENT_CURRENT('tb_Produto'));
 		END
 		ELSE BEGIN
 			--Produto existe
-			SET @idProduto = (SELECT id_produto FROM tb_Produto WHERE nomeProduto = @nomeProduto);
+			SET @idProduto = (SELECT id_produto FROM tb_Produto WHERE nome = @nomeProduto);
 		END
 	END
 	ELSE BEGIN --Produto com código de barras
-		IF((SELECT COUNT(*) FROM tb_Produto WHERE codigoDeBarras = @codigoDeBarras AND !(nomeProduto = @nomeProduto)) >= 1) BEGIN
+		DECLARE @nomeProdutoConf VARCHAR (50)
+		DECLARE @codigoProdutoConf VARCHAR(50)
+		DECLARE @tipoProdutoConf VARCHAR(50)
+		IF((SELECT COUNT(*) FROM tb_Produto WHERE codigoDeBarras = @codigoDeBarras AND nome != @nomeProduto) >= 1) BEGIN
 			--Coloca os registros com codigos duplicados na tabela de produtos invalidos
-			INSERT INTO tb_ProdutosInvalidos VALUES (@nomeProduto, @codigoDeBarras, @tipoCodigo);
-			INSERT INTO tb_ProdutosInvalidos VALUES ((SELECT nome, codigoDeBarras, tipoCodigo FROM tb_Produto WHERE codigoDeBarras = @codigoDeBarras));
+				INSERT INTO tb_ProdutosInvalidos VALUES (@nomeProduto, @codigoDeBarras, @tipoCodigo);
+				SET @nomeProdutoConf = (SELECT nome FROM tb_Produto WHERE codigoDeBarras = @codigoDeBarras);
+				SET @codigoProdutoConf = (SELECT codigoDeBarras FROM tb_Produto WHERE codigoDeBarras = @codigoDeBarras);
+				SET @tipoProdutoConf = (SELECT tipoCodigoDeBarras FROM tb_Produto WHERE codigoDeBarras = @codigoDeBarras);
+				INSERT INTO tb_ProdutosInvalidos VALUES (@nomeProdutoConf, @codigoProdutoConf, @tipoProdutoConf);
 			/*----- enviar mensagem de erro pro ADM -----*/
-			@codigoDeBarras = ''
-			@tipoCodigo = ''
-			IF((SELECT COUNT(*) FROM tb_Produto WHERE nomeProduto = @nomeProduto) = 1) BEGIN
+			SET @codigoDeBarras = ''
+			SET @tipoCodigo = ''
+			IF((SELECT COUNT(*) FROM tb_Produto WHERE nome = @nomeProduto) = 1) BEGIN
 				--Novo produto ja existe
-				SET @idProduto = (SELECT id_poroduto FROM tb_Produto WHERE nomeProduto = @nomeProduto);
+				SET @idProduto = (SELECT id_produto FROM tb_Produto WHERE nome = @nomeProduto);
 			END
 			ELSE BEGIN
 				--Novo produto nao existe
@@ -204,10 +207,21 @@ BEGIN
 			END
 		END
 		ELSE BEGIN
-			IF((SELECT COUNT(*) FROM tb_Produto WHERE nomeProduto = @nomeProduto) = 1) BEGIN
+			IF((SELECT COUNT(*) FROM tb_Produto WHERE nome = @nomeProduto) = 1) BEGIN
 				--Produto ja existe
-				UPDATE tb_Produto SET codigoDeBarras = @codigoDeBarras , tipoCodigo = @tipoCodigo WHERE nomeProduto = @nomeProduto
-				SET @idProduto = (SELECT id_poroduto FROM tb_Produto WHERE nomeProduto = @nomeProduto);
+				IF ((SELECT COUNT(*) FROM tb_Produto WHERE codigoDeBarras != @codigoDeBarras AND nome = @nomeProduto) >= 1) BEGIN
+					--Coloca os registros com codigos duplicados na tabela de produtos invalidos
+					INSERT INTO tb_ProdutosInvalidos VALUES (@nomeProduto, @codigoDeBarras, @tipoCodigo);
+					SET @nomeProdutoConf = (SELECT nome FROM tb_Produto WHERE nome = @nomeProduto);
+					SET @codigoProdutoConf = (SELECT codigoDeBarras FROM tb_Produto WHERE nome = @nomeProduto);
+					SET @tipoProdutoConf = (SELECT tipoCodigoDeBarras FROM tb_Produto WHERE nome = @nomeProduto);
+					INSERT INTO tb_ProdutosInvalidos VALUES (@nomeProdutoConf, @codigoProdutoConf, @tipoProdutoConf);
+					/*----- enviar mensagem de erro pro ADM -----*/
+				END
+				ELSE BEGIN
+					UPDATE tb_Produto SET codigoDeBarras = @codigoDeBarras , tipoCodigoDeBarras = @tipoCodigo WHERE nome = @nomeProduto;
+				END
+				SET @idProduto = (SELECT id_produto FROM tb_Produto WHERE nome = @nomeProduto);
 			END
 			ELSE BEGIN
 				--Produto nao existe
@@ -269,6 +283,8 @@ BEGIN
 	RETURN @testarLogin
 END
 
+
+
 --Verificação com o token e email para ppular tela login
 ALTER PROCEDURE usp_verificarLogin
 	@email varchar(50) output,
@@ -282,6 +298,8 @@ BEGIN
 	END
 	RETURN -1
 END
+
+
 
 --Atualizar cadastro de usuario
 ALTER PROCEDURE usp_atualizarSenhaUsuario
@@ -300,6 +318,8 @@ BEGIN
 	RETURN -1
 END
 
+
+
 --Logout
 ALTER PROCEDURE usp_logout
 	@email varchar(50) output
@@ -314,16 +334,34 @@ BEGIN
 	RETURN -1
 END
 
+
+
 USE SistemaDeCompras
 SELECT * FROM tb_ListaDeProdutos;
 SELECT * FROM tb_Usuario;
 UPDATE tb_Usuario SET token = NULL WHERE token = '1245723423322';
+DELETE FROM tb_ProdutoDaLista;
+DELETE FROM tb_Produto;
+DELETE FROM tb_ProdutosInvalidos;
+SELECT * FROM tb_ListaDeProdutos
+SELECT * FROM tb_Produto
+SELECT * FROM tb_ProdutosInvalidos
+EXEC usp_criarProduto 1, 'Biscoito maria', '1001', '01', 1
+EXEC usp_criarProduto 1, 'Biscoito maria', NULL, '01', 1
+EXEC usp_criarProduto 1, 'Todao', NULL, NULL, 1
+EXEC usp_criarProduto 1, 'Todao', '0101', '01', 1
+EXEC usp_criarProduto 1, 'Todao', '0011', '01', 1
+EXEC usp_criarProduto 1, 'Feijao', '1001', '01', 1
+EXEC usp_criarProduto 1, 'Biscoito maria', '0101', '01', 1
 
-
-
-
-
-
+/*
+@idLista int output,
+@idProduto int output,
+@nomeProduto varchar(50) output,
+@codigoDeBarras varchar(50) output,
+@tipoCodigo varchar(50) output,
+@quantidade int output
+*/
 
 
 
