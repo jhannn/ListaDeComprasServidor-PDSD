@@ -92,10 +92,10 @@ namespace ComprasDigital.Servidor
         {
 			JavaScriptSerializer js = new JavaScriptSerializer();
 			
-			cProduto[] pros = new cProduto[5]; for (int i = 0; i < 5; i++) pros[i] = new cProduto(i, "a" + i, "", ""); produtosJson = js.Serialize(pros);
+			//cProduto[] pros = new cProduto[5]; for (int i = 0; i < 5; i++) pros[i] = new cProduto(i, "a" + i, "", ""); produtosJson = js.Serialize(pros);
 
 			List<cProduto> produtos = js.Deserialize<List<cProduto>>(produtosJson);
-			return produtos[0].nome;
+			return "";
         }
 
 	
