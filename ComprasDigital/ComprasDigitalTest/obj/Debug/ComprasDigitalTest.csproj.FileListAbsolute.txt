@@ -1,0 +1,5 @@
+C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigitalTest\bin\Debug\ComprasDigitalTest.dll
+C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigitalTest\bin\Debug\ComprasDigitalTest.pdb
+C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigitalTest\obj\Debug\ComprasDigitalTest.csprojResolveAssemblyReference.cache
+C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigitalTest\obj\Debug\ComprasDigitalTest.dll
+C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigitalTest\obj\Debug\ComprasDigitalTest.pdb
