@@ -27,7 +27,7 @@ namespace ComprasDigital.Servidor
     public class ListaDeProdutos : System.Web.Services.WebService
     {
 
-        //____________________________ CRIAR LISTA __________________________________//
+        //______________________________ CRIAR LISTA __________________________________//
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         [WebMethod]
         public string criarLista(string nomeLista, int idUsuario, string token)
@@ -57,7 +57,7 @@ namespace ComprasDigital.Servidor
 
             JavaScriptSerializer js = new JavaScriptSerializer();//O JavaScriptSerializer vai fazer o web service retornar JSON
 
-            if (resultado == -1)//deu treta
+            if (resultado == -1)//algum erro ocorreu
             {
                 return js.Serialize("-1"); //retorna o id -1
             }
