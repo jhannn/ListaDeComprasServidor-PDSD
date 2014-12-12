@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Services;
+using System.Configuration;
+using System.Web.Script.Serialization;
+using System.Web.Services.Protocols;
+using System.Xml.Linq;
+using System.Diagnostics;
+using System.Web.Script.Services;
 using ComprasDigital.Classes;
 
 namespace ComprasDigital.Servidor
@@ -26,22 +30,37 @@ namespace ComprasDigital.Servidor
         public void cadastrarProduto(string codigoDeBarras, string nomeDoProduto, string formatoCodigoDeBarras)
         {
 
-            //Alterar local de conexão
-            SqlConnection sqlConnection1 = new SqlConnection("Data Source=BRUNO\\SQLEXPRESS;Initial Catalog=SistemaDeCompras;Integrated Security=True");
+            //
+        }
+
+        //_______________________________________ RETORNAR PRODUTOS ___________________________________________//
+        [WebMethod]
+        public string retornarProdutos()
+        {
+            var produtos = new List<string>();
+
+            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+            SqlConnection conexao = new SqlConnection(ConexaoBanco);
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
 
 
             //SQL "injector" 
-            cmd.CommandText = "INSERT INTO tb_produto VALUES('" + nomeDoProduto + "','" + codigoDeBarras + "','" + formatoCodigoDeBarras + "')";
+            cmd.CommandText = "SELECT * FROM tb_Produto";
             cmd.CommandType = CommandType.Text;
-            cmd.Connection = sqlConnection1;
+            cmd.Connection = conexao;
 
-            sqlConnection1.Open();
+            conexao.Open();
 
             reader = cmd.ExecuteReader();
 
+            while (reader.Read())
+            {
+                produtos.Add(reader["nome"].ToString());
+            }
 
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            return js.Serialize(produtos);
         }
 
     }
