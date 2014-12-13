@@ -81,7 +81,7 @@ CREATE TABLE tb_ProdutosInvalidos
 
 --Retorna o ID do usuario que possui aquele token
 --Retorna -1 caso não haja usuarios com este ID
-ALTER PROCEDURE usp_checarTokenUsuario
+CREATE PROCEDURE usp_checarTokenUsuario
 	@token varchar(50) output
 AS
 BEGIN
@@ -101,7 +101,7 @@ END
 
 --Retorna o ID da lista criada
 --Caso não crie a lista, retornará -1
-ALTER PROCEDURE usp_criarListaDeCompras
+CREATE PROCEDURE usp_criarListaDeCompras
 	@nomeLista varchar(50) output,
 	@idUsuario varchar(50) output,
 	@token varchar(50) output
@@ -130,7 +130,7 @@ END
 
 
 --Excluir Lista de Compras
-ALTER PROCEDURE usp_excluirListaDeCompras
+CREATE PROCEDURE usp_excluirListaDeCompras
 	@idLista varchar(50) output,
 	@idUsuario varchar(50) output,
 	@token varchar(50) output
@@ -158,7 +158,7 @@ END
 
 
 
-ALTER PROCEDURE usp_criarProduto
+CREATE PROCEDURE usp_criarProduto
 	@idLista int output,
 	@nomeProduto varchar(50) output,
 	@codigoDeBarras varchar(50) output,
@@ -238,7 +238,7 @@ END
 
 --Retorna o ID do usuario criado
 --Caso não cadastre o usuario, retornará -1
-ALTER PROCEDURE usp_cadastrarUsuario
+CREATE PROCEDURE usp_cadastrarUsuario
 	@nomeUsuario varchar(50) output,
 	@email varchar(50) output,
 	@senha varchar(50) output,
@@ -263,18 +263,19 @@ END
 
 --ALTERAR PRA FUNÇÃO!!!
 --DEVERÁ RETORNAR OS DADOS DO USUARIO
-ALTER PROCEDURE usp_fazerLogin
+CREATE PROCEDURE usp_fazerLogin
 	@email varchar(50) output,
 	@senha varchar(50) output,
+	@senhaRecuperada varchar(50) output,
 	@token varchar(50) output
 AS
 BEGIN
 	DECLARE @testarLogin int
-	SET @testarLogin = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND senha = @senha);
+	SET @testarLogin = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND senha = @senhaRecuperada OR senha = @senha);
 
 	IF(@testarLogin = 1) BEGIN --usuario esta cadastrado
 		UPDATE tb_Usuario SET token = null WHERE token = @token;
-		UPDATE tb_Usuario SET token = @token WHERE email = @email AND senha = @senha;
+		UPDATE tb_Usuario SET token = @token WHERE email = @email AND senha = @senha OR senha = @senhaRecuperada;
 		SET @testarLogin = (SELECT IDENT_CURRENT('tb_Usuario'));
 	END
 	ELSE BEGIN -- usuario nao cadastrado
@@ -284,9 +285,8 @@ BEGIN
 END
 
 
-
 --Verificação com o token e email para ppular tela login
-ALTER PROCEDURE usp_verificarLogin
+CREATE PROCEDURE usp_verificarLogin
 	@email varchar(50) output,
 	@token varchar(50) output
 AS
@@ -299,10 +299,12 @@ BEGIN
 	RETURN -1
 END
 
+SELECT COUNT(*) FROM tb_Usuario WHERE email = 'jonnathanbruno@gmail.com'  AND token = '12456453875'
+
 
 
 --Atualizar cadastro de usuario
-ALTER PROCEDURE usp_atualizarSenhaUsuario
+CREATE PROCEDURE usp_atualizarSenhaUsuario
 	@email varchar(50) output,
 	@senha varchar(50) output,
 	@novaSenha varchar(50) output
@@ -321,7 +323,7 @@ END
 
 
 --Logout
-ALTER PROCEDURE usp_logout
+CREATE PROCEDURE usp_logout
 	@email varchar(50) output
 AS
 BEGIN
