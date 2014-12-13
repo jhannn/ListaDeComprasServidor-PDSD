@@ -81,23 +81,68 @@ namespace ComprasDigital.Servidor
             cmd.Connection = conexao;
 
             conexao.Open();
-
             reader = cmd.ExecuteReader();
-
+			conexao.Close();
         }
 
-		//_______________________________________ ATUALIZAR PRODUTOS ___________________________________________//
+		//_______________________________________ CADASTRAR PRODUTOS ___________________________________________//
         [WebMethod]
-        public string atualizarProdutos(string produtosJson,int idLista)
+        public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
         {
+			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			
-			//cProduto[] pros = new cProduto[5]; for (int i = 0; i < 5; i++) pros[i] = new cProduto(i, "a" + i, "", ""); produtosJson = js.Serialize(pros);
+			cProduto produto = js.Deserialize<cProduto>(produtoJson);
 
-			List<cProduto> produtos = js.Deserialize<List<cProduto>>(produtosJson);
-			return "";
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
+			{
+				conexao.Open();
+				using (SqlCommand cmd = new SqlCommand("usp_criarProduto", conexao)) //producer a ser executada
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
+					cmd.Parameters.AddWithValue("@nomeProduto", produto.nome); //parametros
+					cmd.Parameters.AddWithValue("@codigoDeBarras", produto.codigoDeBarras); //parametros
+					cmd.Parameters.AddWithValue("@tipoCodigo", produto.tipoCodigo); //parametros
+					cmd.Parameters.AddWithValue("@quantidade", idLista); //parametros
+					
+					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
+					returnValue.Direction = ParameterDirection.ReturnValue;
+					cmd.Parameters.Add(returnValue);
+
+					cmd.ExecuteNonQuery();
+					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
+				}
+			}
+
+			return js.Serialize(resultado);
         }
 
-	
+		//_______________________________________ LISTAR LISTAS ___________________________________________//
+		[WebMethod]
+		public string listarListas(int idUsuario)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			List<cListaDeProdutos> produtos = new List<cListaDeProdutos>();
+
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			SqlConnection conexao = new SqlConnection(ConexaoBanco);
+			SqlCommand cmd = new SqlCommand();
+			SqlDataReader reader;
+
+
+			//SQL "injector" 
+			cmd.CommandText = "SELECT id_listaDeProdutos, nome FROM tb_listaDeProdutos WHERE id_usuario = '" + idUsuario + "'";
+			cmd.CommandType = CommandType.Text;
+			cmd.Connection = conexao;
+
+			conexao.Open();
+			reader = cmd.ExecuteReader();
+			while (reader.Read())
+				produtos.Add(new cListaDeProdutos(Convert.ToInt32(reader["id_listaDeProdutos"]), reader["nome"].ToString()));
+			conexao.Close();
+
+			return js.Serialize(produtos);
+		}
     }
 }

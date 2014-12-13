@@ -230,8 +230,24 @@ BEGIN
 			END
 		END
 	END
-	INSERT INTO tb_ProdutoDaLista VALUES (@idProduto, @idLista, @quantidade);
+	EXEC usp_criarProdutoDaLista @idProduto, @idLista, @quantidade
 	RETURN 1
+END
+
+
+
+CREATE PROCEDURE usp_criarProdutoDaLista
+	@idLista int output,
+	@idProduto int output,
+	@quantidade int output
+AS
+BEGIN
+	IF ((SELECT COUNT(*) FROM tb_ProdutoDaLista WHERE id_produto = @idProduto AND id_listaP = @idLista) != 1) BEGIN
+		INSERT INTO tb_ProdutoDaLista VALUES (@idProduto, @idLista, @quantidade);
+	END
+	ELSE BEGIN
+		UPDATE tb_produtoDaLista SET quantidade = @quantidade WHERE id_produto = @idProduto AND id_listaP = @idLista
+	END
 END
 
 
@@ -358,7 +374,6 @@ EXEC usp_criarProduto 1, 'Biscoito maria', '0101', '01', 1
 
 /*
 @idLista int output,
-@idProduto int output,
 @nomeProduto varchar(50) output,
 @codigoDeBarras varchar(50) output,
 @tipoCodigo varchar(50) output,

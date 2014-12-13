@@ -13,9 +13,32 @@ namespace ComprasDigital.Classes
 		public cUsuario usuario { get; set; }
 		public cProduto[] produtos { get; set; }
 
-		public cListaDeProdutos()
+		public cListaDeProdutos(int id, string nome)
 		{
-			
+			this.id = id;
+			this.nome = nome;
+		}
+
+		public cListaDeProdutos(int id, string nome, cUsuario usuario)
+		{
+			this.id = id;
+			this.nome = nome;
+			this.usuario = usuario;
+		}
+
+		public cListaDeProdutos(int id, string nome, cProduto[] produtos)
+		{
+			this.id = id;
+			this.nome = nome;
+			this.produtos = produtos;
+		}
+
+		public cListaDeProdutos(int id, string nome, cUsuario usuario, cProduto[] produtos)
+		{
+			this.id = id;
+			this.nome = nome;
+			this.usuario = usuario;
+			this.produtos = produtos;
 		}
 
 		public string ToJson()

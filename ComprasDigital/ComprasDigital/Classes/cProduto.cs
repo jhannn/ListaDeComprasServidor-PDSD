@@ -24,6 +24,8 @@ namespace ComprasDigital.Classes
 			this.nome = nome;
 			this.codigoDeBarras = codigoDeBarras;
 			this.tipoCodigo = tipoCodigo;
+			if (this.codigoDeBarras.Trim() == "") this.codigoDeBarras = null;
+			if (this.tipoCodigo.Trim() == "") this.tipoCodigo = null;
 		}
 
 		public string ToJson()
