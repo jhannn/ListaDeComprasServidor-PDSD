@@ -35,9 +35,9 @@ namespace ComprasDigital.Servidor
 
         //_______________________________________ RETORNAR PRODUTOS ___________________________________________//
         [WebMethod]
-        public string retornarProdutos()
+        public string retornarProdutos(string nome)
         {
-            var produtos = new List<string>();
+            List<cProduto> produtos = new List<cProduto>();
 
             String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
             SqlConnection conexao = new SqlConnection(ConexaoBanco);
@@ -46,7 +46,7 @@ namespace ComprasDigital.Servidor
 
 
             //SQL "injector" 
-            cmd.CommandText = "SELECT * FROM tb_Produto";
+            cmd.CommandText = "SELECT TOP 5 id_produto, nome FROM tb_Produto WHERE nome LIKE '%" + nome + "%'";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conexao;
 
@@ -56,7 +56,7 @@ namespace ComprasDigital.Servidor
 
             while (reader.Read())
             {
-                produtos.Add(reader["nome"].ToString());
+				produtos.Add(new cProduto(Convert.ToInt32(reader["id_produto"]), reader["nome"].ToString()));
             }
 
             JavaScriptSerializer js = new JavaScriptSerializer();

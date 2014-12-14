@@ -28,6 +28,12 @@ namespace ComprasDigital.Classes
 			if (this.tipoCodigo.Trim() == "") this.tipoCodigo = null;
 		}
 
+		public cProduto(int id, string nome)
+		{
+			this.id = id;
+			this.nome = nome;
+		}
+
 		public string ToJson()
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
