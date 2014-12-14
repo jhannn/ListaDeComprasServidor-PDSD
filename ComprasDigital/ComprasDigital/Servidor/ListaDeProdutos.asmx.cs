@@ -85,41 +85,6 @@ namespace ComprasDigital.Servidor
 			conexao.Close();
         }
 
-
-		//_______________________________________ CADASTRAR PRODUTOS ___________________________________________//
-		[WebMethod]
-		public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
-		{
-			int resultado = 0;
-			JavaScriptSerializer js = new JavaScriptSerializer();
-			cProduto produto = js.Deserialize<cProduto>(produtoJson);
-
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_criarProduto", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
-					cmd.Parameters.AddWithValue("@nomeProduto", produto.nome); //parametros
-					cmd.Parameters.AddWithValue("@codigoDeBarras", produto.codigoDeBarras); //parametros
-					cmd.Parameters.AddWithValue("@tipoCodigo", produto.tipoCodigo); //parametros
-					cmd.Parameters.AddWithValue("@quantidade", idLista); //parametros
-
-					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-					returnValue.Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add(returnValue);
-
-					cmd.ExecuteNonQuery();
-					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-				}
-			}
-
-			return js.Serialize(resultado);
-		}
-
-
 		//_______________________________________ CADASTRAR PRODUTOS NA LISTA ___________________________________________//
 		[WebMethod]
 		public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
