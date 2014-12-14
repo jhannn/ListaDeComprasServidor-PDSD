@@ -310,8 +310,6 @@ BEGIN
 	RETURN @testarLogin
 END
 
-SELECT COUNT(*) FROM tb_Usuario WHERE email = 'jonn@gmail.com' AND senha = '7110EDA4D09E062AA5E4A390B0A572AC0D2C0220' OR senha = '78291737981739827';
-
 
 --Verificação com o token e email para ppular tela login
 CREATE PROCEDURE usp_verificarLogin
@@ -326,9 +324,6 @@ BEGIN
 	END
 	RETURN -1
 END
-
-SELECT COUNT(*) FROM tb_Usuario WHERE email = 'jonnathanbruno@gmail.com'  AND token = '12456453875'
-
 
 
 --Atualizar cadastro de usuario
