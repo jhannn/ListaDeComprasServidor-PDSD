@@ -297,11 +297,11 @@ CREATE PROCEDURE usp_fazerLogin
 AS
 BEGIN
 	DECLARE @testarLogin int
-	SET @testarLogin = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND senha = @senhaRecuperada OR senha = @senha);
+	SET @testarLogin = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND (senha = @senha OR senha = @senhaRecuperada));
 
 	IF(@testarLogin = 1) BEGIN --usuario esta cadastrado
 		UPDATE tb_Usuario SET token = null WHERE token = @token;
-		UPDATE tb_Usuario SET token = @token WHERE email = @email AND senha = @senha OR senha = @senhaRecuperada;
+		UPDATE tb_Usuario SET token = @token WHERE email = @email AND (senha = @senha OR senha = @senhaRecuperada);
 		SET @testarLogin = (SELECT IDENT_CURRENT('tb_Usuario'));
 	END
 	ELSE BEGIN -- usuario nao cadastrado
@@ -309,6 +309,8 @@ BEGIN
 	END
 	RETURN @testarLogin
 END
+
+SELECT COUNT(*) FROM tb_Usuario WHERE email = 'jonn@gmail.com' AND senha = '7110EDA4D09E062AA5E4A390B0A572AC0D2C0220' OR senha = '78291737981739827';
 
 
 --Verificação com o token e email para ppular tela login
