@@ -56,6 +56,36 @@ namespace ComprasDigital.Servidor
             return js.Serialize(produtos);
         }
 
+        //_______________________________________ AUTOCOMPLETE ___________________________________________//
+        [WebMethod]
+        public string autocomplete()
+        {
+            var produtos = new List<string>();
+
+            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+            SqlConnection conexao = new SqlConnection(ConexaoBanco);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+
+            //SQL "injector" 
+            cmd.CommandText = "SELECT nome FROM tb_Produto";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conexao;
+
+            conexao.Open();
+
+            reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                produtos.Add(reader["nome"].ToString());
+            }
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            return js.Serialize(produtos);
+        }
+
     }
 }
 
