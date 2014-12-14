@@ -87,9 +87,9 @@ namespace ComprasDigital.Servidor
 
 
 		//_______________________________________ CADASTRAR PRODUTOS ___________________________________________//
-        [WebMethod]
-        public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
-        {
+		[WebMethod]
+		public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
+		{
 			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
 			cProduto produto = js.Deserialize<cProduto>(produtoJson);
@@ -106,7 +106,7 @@ namespace ComprasDigital.Servidor
 					cmd.Parameters.AddWithValue("@codigoDeBarras", produto.codigoDeBarras); //parametros
 					cmd.Parameters.AddWithValue("@tipoCodigo", produto.tipoCodigo); //parametros
 					cmd.Parameters.AddWithValue("@quantidade", idLista); //parametros
-					
+
 					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
 					returnValue.Direction = ParameterDirection.ReturnValue;
 					cmd.Parameters.Add(returnValue);
@@ -120,35 +120,61 @@ namespace ComprasDigital.Servidor
 		}
 
 
-		//_______________________________________ LISTAR LISTAS ___________________________________________//
+		//_______________________________________ CADASTRAR PRODUTOS NA LISTA ___________________________________________//
 		[WebMethod]
-		public string retornarListas(int idUsuario)
+		public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
 		{
+			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			List<cListaDeProdutos> produtos = new List<cListaDeProdutos>();
+			cProduto produto = js.Deserialize<cProduto>(produtoJson);
 
 			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			SqlConnection conexao = new SqlConnection(ConexaoBanco);
-			SqlCommand cmd = new SqlCommand();
-			SqlDataReader reader;
+			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
+			{
+				conexao.Open();
+				using (SqlCommand cmd = new SqlCommand("usp_criarProduto", conexao)) //producer a ser executada
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
+					cmd.Parameters.AddWithValue("@nomeProduto", produto.nome); //parametros
+					cmd.Parameters.AddWithValue("@codigoDeBarras", produto.codigoDeBarras); //parametros
+					cmd.Parameters.AddWithValue("@tipoCodigo", produto.tipoCodigo); //parametros
+					cmd.Parameters.AddWithValue("@quantidade", idLista); //parametros
 
+					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
+					returnValue.Direction = ParameterDirection.ReturnValue;
+					cmd.Parameters.Add(returnValue);
 
-			//SQL "injector" 
-			cmd.CommandText = "SELECT id_listaDeProdutos, nome FROM tb_listaDeProdutos WHERE id_usuario = '" + idUsuario + "'";
-			cmd.CommandType = CommandType.Text;
-			cmd.Connection = conexao;
+					cmd.ExecuteNonQuery();
+					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
+				}
+			}
 
-			conexao.Open();
-			reader = cmd.ExecuteReader();
-			while (reader.Read())
-				produtos.Add(new cListaDeProdutos(Convert.ToInt32(reader["id_listaDeProdutos"]), reader["nome"].ToString()));
-			conexao.Close();
-
-			return js.Serialize(produtos);
+			return js.Serialize(resultado);
 		}
 
 
-		//_______________________________________ PRODUTOS DA LISTA ___________________________________________//
+		//_______________________________________ EXCLUIR PRODUTO DA LISTA ___________________________________________//
+		[WebMethod]
+		public void removerProduto(int idProduto, int idLista)
+		{
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
+			{
+				conexao.Open();
+				using (SqlCommand cmd = new SqlCommand("usp_removerProdutoDaLista", conexao)) //producer a ser executada
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
+					cmd.Parameters.AddWithValue("@idProduto", idProduto); //parametros
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+		}
+
+
+		//_______________________________________ LISTAR PRODUTOS DA LISTA ___________________________________________//
 		[WebMethod]
 		public string listarProdutosDaLista(int idLista)
 		{

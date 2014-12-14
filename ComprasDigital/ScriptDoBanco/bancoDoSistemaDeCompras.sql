@@ -252,6 +252,16 @@ END
 
 
 
+CREATE PROCEDURE usp_removerProdutoDaLista
+	@idLista int output,
+	@idProduto int output
+AS
+BEGIN
+	DELETE FROM tb_ProdutosDaLista WHERE id_listaP = @idLista AND is_produto = @idProduto
+END
+
+
+
 --Retorna o ID do usuario criado
 --Caso não cadastre o usuario, retornará -1
 CREATE PROCEDURE usp_cadastrarUsuario
