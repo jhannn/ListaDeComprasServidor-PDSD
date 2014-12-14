@@ -85,6 +85,7 @@ namespace ComprasDigital.Servidor
 			conexao.Close();
         }
 
+
 		//_______________________________________ CADASTRAR PRODUTOS ___________________________________________//
         [WebMethod]
         public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
@@ -116,12 +117,13 @@ namespace ComprasDigital.Servidor
 			}
 
 			return js.Serialize(resultado);
-        }
+		}
 
-		//_______________________________________ LISTAR LISTAS ___________________________________________//
-		[WebMethod]
-		public string listarListas(int idUsuario)
-		{
+
+		//_______________________________________ RETORNAR LISTA ___________________________________________//
+        [WebMethod]
+        public string retornarListas(int idUsuario)
+        {
 			JavaScriptSerializer js = new JavaScriptSerializer();
 			List<cListaDeProdutos> produtos = new List<cListaDeProdutos>();
 
