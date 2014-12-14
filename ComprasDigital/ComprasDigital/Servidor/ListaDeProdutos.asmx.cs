@@ -169,5 +169,36 @@ namespace ComprasDigital.Servidor
 
 			return js.Serialize(produtos);
 		}
+
+        //_______________________________________ RETORNAR LISTA ___________________________________________//
+        [WebMethod]
+        public string retornarListas(int idUsuario)
+        {
+            var listas = new List<string>();
+
+            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+            SqlConnection conexao = new SqlConnection(ConexaoBanco);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+
+            //SQL "injector" 
+            cmd.CommandText = "SELECT nome,id_listaDeProdutos FROM tb_ListaDeProdutos WHERE id_usuario = '" + idUsuario + "'";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conexao;
+
+            conexao.Open();
+
+            reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                listas.Add(reader["id_listaDeProdutos"].ToString());
+                listas.Add(reader["nome"].ToString());
+            }
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            return js.Serialize(listas);
+        }
     }
 }
