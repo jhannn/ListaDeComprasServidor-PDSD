@@ -25,40 +25,9 @@ namespace ComprasDigital.Servidor
     [System.Web.Script.Services.ScriptService]
     public class Produto : System.Web.Services.WebService
     {
-
-        //_______________________________________ RETORNAR PRODUTOS ___________________________________________//
-        [WebMethod]
-        public string retornarProdutos(string nome)
-        {
-            List<cProduto> produtos = new List<cProduto>();
-
-            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-            SqlConnection conexao = new SqlConnection(ConexaoBanco);
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-
-            //SQL "injector" 
-            cmd.CommandText = "SELECT TOP 5 id_produto, nome FROM tb_Produto WHERE nome LIKE '%" + nome + "%'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = conexao;
-
-            conexao.Open();
-
-            reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-				produtos.Add(new cProduto(Convert.ToInt32(reader["id_produto"]), reader["nome"].ToString()));
-            }
-
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            return js.Serialize(produtos);
-        }
-
         //_______________________________________ AUTOCOMPLETE ___________________________________________//
         [WebMethod]
-        public string autocomplete()
+        public string autocomplete(string nome)
         {
             var produtos = new List<string>();
 
@@ -67,23 +36,29 @@ namespace ComprasDigital.Servidor
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
 
+			if (nome.Length >= 3)
+			{
+				//SQL "injector" 
+				cmd.CommandText = "SELECT TOP 5 id_produto, nome FROM tb_Produto WHERE nome LIKE '%" + nome + "%'";
+				cmd.CommandType = CommandType.Text;
+				cmd.Connection = conexao;
 
-            //SQL "injector" 
-            cmd.CommandText = "SELECT nome FROM tb_Produto";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = conexao;
+				conexao.Open();
 
-            conexao.Open();
+				reader = cmd.ExecuteReader();
 
-            reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					produtos.Add(reader["nome"].ToString());
+				}
 
-            while (reader.Read())
-            {
-                produtos.Add(reader["nome"].ToString());
-            }
-
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            return js.Serialize(produtos);
+				JavaScriptSerializer js = new JavaScriptSerializer();
+				return js.Serialize(produtos);
+			}
+			else
+			{
+				return "";
+			}
         }
 
     }
