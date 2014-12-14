@@ -118,7 +118,7 @@ namespace ComprasDigital.Servidor
 
 		//_______________________________________ CADASTRAR PRODUTOS NA LISTA ___________________________________________//
 		[WebMethod]
-		public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
+		public string cadastrarProduto(string produtoJson, int quantidade, int idLista)
 		{
 			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
