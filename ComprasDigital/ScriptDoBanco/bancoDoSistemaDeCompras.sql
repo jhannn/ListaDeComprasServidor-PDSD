@@ -60,7 +60,7 @@ CREATE TABLE tb_ItemDaLista
 
 CREATE TABLE tb_ProdutoDaLista
 (
-	id_produt INT FOREIGN KEY REFERENCES tb_Produto(id_produto) NOT NULL,
+	id_produto INT FOREIGN KEY REFERENCES tb_Produto(id_produto) NOT NULL,
 	id_listaP INT FOREIGN KEY REFERENCES tb_ListaDeProdutos(id_listadeProdutos) NOT NULL,
 	quantidade INT NOT NULL
 );

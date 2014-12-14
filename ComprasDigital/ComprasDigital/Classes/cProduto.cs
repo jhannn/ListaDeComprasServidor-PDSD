@@ -12,26 +12,31 @@ namespace ComprasDigital.Classes
 		public string codigoDeBarras { get; set; }
 		public string tipoCodigo { get; set; }
 		public int id { get; set; }
+		public int quantidade { get; set; }
 
 		public cProduto()
 		{
 			/*vazio*/
 		}
 
-		public cProduto(int id, string nome, string codigoDeBarras, string tipoCodigo)
+		public cProduto(int id, string nome, string codigoDeBarras, string tipoCodigo, int quantidade = 0)
 		{
 			this.id = id;
 			this.nome = nome;
 			this.codigoDeBarras = codigoDeBarras;
 			this.tipoCodigo = tipoCodigo;
+			this.quantidade = quantidade;
 			if (this.codigoDeBarras.Trim() == "") this.codigoDeBarras = null;
 			if (this.tipoCodigo.Trim() == "") this.tipoCodigo = null;
+			if (this.quantidade < 0) this.quantidade = 0;
 		}
 
-		public cProduto(int id, string nome)
+		public cProduto(int id, string nome, int quantidade = 0)
 		{
 			this.id = id;
 			this.nome = nome;
+			this.quantidade = quantidade;
+			if (this.quantidade < 0) this.quantidade = 0;
 		}
 
 		public string ToJson()

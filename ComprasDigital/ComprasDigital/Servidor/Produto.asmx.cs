@@ -26,13 +26,6 @@ namespace ComprasDigital.Servidor
     public class Produto : System.Web.Services.WebService
     {
 
-        [WebMethod]
-        public void cadastrarProduto(string codigoDeBarras, string nomeDoProduto, string formatoCodigoDeBarras)
-        {
-
-            //
-        }
-
         //_______________________________________ RETORNAR PRODUTOS ___________________________________________//
         [WebMethod]
         public string retornarProdutos(string nome)

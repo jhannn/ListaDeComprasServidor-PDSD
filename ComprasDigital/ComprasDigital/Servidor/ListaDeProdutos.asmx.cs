@@ -120,10 +120,10 @@ namespace ComprasDigital.Servidor
 		}
 
 
-		//_______________________________________ RETORNAR LISTA ___________________________________________//
-        [WebMethod]
-        public string retornarListas(int idUsuario)
-        {
+		//_______________________________________ LISTAR LISTAS ___________________________________________//
+		[WebMethod]
+		public string retornarListas(int idUsuario)
+		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 			List<cListaDeProdutos> produtos = new List<cListaDeProdutos>();
 
@@ -142,6 +142,38 @@ namespace ComprasDigital.Servidor
 			reader = cmd.ExecuteReader();
 			while (reader.Read())
 				produtos.Add(new cListaDeProdutos(Convert.ToInt32(reader["id_listaDeProdutos"]), reader["nome"].ToString()));
+			conexao.Close();
+
+			return js.Serialize(produtos);
+		}
+
+
+		//_______________________________________ PRODUTOS DA LISTA ___________________________________________//
+		[WebMethod]
+		public string listarProdutosDaLista(int idLista)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			List<cProduto> produtos = new List<cProduto>();
+
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			SqlConnection conexao = new SqlConnection(ConexaoBanco);
+			SqlCommand cmd = new SqlCommand();
+			SqlDataReader reader;
+
+
+			//SQL "injector" 
+			cmd.CommandText = "SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_lista = '" + idLista + "' AND pl.id_produto = p.id_produto";
+			cmd.CommandType = CommandType.Text;
+			cmd.Connection = conexao;
+
+			conexao.Open();
+			reader = cmd.ExecuteReader();
+			while (reader.Read())
+			{
+				produtos.Add(new cProduto(Convert.ToInt32(reader["id_produto"]),
+											reader["nome"].ToString(),
+											Convert.ToInt32(reader["quantidade"])));
+			}
 			conexao.Close();
 
 			return js.Serialize(produtos);
