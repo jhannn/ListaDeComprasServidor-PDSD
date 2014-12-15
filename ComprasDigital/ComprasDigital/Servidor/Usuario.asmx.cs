@@ -296,7 +296,7 @@ namespace ComprasDigital.Servidor
                     cliente.Credentials = new NetworkCredential("sistemadecomprasdigitais@gmail.com", "comprasdigitais"); //email e sennha 
 
                     cliente.Send("sistemadecomprasdigitais@gmail.com", emailUsuario,
-                    "Recuperar senha", "Olá " + nome + "! Sua senha provisória é: " + senha); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
+                    "Recuperar senha", "Olá " + nome + "! Sua senha provisória é: " + senha.Substring(0,6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
 
                     return js.Serialize("0");
                 }
