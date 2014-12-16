@@ -69,10 +69,9 @@ CREATE TABLE tb_ProdutosInvalidos
 (
 	id_produto INT PRIMARY KEY IDENTITY(1,1),
 	nome VARCHAR(50) NOT NULL, 
-	codigoDeBarras VARCHAR(50) NOT NULL,
+	codigoDeBarras VARCHAR(50),
 	tipoCodigoDeBarras VARCHAR(50)
 );
-
 
 
 /*----------------- Stored Procedures -----------------*/
@@ -81,7 +80,7 @@ CREATE TABLE tb_ProdutosInvalidos
 
 --Retorna o ID do usuario que possui aquele token
 --Retorna -1 caso não haja usuarios com este ID
-CREATE PROCEDURE usp_checarTokenUsuario
+ALTER PROCEDURE usp_checarTokenUsuario
 	@token varchar(50) output
 AS
 BEGIN
@@ -101,7 +100,7 @@ END
 
 --Retorna o ID da lista criada
 --Caso não crie a lista, retornará -1
-CREATE PROCEDURE usp_criarListaDeCompras
+ALTER PROCEDURE usp_criarListaDeCompras
 	@nomeLista varchar(50) output,
 	@idUsuario varchar(50) output,
 	@token varchar(50) output
@@ -130,7 +129,7 @@ END
 
 
 --Excluir Lista de Compras
-CREATE PROCEDURE usp_excluirListaDeCompras
+ALTER PROCEDURE usp_excluirListaDeCompras
 	@idLista varchar(50) output,
 	@idUsuario varchar(50) output,
 	@token varchar(50) output
@@ -158,7 +157,7 @@ END
 
 
 
-CREATE PROCEDURE usp_criarProduto
+ALTER PROCEDURE usp_criarProduto
 	@idLista int output,
 	@nomeProduto varchar(50) output,
 	@codigoDeBarras varchar(50) output,
@@ -230,29 +229,29 @@ BEGIN
 			END
 		END
 	END
-	EXEC usp_criarProdutoDaLista @idProduto, @idLista, @quantidade
+	EXEC usp_criarProdutoDaLista @idLista, @idProduto, @quantidade
 	RETURN 1
 END
 
 
 
-CREATE PROCEDURE usp_criarProdutoDaLista
+ALTER PROCEDURE usp_criarProdutoDaLista
 	@idLista int output,
 	@idProduto int output,
 	@quantidade int output
 AS
 BEGIN
-	IF ((SELECT COUNT(*) FROM tb_ProdutoDaLista WHERE id_produto = @idProduto AND id_listaP = @idLista) != 1) BEGIN
+	IF ((SELECT COUNT(*) FROM tb_ProdutoDaLista WHERE id_produt = @idProduto AND id_listaP = @idLista) != 1) BEGIN
 		INSERT INTO tb_ProdutoDaLista VALUES (@idProduto, @idLista, @quantidade);
 	END
 	ELSE BEGIN
-		UPDATE tb_produtoDaLista SET quantidade = @quantidade WHERE id_produto = @idProduto AND id_listaP = @idLista
+		UPDATE tb_produtoDaLista SET quantidade = @quantidade WHERE id_produt = @idProduto AND id_listaP = @idLista
 	END
 END
 
 
 
-CREATE PROCEDURE usp_removerProdutoDaLista
+ALTER PROCEDURE usp_removerProdutoDaLista
 	@idLista int output,
 	@idProduto int output
 AS
@@ -264,7 +263,7 @@ END
 
 --Retorna o ID do usuario criado
 --Caso não cadastre o usuario, retornará -1
-CREATE PROCEDURE usp_cadastrarUsuario
+ALTER PROCEDURE usp_cadastrarUsuario
 	@nomeUsuario varchar(50) output,
 	@email varchar(50) output,
 	@senha varchar(50) output,
@@ -289,7 +288,7 @@ END
 
 --ALTERAR PRA FUNÇÃO!!!
 --DEVERÁ RETORNAR OS DADOS DO USUARIO
-CREATE PROCEDURE usp_fazerLogin
+ALTER PROCEDURE usp_fazerLogin
 	@email varchar(50) output,
 	@senha varchar(50) output,
 	@senhaRecuperada varchar(50) output,
@@ -297,13 +296,11 @@ CREATE PROCEDURE usp_fazerLogin
 AS
 BEGIN
 	DECLARE @testarLogin int
-	SET @testarLogin = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND (senha = @senha OR 
-	(SELECT SUBSTRING(senha,1,6) FROM tb_Usuario WHERE email = @email) = @senhaRecuperada));
+	SET @testarLogin = (SELECT COUNT(*) FROM tb_Usuario WHERE email = @email AND (senha = @senha OR senha = @senhaRecuperada));
 
 	IF(@testarLogin = 1) BEGIN --usuario esta cadastrado
 		UPDATE tb_Usuario SET token = null WHERE token = @token;
-		UPDATE tb_Usuario SET token = @token WHERE email = @email AND (senha = @senha OR 
-		(SELECT SUBSTRING(senha,1,6) FROM tb_Usuario WHERE email = @email) = @senhaRecuperada);
+		UPDATE tb_Usuario SET token = @token WHERE email = @email AND (senha = @senha OR senha = @senhaRecuperada);
 		SET @testarLogin = (SELECT IDENT_CURRENT('tb_Usuario'));
 	END
 	ELSE BEGIN -- usuario nao cadastrado
@@ -314,7 +311,7 @@ END
 
 
 --Verificação com o token e email para ppular tela login
-CREATE PROCEDURE usp_verificarLogin
+ALTER PROCEDURE usp_verificarLogin
 	@email varchar(50) output,
 	@token varchar(50) output
 AS
@@ -329,7 +326,7 @@ END
 
 
 --Atualizar cadastro de usuario
-CREATE PROCEDURE usp_atualizarSenhaUsuario
+ALTER PROCEDURE usp_atualizarSenhaUsuario
 	@email varchar(50) output,
 	@senha varchar(50) output,
 	@novaSenha varchar(50) output
@@ -348,7 +345,7 @@ END
 
 
 --Logout
-CREATE PROCEDURE usp_logout
+ALTER PROCEDURE usp_logout
 	@email varchar(50) output
 AS
 BEGIN
@@ -372,14 +369,17 @@ DELETE FROM tb_Produto;
 DELETE FROM tb_ProdutosInvalidos;
 SELECT * FROM tb_ListaDeProdutos
 SELECT * FROM tb_Produto
+SELECT * FROM tb_ProdutoDaLista
 SELECT * FROM tb_ProdutosInvalidos
-EXEC usp_criarProduto 1, 'Biscoito maria', '1001', '01', 1
+EXEC usp_criarProduto 1, 'Biscoito maria', '1001', '01', 3
 EXEC usp_criarProduto 1, 'Biscoito maria', NULL, '01', 1
 EXEC usp_criarProduto 1, 'Todao', NULL, NULL, 1
 EXEC usp_criarProduto 1, 'Todao', '0101', '01', 1
 EXEC usp_criarProduto 1, 'Todao', '0011', '01', 1
-EXEC usp_criarProduto 1, 'Feijao', '1001', '01', 1
+EXEC usp_criarProduto 1, 'Feijao', '1001', '01', 2
+EXEC usp_criarProduto 2, 'Feijao', '1001', '01', 3
 EXEC usp_criarProduto 1, 'Biscoito maria', '0101', '01', 1
+SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_listaP = 1 AND pl.id_produt = p.id_produto
 
 /*
 @idLista int output,
