@@ -165,7 +165,7 @@ namespace ComprasDigital.Servidor
 			}
 			else //usuario cadastrado
 			{
-				return js.Serialize(resultado.ToString());
+				return js.Serialize("0");
 			}
 
 		}

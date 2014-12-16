@@ -69,7 +69,7 @@ CREATE TABLE tb_ProdutosInvalidos
 (
 	id_produto INT PRIMARY KEY IDENTITY(1,1),
 	nome VARCHAR(50) NOT NULL, 
-	codigoDeBarras VARCHAR(50) NOT NULL,
+	codigoDeBarras VARCHAR(50),
 	tipoCodigoDeBarras VARCHAR(50)
 );
 
@@ -230,7 +230,7 @@ BEGIN
 			END
 		END
 	END
-	EXEC usp_criarProdutoDaLista @idProduto, @idLista, @quantidade
+	EXEC usp_criarProdutoDaLista @idLista, @idProduto, @quantidade
 	RETURN 1
 END
 
@@ -242,11 +242,11 @@ CREATE PROCEDURE usp_criarProdutoDaLista
 	@quantidade int output
 AS
 BEGIN
-	IF ((SELECT COUNT(*) FROM tb_ProdutoDaLista WHERE id_produto = @idProduto AND id_listaP = @idLista) != 1) BEGIN
+	IF ((SELECT COUNT(*) FROM tb_ProdutoDaLista WHERE id_produt = @idProduto AND id_listaP = @idLista) != 1) BEGIN
 		INSERT INTO tb_ProdutoDaLista VALUES (@idProduto, @idLista, @quantidade);
 	END
 	ELSE BEGIN
-		UPDATE tb_produtoDaLista SET quantidade = @quantidade WHERE id_produto = @idProduto AND id_listaP = @idLista
+		UPDATE tb_produtoDaLista SET quantidade = @quantidade WHERE id_produt = @idProduto AND id_listaP = @idLista
 	END
 END
 
@@ -380,6 +380,7 @@ EXEC usp_criarProduto 1, 'Todao', '0101', '01', 1
 EXEC usp_criarProduto 1, 'Todao', '0011', '01', 1
 EXEC usp_criarProduto 1, 'Feijao', '1001', '01', 1
 EXEC usp_criarProduto 1, 'Biscoito maria', '0101', '01', 1
+SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_listaP = 1 AND pl.id_produt = p.id_produto
 
 /*
 @idLista int output,
