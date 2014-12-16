@@ -61,9 +61,8 @@ namespace ComprasDigital.Servidor
                     cmd.ExecuteNonQuery();
                     resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
                 }
-				conexao.Close();
             }
-			
+
             JavaScriptSerializer js = new JavaScriptSerializer();
             if (resultado == -1) //deu treta
             {
@@ -166,7 +165,7 @@ namespace ComprasDigital.Servidor
 			}
 			else //usuario cadastrado
 			{
-				return js.Serialize("0");
+				return js.Serialize(resultado.ToString());
 			}
 
 		}
@@ -297,7 +296,7 @@ namespace ComprasDigital.Servidor
                     cliente.Credentials = new NetworkCredential("sistemadecomprasdigitais@gmail.com", "comprasdigitais"); //email e sennha 
 
                     cliente.Send("sistemadecomprasdigitais@gmail.com", emailUsuario,
-                    "Recuperar senha", "Olá " + nome + "! Sua senha provisória é: " + senha); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
+                    "Recuperar senha", "Olá " + nome + "! Sua senha provisória é: " + senha.Substring(0, 6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
 
                     return js.Serialize("0");
                 }

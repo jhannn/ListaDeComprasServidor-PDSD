@@ -118,11 +118,11 @@ namespace ComprasDigital.Servidor
 
 		//_______________________________________ CADASTRAR PRODUTOS NA LISTA ___________________________________________//
 		[WebMethod]
-		public string cadastrarProduto(string nomeProduto, string codigoDeBarras, string tipoCodigo, int quantidade, int idLista)
+		public string cadastrarProdutos(string produtoJson, int quantidade, int idLista)
 		{
 			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			//cProduto produto = js.Deserialize<cProduto>(produtoJson);
+			cProduto produto = js.Deserialize<cProduto>(produtoJson);
 
 			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
 			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
@@ -132,10 +132,10 @@ namespace ComprasDigital.Servidor
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
-					cmd.Parameters.AddWithValue("@nomeProduto", nomeProduto); //parametros
-					cmd.Parameters.AddWithValue("@codigoDeBarras", codigoDeBarras); //parametros
-					cmd.Parameters.AddWithValue("@tipoCodigo", tipoCodigo); //parametros
-					cmd.Parameters.AddWithValue("@quantidade", quantidade); //parametros
+					cmd.Parameters.AddWithValue("@nomeProduto", produto.nome); //parametros
+					cmd.Parameters.AddWithValue("@codigoDeBarras", produto.codigoDeBarras); //parametros
+					cmd.Parameters.AddWithValue("@tipoCodigo", produto.tipoCodigo); //parametros
+					cmd.Parameters.AddWithValue("@quantidade", idLista); //parametros
 
 					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
 					returnValue.Direction = ParameterDirection.ReturnValue;
@@ -184,7 +184,7 @@ namespace ComprasDigital.Servidor
 
 
 			//SQL "injector" 
-			cmd.CommandText = "SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_listaP = '" + idLista + "' AND pl.id_produt = p.id_produto";
+			cmd.CommandText = "SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_lista = '" + idLista + "' AND pl.id_produto = p.id_produto";
 			cmd.CommandType = CommandType.Text;
 			cmd.Connection = conexao;
 
