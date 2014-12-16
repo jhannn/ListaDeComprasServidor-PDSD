@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SistemaDeComprasModelStoreContainer" CdmEntityContainer="SistemaDeComprasEntities">
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_Estabelecimento">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Estabelecimento">
+        <MappingFragment StoreEntitySet="tb_Estabelecimento">
+          <ScalarProperty Name="id_estabelecimento" ColumnName="id_estabelecimento" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="bairro" ColumnName="bairro" />
+          <ScalarProperty Name="cidade" ColumnName="cidade" />
+          <ScalarProperty Name="numero" ColumnName="numero" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_Item">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Item">
+        <MappingFragment StoreEntitySet="tb_Item">
+          <ScalarProperty Name="id_item" ColumnName="id_item" />
+          <ScalarProperty Name="preco" ColumnName="preco" />
+          <ScalarProperty Name="qualificacao" ColumnName="qualificacao" />
+          <ScalarProperty Name="compraMaisRecente" ColumnName="compraMaisRecente" />
+          <ScalarProperty Name="id_estabelecimento" ColumnName="id_estabelecimento" />
+          <ScalarProperty Name="id_produto" ColumnName="id_produto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_ListaDeItens">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ListaDeItens">
+        <MappingFragment StoreEntitySet="tb_ListaDeItens">
+          <ScalarProperty Name="id_listaDeItens" ColumnName="id_listaDeItens" />
+          <ScalarProperty Name="dataDeCompras" ColumnName="dataDeCompras" />
+          <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_ListaDeProdutos">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ListaDeProdutos">
+        <MappingFragment StoreEntitySet="tb_ListaDeProdutos">
+          <ScalarProperty Name="id_listaDeProdutos" ColumnName="id_listaDeProdutos" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_Produto">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Produto">
+        <MappingFragment StoreEntitySet="tb_Produto">
+          <ScalarProperty Name="id_produto" ColumnName="id_produto" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="codigoDeBarras" ColumnName="codigoDeBarras" />
+          <ScalarProperty Name="tipoCodigoDeBarras" ColumnName="tipoCodigoDeBarras" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_ProdutosInvalidos">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ProdutosInvalidos">
+        <MappingFragment StoreEntitySet="tb_ProdutosInvalidos">
+          <ScalarProperty Name="id_produto" ColumnName="id_produto" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="codigoDeBarras" ColumnName="codigoDeBarras" />
+          <ScalarProperty Name="tipoCodigoDeBarras" ColumnName="tipoCodigoDeBarras" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_Usuario">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Usuario">
+        <MappingFragment StoreEntitySet="tb_Usuario">
+          <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="senha" ColumnName="senha" />
+          <ScalarProperty Name="token" ColumnName="token" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_ItemDaLista">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ItemDaLista">
+        <MappingFragment StoreEntitySet="tb_ItemDaLista">
+          <ScalarProperty Name="id_item" ColumnName="id_item" />
+          <ScalarProperty Name="id_listaI" ColumnName="id_listaI" />
+          <ScalarProperty Name="quantidade" ColumnName="quantidade" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_ProdutoDaLista">
+      <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ProdutoDaLista">
+        <MappingFragment StoreEntitySet="tb_ProdutoDaLista">
+          <ScalarProperty Name="id_produt" ColumnName="id_produt" />
+          <ScalarProperty Name="id_listaP" ColumnName="id_listaP" />
+          <ScalarProperty Name="quantidade" ColumnName="quantidade" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -156,8 +156,34 @@ BEGIN
 	RETURN @retorno
 END
 
+----------------------Editar nome da Lista de compras------------------
+CREATE PROCEDURE usp_editarNomeListaDeCompras
+	@idLista varchar(50) output,
+	@nome varchar(50) output,
+	@idUsuario varchar(50) output,
+	@token varchar(50) output
+AS
+BEGIN
+	DECLARE @retorno int
+	DECLARE @listaExistente varchar(50)
+	SET @listaExistente =  (SELECT COUNT(*)
+							FROM tb_ListaDeProdutos AS LC
+							INNER JOIN tb_Usuario AS US
+							ON  LC.id_usuario = @idUsuario
+							AND LC.id_listaDeProdutos = @idLista
+							AND US.id_usuario = @idUsuario
+							AND US.token = @token);
+	IF (@listaExistente > 0) BEGIN
+		UPDATE tb_ListaDeProdutos SET nome = @nome WHERE id_listaDeProdutos = @idLista;
+		SET @retorno = 1
+	END
+	ELSE BEGIN
+		SET @retorno = -1
+	END
+	RETURN @retorno
+END
 
-
+------------------------------------------------------------------------------------------------
 CREATE PROCEDURE usp_criarProduto
 	@idLista int output,
 	@nomeProduto varchar(50) output,
@@ -371,6 +397,7 @@ DELETE FROM tb_ProdutoDaLista;
 DELETE FROM tb_Produto;
 DELETE FROM tb_ProdutosInvalidos;
 SELECT * FROM tb_ListaDeProdutos
+EXEC usp_editarNomeListaDeCompras 1, 'Sou eu', 1, '124576453875'
 SELECT * FROM tb_Produto
 SELECT * FROM tb_ProdutosInvalidos
 EXEC usp_criarProduto 1, 'Biscoito maria', '1001', '01', 1

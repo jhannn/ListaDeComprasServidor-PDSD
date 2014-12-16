@@ -1,0 +1,645 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SistemaDeComprasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tb_Estabelecimento">
+          <Key>
+            <PropertyRef Name="id_estabelecimento" />
+          </Key>
+          <Property Name="id_estabelecimento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="bairro" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="cidade" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="numero" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_Item">
+          <Key>
+            <PropertyRef Name="id_item" />
+          </Key>
+          <Property Name="id_item" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="preco" Type="float" Nullable="false" />
+          <Property Name="qualificacao" Type="int" Nullable="false" />
+          <Property Name="compraMaisRecente" Type="date" Nullable="false" />
+          <Property Name="id_estabelecimento" Type="int" Nullable="false" />
+          <Property Name="id_produto" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SistemaDeCompras.dbo.tb_ItemDaLista' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tb_ItemDaLista">
+          <Key>
+            <PropertyRef Name="id_item" />
+            <PropertyRef Name="id_listaI" />
+            <PropertyRef Name="quantidade" />
+          </Key>
+          <Property Name="id_item" Type="int" Nullable="false" />
+          <Property Name="id_listaI" Type="int" Nullable="false" />
+          <Property Name="quantidade" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_ListaDeItens">
+          <Key>
+            <PropertyRef Name="id_listaDeItens" />
+          </Key>
+          <Property Name="id_listaDeItens" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dataDeCompras" Type="date" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_ListaDeProdutos">
+          <Key>
+            <PropertyRef Name="id_listaDeProdutos" />
+          </Key>
+          <Property Name="id_listaDeProdutos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_Produto">
+          <Key>
+            <PropertyRef Name="id_produto" />
+          </Key>
+          <Property Name="id_produto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="codigoDeBarras" Type="varchar" MaxLength="50" />
+          <Property Name="tipoCodigoDeBarras" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SistemaDeCompras.dbo.tb_ProdutoDaLista' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tb_ProdutoDaLista">
+          <Key>
+            <PropertyRef Name="id_produt" />
+            <PropertyRef Name="id_listaP" />
+            <PropertyRef Name="quantidade" />
+          </Key>
+          <Property Name="id_produt" Type="int" Nullable="false" />
+          <Property Name="id_listaP" Type="int" Nullable="false" />
+          <Property Name="quantidade" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_ProdutosInvalidos">
+          <Key>
+            <PropertyRef Name="id_produto" />
+          </Key>
+          <Property Name="id_produto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="codigoDeBarras" Type="varchar" MaxLength="50" />
+          <Property Name="tipoCodigoDeBarras" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_Usuario">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="senha" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="token" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__tb_Item__id_esta__164452B1">
+          <End Role="tb_Estabelecimento" Type="Self.tb_Estabelecimento" Multiplicity="1" />
+          <End Role="tb_Item" Type="Self.tb_Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Estabelecimento">
+              <PropertyRef Name="id_estabelecimento" />
+            </Principal>
+            <Dependent Role="tb_Item">
+              <PropertyRef Name="id_estabelecimento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Item__id_prod__173876EA">
+          <End Role="tb_Produto" Type="Self.tb_Produto" Multiplicity="1" />
+          <End Role="tb_Item" Type="Self.tb_Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Produto">
+              <PropertyRef Name="id_produto" />
+            </Principal>
+            <Dependent Role="tb_Item">
+              <PropertyRef Name="id_produto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_ItemDa__id_it__1ED998B2">
+          <End Role="tb_Item" Type="Self.tb_Item" Multiplicity="1" />
+          <End Role="tb_ItemDaLista" Type="Self.tb_ItemDaLista" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Item">
+              <PropertyRef Name="id_item" />
+            </Principal>
+            <Dependent Role="tb_ItemDaLista">
+              <PropertyRef Name="id_item" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_ItemDa__id_li__1FCDBCEB">
+          <End Role="tb_ListaDeItens" Type="Self.tb_ListaDeItens" Multiplicity="1" />
+          <End Role="tb_ItemDaLista" Type="Self.tb_ItemDaLista" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_ListaDeItens">
+              <PropertyRef Name="id_listaDeItens" />
+            </Principal>
+            <Dependent Role="tb_ItemDaLista">
+              <PropertyRef Name="id_listaI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_ListaD__id_us__1A14E395">
+          <End Role="tb_Usuario" Type="Self.tb_Usuario" Multiplicity="1" />
+          <End Role="tb_ListaDeItens" Type="Self.tb_ListaDeItens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="tb_ListaDeItens">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_ListaD__id_us__1CF15040">
+          <End Role="tb_Usuario" Type="Self.tb_Usuario" Multiplicity="1" />
+          <End Role="tb_ListaDeProdutos" Type="Self.tb_ListaDeProdutos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="tb_ListaDeProdutos">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Produt__id_li__22AA2996">
+          <End Role="tb_ListaDeProdutos" Type="Self.tb_ListaDeProdutos" Multiplicity="1" />
+          <End Role="tb_ProdutoDaLista" Type="Self.tb_ProdutoDaLista" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_ListaDeProdutos">
+              <PropertyRef Name="id_listaDeProdutos" />
+            </Principal>
+            <Dependent Role="tb_ProdutoDaLista">
+              <PropertyRef Name="id_listaP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Produt__id_pr__47DBAE45">
+          <End Role="tb_Produto" Type="Self.tb_Produto" Multiplicity="1" />
+          <End Role="tb_ProdutoDaLista" Type="Self.tb_ProdutoDaLista" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Produto">
+              <PropertyRef Name="id_produto" />
+            </Principal>
+            <Dependent Role="tb_ProdutoDaLista">
+              <PropertyRef Name="id_produt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SistemaDeComprasModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Estabelecimento" EntityType="Self.tb_Estabelecimento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Item" EntityType="Self.tb_Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_ListaDeItens" EntityType="Self.tb_ListaDeItens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_ListaDeProdutos" EntityType="Self.tb_ListaDeProdutos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Produto" EntityType="Self.tb_Produto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_ProdutosInvalidos" EntityType="Self.tb_ProdutosInvalidos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Usuario" EntityType="Self.tb_Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_ItemDaLista" EntityType="Self.tb_ItemDaLista" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tb_ItemDaLista].[id_item] AS [id_item], 
+    [tb_ItemDaLista].[id_listaI] AS [id_listaI], 
+    [tb_ItemDaLista].[quantidade] AS [quantidade]
+    FROM [dbo].[tb_ItemDaLista] AS [tb_ItemDaLista]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tb_ProdutoDaLista" EntityType="Self.tb_ProdutoDaLista" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tb_ProdutoDaLista].[id_produt] AS [id_produt], 
+    [tb_ProdutoDaLista].[id_listaP] AS [id_listaP], 
+    [tb_ProdutoDaLista].[quantidade] AS [quantidade]
+    FROM [dbo].[tb_ProdutoDaLista] AS [tb_ProdutoDaLista]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__tb_Item__id_esta__164452B1" Association="Self.FK__tb_Item__id_esta__164452B1">
+            <End Role="tb_Estabelecimento" EntitySet="tb_Estabelecimento" />
+            <End Role="tb_Item" EntitySet="tb_Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Item__id_prod__173876EA" Association="Self.FK__tb_Item__id_prod__173876EA">
+            <End Role="tb_Produto" EntitySet="tb_Produto" />
+            <End Role="tb_Item" EntitySet="tb_Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_ItemDa__id_it__1ED998B2" Association="Self.FK__tb_ItemDa__id_it__1ED998B2">
+            <End Role="tb_Item" EntitySet="tb_Item" />
+            <End Role="tb_ItemDaLista" EntitySet="tb_ItemDaLista" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_ItemDa__id_li__1FCDBCEB" Association="Self.FK__tb_ItemDa__id_li__1FCDBCEB">
+            <End Role="tb_ListaDeItens" EntitySet="tb_ListaDeItens" />
+            <End Role="tb_ItemDaLista" EntitySet="tb_ItemDaLista" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_ListaD__id_us__1A14E395" Association="Self.FK__tb_ListaD__id_us__1A14E395">
+            <End Role="tb_Usuario" EntitySet="tb_Usuario" />
+            <End Role="tb_ListaDeItens" EntitySet="tb_ListaDeItens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_ListaD__id_us__1CF15040" Association="Self.FK__tb_ListaD__id_us__1CF15040">
+            <End Role="tb_Usuario" EntitySet="tb_Usuario" />
+            <End Role="tb_ListaDeProdutos" EntitySet="tb_ListaDeProdutos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Produt__id_li__22AA2996" Association="Self.FK__tb_Produt__id_li__22AA2996">
+            <End Role="tb_ListaDeProdutos" EntitySet="tb_ListaDeProdutos" />
+            <End Role="tb_ProdutoDaLista" EntitySet="tb_ProdutoDaLista" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Produt__id_pr__47DBAE45" Association="Self.FK__tb_Produt__id_pr__47DBAE45">
+            <End Role="tb_Produto" EntitySet="tb_Produto" />
+            <End Role="tb_ProdutoDaLista" EntitySet="tb_ProdutoDaLista" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SistemaDeComprasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tb_Estabelecimento">
+          <Key>
+            <PropertyRef Name="id_estabelecimento" />
+          </Key>
+          <Property Name="id_estabelecimento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bairro" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cidade" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numero" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_Item" Relationship="Self.FK__tb_Item__id_esta__164452B1" FromRole="tb_Estabelecimento" ToRole="tb_Item" />
+        </EntityType>
+        <EntityType Name="tb_Item">
+          <Key>
+            <PropertyRef Name="id_item" />
+          </Key>
+          <Property Name="id_item" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="preco" Type="Double" Nullable="false" />
+          <Property Name="qualificacao" Type="Int32" Nullable="false" />
+          <Property Name="compraMaisRecente" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="id_estabelecimento" Type="Int32" Nullable="false" />
+          <Property Name="id_produto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_Estabelecimento" Relationship="Self.FK__tb_Item__id_esta__164452B1" FromRole="tb_Item" ToRole="tb_Estabelecimento" />
+          <NavigationProperty Name="tb_Produto" Relationship="Self.FK__tb_Item__id_prod__173876EA" FromRole="tb_Item" ToRole="tb_Produto" />
+          <NavigationProperty Name="tb_ItemDaLista" Relationship="Self.FK__tb_ItemDa__id_it__1ED998B2" FromRole="tb_Item" ToRole="tb_ItemDaLista" />
+        </EntityType>
+        <EntityType Name="tb_ListaDeItens">
+          <Key>
+            <PropertyRef Name="id_listaDeItens" />
+          </Key>
+          <Property Name="id_listaDeItens" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dataDeCompras" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_ItemDaLista" Relationship="Self.FK__tb_ItemDa__id_li__1FCDBCEB" FromRole="tb_ListaDeItens" ToRole="tb_ItemDaLista" />
+          <NavigationProperty Name="tb_Usuario" Relationship="Self.FK__tb_ListaD__id_us__1A14E395" FromRole="tb_ListaDeItens" ToRole="tb_Usuario" />
+        </EntityType>
+        <EntityType Name="tb_ListaDeProdutos">
+          <Key>
+            <PropertyRef Name="id_listaDeProdutos" />
+          </Key>
+          <Property Name="id_listaDeProdutos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_Usuario" Relationship="Self.FK__tb_ListaD__id_us__1CF15040" FromRole="tb_ListaDeProdutos" ToRole="tb_Usuario" />
+          <NavigationProperty Name="tb_ProdutoDaLista" Relationship="Self.FK__tb_Produt__id_li__22AA2996" FromRole="tb_ListaDeProdutos" ToRole="tb_ProdutoDaLista" />
+        </EntityType>
+        <EntityType Name="tb_Produto">
+          <Key>
+            <PropertyRef Name="id_produto" />
+          </Key>
+          <Property Name="id_produto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codigoDeBarras" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipoCodigoDeBarras" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_Item" Relationship="Self.FK__tb_Item__id_prod__173876EA" FromRole="tb_Produto" ToRole="tb_Item" />
+          <NavigationProperty Name="tb_ProdutoDaLista" Relationship="Self.FK__tb_Produt__id_pr__47DBAE45" FromRole="tb_Produto" ToRole="tb_ProdutoDaLista" />
+        </EntityType>
+        <EntityType Name="tb_ProdutosInvalidos">
+          <Key>
+            <PropertyRef Name="id_produto" />
+          </Key>
+          <Property Name="id_produto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codigoDeBarras" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipoCodigoDeBarras" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tb_Usuario">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="senha" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_ListaDeItens" Relationship="Self.FK__tb_ListaD__id_us__1A14E395" FromRole="tb_Usuario" ToRole="tb_ListaDeItens" />
+          <NavigationProperty Name="tb_ListaDeProdutos" Relationship="Self.FK__tb_ListaD__id_us__1CF15040" FromRole="tb_Usuario" ToRole="tb_ListaDeProdutos" />
+        </EntityType>
+        <EntityType Name="tb_ItemDaLista">
+          <Key>
+            <PropertyRef Name="id_item" />
+            <PropertyRef Name="id_listaI" />
+            <PropertyRef Name="quantidade" />
+          </Key>
+          <Property Name="id_item" Type="Int32" Nullable="false" />
+          <Property Name="id_listaI" Type="Int32" Nullable="false" />
+          <Property Name="quantidade" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_Item" Relationship="Self.FK__tb_ItemDa__id_it__1ED998B2" FromRole="tb_ItemDaLista" ToRole="tb_Item" />
+          <NavigationProperty Name="tb_ListaDeItens" Relationship="Self.FK__tb_ItemDa__id_li__1FCDBCEB" FromRole="tb_ItemDaLista" ToRole="tb_ListaDeItens" />
+        </EntityType>
+        <EntityType Name="tb_ProdutoDaLista">
+          <Key>
+            <PropertyRef Name="id_produt" />
+            <PropertyRef Name="id_listaP" />
+            <PropertyRef Name="quantidade" />
+          </Key>
+          <Property Name="id_produt" Type="Int32" Nullable="false" />
+          <Property Name="id_listaP" Type="Int32" Nullable="false" />
+          <Property Name="quantidade" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_ListaDeProdutos" Relationship="Self.FK__tb_Produt__id_li__22AA2996" FromRole="tb_ProdutoDaLista" ToRole="tb_ListaDeProdutos" />
+          <NavigationProperty Name="tb_Produto" Relationship="Self.FK__tb_Produt__id_pr__47DBAE45" FromRole="tb_ProdutoDaLista" ToRole="tb_Produto" />
+        </EntityType>
+        <Association Name="FK__tb_Item__id_esta__164452B1">
+          <End Role="tb_Estabelecimento" Type="Self.tb_Estabelecimento" Multiplicity="1" />
+          <End Role="tb_Item" Type="Self.tb_Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Estabelecimento">
+              <PropertyRef Name="id_estabelecimento" />
+            </Principal>
+            <Dependent Role="tb_Item">
+              <PropertyRef Name="id_estabelecimento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Item__id_prod__173876EA">
+          <End Role="tb_Produto" Type="Self.tb_Produto" Multiplicity="1" />
+          <End Role="tb_Item" Type="Self.tb_Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Produto">
+              <PropertyRef Name="id_produto" />
+            </Principal>
+            <Dependent Role="tb_Item">
+              <PropertyRef Name="id_produto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_ItemDa__id_it__1ED998B2">
+          <End Role="tb_Item" Type="Self.tb_Item" Multiplicity="1" />
+          <End Role="tb_ItemDaLista" Type="Self.tb_ItemDaLista" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Item">
+              <PropertyRef Name="id_item" />
+            </Principal>
+            <Dependent Role="tb_ItemDaLista">
+              <PropertyRef Name="id_item" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_ItemDa__id_li__1FCDBCEB">
+          <End Role="tb_ListaDeItens" Type="Self.tb_ListaDeItens" Multiplicity="1" />
+          <End Role="tb_ItemDaLista" Type="Self.tb_ItemDaLista" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_ListaDeItens">
+              <PropertyRef Name="id_listaDeItens" />
+            </Principal>
+            <Dependent Role="tb_ItemDaLista">
+              <PropertyRef Name="id_listaI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_ListaD__id_us__1A14E395">
+          <End Role="tb_Usuario" Type="Self.tb_Usuario" Multiplicity="1" />
+          <End Role="tb_ListaDeItens" Type="Self.tb_ListaDeItens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="tb_ListaDeItens">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_ListaD__id_us__1CF15040">
+          <End Role="tb_Usuario" Type="Self.tb_Usuario" Multiplicity="1" />
+          <End Role="tb_ListaDeProdutos" Type="Self.tb_ListaDeProdutos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="tb_ListaDeProdutos">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Produt__id_li__22AA2996">
+          <End Role="tb_ListaDeProdutos" Type="Self.tb_ListaDeProdutos" Multiplicity="1" />
+          <End Role="tb_ProdutoDaLista" Type="Self.tb_ProdutoDaLista" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_ListaDeProdutos">
+              <PropertyRef Name="id_listaDeProdutos" />
+            </Principal>
+            <Dependent Role="tb_ProdutoDaLista">
+              <PropertyRef Name="id_listaP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Produt__id_pr__47DBAE45">
+          <End Role="tb_Produto" Type="Self.tb_Produto" Multiplicity="1" />
+          <End Role="tb_ProdutoDaLista" Type="Self.tb_ProdutoDaLista" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Produto">
+              <PropertyRef Name="id_produto" />
+            </Principal>
+            <Dependent Role="tb_ProdutoDaLista">
+              <PropertyRef Name="id_produt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SistemaDeComprasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tb_Estabelecimento" EntityType="Self.tb_Estabelecimento" />
+          <EntitySet Name="tb_Item" EntityType="Self.tb_Item" />
+          <EntitySet Name="tb_ListaDeItens" EntityType="Self.tb_ListaDeItens" />
+          <EntitySet Name="tb_ListaDeProdutos" EntityType="Self.tb_ListaDeProdutos" />
+          <EntitySet Name="tb_Produto" EntityType="Self.tb_Produto" />
+          <EntitySet Name="tb_ProdutosInvalidos" EntityType="Self.tb_ProdutosInvalidos" />
+          <EntitySet Name="tb_Usuario" EntityType="Self.tb_Usuario" />
+          <EntitySet Name="tb_ItemDaLista" EntityType="Self.tb_ItemDaLista" />
+          <EntitySet Name="tb_ProdutoDaLista" EntityType="Self.tb_ProdutoDaLista" />
+          <AssociationSet Name="FK__tb_Item__id_esta__164452B1" Association="Self.FK__tb_Item__id_esta__164452B1">
+            <End Role="tb_Estabelecimento" EntitySet="tb_Estabelecimento" />
+            <End Role="tb_Item" EntitySet="tb_Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Item__id_prod__173876EA" Association="Self.FK__tb_Item__id_prod__173876EA">
+            <End Role="tb_Produto" EntitySet="tb_Produto" />
+            <End Role="tb_Item" EntitySet="tb_Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_ItemDa__id_it__1ED998B2" Association="Self.FK__tb_ItemDa__id_it__1ED998B2">
+            <End Role="tb_Item" EntitySet="tb_Item" />
+            <End Role="tb_ItemDaLista" EntitySet="tb_ItemDaLista" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_ItemDa__id_li__1FCDBCEB" Association="Self.FK__tb_ItemDa__id_li__1FCDBCEB">
+            <End Role="tb_ListaDeItens" EntitySet="tb_ListaDeItens" />
+            <End Role="tb_ItemDaLista" EntitySet="tb_ItemDaLista" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_ListaD__id_us__1A14E395" Association="Self.FK__tb_ListaD__id_us__1A14E395">
+            <End Role="tb_Usuario" EntitySet="tb_Usuario" />
+            <End Role="tb_ListaDeItens" EntitySet="tb_ListaDeItens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_ListaD__id_us__1CF15040" Association="Self.FK__tb_ListaD__id_us__1CF15040">
+            <End Role="tb_Usuario" EntitySet="tb_Usuario" />
+            <End Role="tb_ListaDeProdutos" EntitySet="tb_ListaDeProdutos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Produt__id_li__22AA2996" Association="Self.FK__tb_Produt__id_li__22AA2996">
+            <End Role="tb_ListaDeProdutos" EntitySet="tb_ListaDeProdutos" />
+            <End Role="tb_ProdutoDaLista" EntitySet="tb_ProdutoDaLista" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Produt__id_pr__47DBAE45" Association="Self.FK__tb_Produt__id_pr__47DBAE45">
+            <End Role="tb_Produto" EntitySet="tb_Produto" />
+            <End Role="tb_ProdutoDaLista" EntitySet="tb_ProdutoDaLista" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SistemaDeComprasModelStoreContainer" CdmEntityContainer="SistemaDeComprasEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Estabelecimento">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Estabelecimento">
+              <MappingFragment StoreEntitySet="tb_Estabelecimento">
+                <ScalarProperty Name="id_estabelecimento" ColumnName="id_estabelecimento" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="bairro" ColumnName="bairro" />
+                <ScalarProperty Name="cidade" ColumnName="cidade" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Item">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Item">
+              <MappingFragment StoreEntitySet="tb_Item">
+                <ScalarProperty Name="id_item" ColumnName="id_item" />
+                <ScalarProperty Name="preco" ColumnName="preco" />
+                <ScalarProperty Name="qualificacao" ColumnName="qualificacao" />
+                <ScalarProperty Name="compraMaisRecente" ColumnName="compraMaisRecente" />
+                <ScalarProperty Name="id_estabelecimento" ColumnName="id_estabelecimento" />
+                <ScalarProperty Name="id_produto" ColumnName="id_produto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_ListaDeItens">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ListaDeItens">
+              <MappingFragment StoreEntitySet="tb_ListaDeItens">
+                <ScalarProperty Name="id_listaDeItens" ColumnName="id_listaDeItens" />
+                <ScalarProperty Name="dataDeCompras" ColumnName="dataDeCompras" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_ListaDeProdutos">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ListaDeProdutos">
+              <MappingFragment StoreEntitySet="tb_ListaDeProdutos">
+                <ScalarProperty Name="id_listaDeProdutos" ColumnName="id_listaDeProdutos" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Produto">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Produto">
+              <MappingFragment StoreEntitySet="tb_Produto">
+                <ScalarProperty Name="id_produto" ColumnName="id_produto" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="codigoDeBarras" ColumnName="codigoDeBarras" />
+                <ScalarProperty Name="tipoCodigoDeBarras" ColumnName="tipoCodigoDeBarras" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_ProdutosInvalidos">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ProdutosInvalidos">
+              <MappingFragment StoreEntitySet="tb_ProdutosInvalidos">
+                <ScalarProperty Name="id_produto" ColumnName="id_produto" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="codigoDeBarras" ColumnName="codigoDeBarras" />
+                <ScalarProperty Name="tipoCodigoDeBarras" ColumnName="tipoCodigoDeBarras" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Usuario">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Usuario">
+              <MappingFragment StoreEntitySet="tb_Usuario">
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="senha" ColumnName="senha" />
+                <ScalarProperty Name="token" ColumnName="token" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_ItemDaLista">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ItemDaLista">
+              <MappingFragment StoreEntitySet="tb_ItemDaLista">
+                <ScalarProperty Name="id_item" ColumnName="id_item" />
+                <ScalarProperty Name="id_listaI" ColumnName="id_listaI" />
+                <ScalarProperty Name="quantidade" ColumnName="quantidade" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_ProdutoDaLista">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ProdutoDaLista">
+              <MappingFragment StoreEntitySet="tb_ProdutoDaLista">
+                <ScalarProperty Name="id_produt" ColumnName="id_produt" />
+                <ScalarProperty Name="id_listaP" ColumnName="id_listaP" />
+                <ScalarProperty Name="quantidade" ColumnName="quantidade" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

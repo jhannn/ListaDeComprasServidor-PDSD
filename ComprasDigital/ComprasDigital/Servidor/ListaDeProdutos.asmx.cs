@@ -65,6 +65,38 @@ namespace ComprasDigital.Servidor
                 return js.Serialize(resultado.ToString()); //Converte e retorna os dados em JSON do id da lista
         }
 
+		//___________________________________Editar Lista__________________________________//
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+		[WebMethod]
+		public string editarNomeLista(int idLista, string novoNomeDaLista, int idUsuario, string token)
+		{
+			int resultado = 0;
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
+			{
+				conexao.Open();
+				using (SqlCommand cmd = new SqlCommand("usp_editarNomeListaDeCompras", conexao)) //producer a ser executada
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
+					cmd.Parameters.AddWithValue("@nome", novoNomeDaLista); //parametros
+					cmd.Parameters.AddWithValue("@idUsuario", idUsuario); //parametros
+					cmd.Parameters.AddWithValue("@token", token); //parametros
+
+					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
+					returnValue.Direction = ParameterDirection.ReturnValue;
+					cmd.Parameters.Add(returnValue);
+
+					cmd.ExecuteNonQuery();
+					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
+				}
+			}
+
+			return js.Serialize(resultado);
+		}
+
         //_______________________________________ RETORNAR LISTA ___________________________________________//
         [WebMethod]
         public string retornarListas(int idUsuario)
@@ -97,24 +129,35 @@ namespace ComprasDigital.Servidor
         }
 
         //___________________________________ EXCLUIR LISTA _____________________________________________//
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         [WebMethod]
-        public void excluirLista(int idLista, int idUsuario)
+        public string excluirLista(int idLista, int idUsuario, string token)
         {
-            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-            SqlConnection conexao = new SqlConnection(ConexaoBanco);
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
+			int resultado = 0;
+			JavaScriptSerializer js = new JavaScriptSerializer();
 
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
+			{
+				conexao.Open();
+				using (SqlCommand cmd = new SqlCommand("usp_excluirListaDeCompras", conexao)) //producer a ser executada
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
+					cmd.Parameters.AddWithValue("@idUsuario", idUsuario); //parametros
+                    cmd.Parameters.AddWithValue("@token", token); //parametros
 
-            //SQL "injector" 
-            cmd.CommandText = "DELETE tb_ListaDeProdutos WHERE id_listaDeProdutos = '" + idLista + "' AND id_usuario = '" + idUsuario + "'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = conexao;
+					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
+					returnValue.Direction = ParameterDirection.ReturnValue;
+					cmd.Parameters.Add(returnValue);
 
-            conexao.Open();
-            reader = cmd.ExecuteReader();
-			conexao.Close();
-        }
+					cmd.ExecuteNonQuery();
+					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
+				}
+			}
+
+			return js.Serialize(resultado);
+		}
 
 		//_______________________________________ CADASTRAR PRODUTOS NA LISTA ___________________________________________//
 		[WebMethod]
