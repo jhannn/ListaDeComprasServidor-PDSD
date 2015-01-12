@@ -32,7 +32,11 @@ namespace ComprasDigital.Servidor
         [WebMethod]
         public string criarLista(string nomeLista, int idUsuario, string token)
         {
-            int resultado = 0;
+			int resultado = 0;
+			JavaScriptSerializer js = new JavaScriptSerializer();//O JavaScriptSerializer vai fazer o web service retornar JSON
+
+			if(!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize("-1"); //retorna o id -1
 
             String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
             using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
@@ -44,7 +48,6 @@ namespace ComprasDigital.Servidor
 
                     cmd.Parameters.AddWithValue("@nomeLista", nomeLista); //parametros
                     cmd.Parameters.AddWithValue("@idUsuario", idUsuario); //parametros
-                    cmd.Parameters.AddWithValue("@token", token); //parametros
 
                     SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
                     returnValue.Direction = ParameterDirection.ReturnValue;
@@ -54,8 +57,6 @@ namespace ComprasDigital.Servidor
                     resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
                 }
             }
-
-            JavaScriptSerializer js = new JavaScriptSerializer();//O JavaScriptSerializer vai fazer o web service retornar JSON
 
             if (resultado == -1)//algum erro ocorreu
             {
@@ -73,6 +74,9 @@ namespace ComprasDigital.Servidor
 			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize("-1"); //retorna o id -1
+
 			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
 			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
 			{
@@ -83,7 +87,6 @@ namespace ComprasDigital.Servidor
 					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
 					cmd.Parameters.AddWithValue("@nome", novoNomeDaLista); //parametros
 					cmd.Parameters.AddWithValue("@idUsuario", idUsuario); //parametros
-					cmd.Parameters.AddWithValue("@token", token); //parametros
 
 					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
 					returnValue.Direction = ParameterDirection.ReturnValue;
@@ -97,7 +100,7 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(resultado);
 		}
 
-        //_______________________________________ RETORNAR LISTA ___________________________________________//
+        //_______________________________________ RETORNAR LISTAS ___________________________________________//
         [WebMethod]
         public string retornarListas(int idUsuario)
         {
@@ -124,6 +127,8 @@ namespace ComprasDigital.Servidor
                 listas.Add(reader["nome"].ToString());
             }
 
+			conexao.Close();
+
             JavaScriptSerializer js = new JavaScriptSerializer();
             return js.Serialize(listas);
         }
@@ -136,6 +141,9 @@ namespace ComprasDigital.Servidor
 			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize("-1"); //retorna o id -1
+
 			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
 			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
 			{
@@ -145,7 +153,6 @@ namespace ComprasDigital.Servidor
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
 					cmd.Parameters.AddWithValue("@idUsuario", idUsuario); //parametros
-                    cmd.Parameters.AddWithValue("@token", token); //parametros
 
 					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
 					returnValue.Direction = ParameterDirection.ReturnValue;

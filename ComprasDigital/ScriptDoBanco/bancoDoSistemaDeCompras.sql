@@ -103,27 +103,19 @@ END
 --Caso não crie a lista, retornará -1
 CREATE PROCEDURE usp_criarListaDeCompras
 	@nomeLista varchar(50) output,
-	@idUsuario varchar(50) output,
-	@token varchar(50) output
+	@idUsuario varchar(50) output
 AS
 BEGIN
 	DECLARE @retorno int
-	DECLARE @tokenValido int
-	SET @tokenValido = (SELECT COUNT(*) FROM tb_Usuario WHERE id_usuario = @idUsuario AND token = @token);
 
-	IF (@tokenValido = 1) BEGIN
-		DECLARE @quantidadeListas int
-		SET @quantidadeListas = (SELECT COUNT(*) FROM tb_ListaDeProdutos WHERE id_usuario = @idUsuario AND nome LIKE @nomeLista + '%');
-		IF(@quantidadeListas >= 1)BEGIN
-			SET @nomeLista += '-' + CAST((@quantidadeListas + 1) AS varchar(5))
-		END
-		INSERT INTO tb_ListaDeProdutos VALUES (@nomeLista, @idUsuario);
-		SET @retorno = (SELECT IDENT_CURRENT('tb_ListaDeProdutos')); --Lista Criada
-		--tem que retornar o ID da lista
+	DECLARE @quantidadeListas int
+	SET @quantidadeListas = (SELECT COUNT(*) FROM tb_ListaDeProdutos WHERE id_usuario = @idUsuario AND nome LIKE @nomeLista + '%');
+	IF(@quantidadeListas >= 1)BEGIN
+		SET @nomeLista += '-' + CAST((@quantidadeListas + 1) AS varchar(5))
 	END
-	ELSE BEGIN
-		SET @retorno = -1 --Usuario Invalido
-	END
+	INSERT INTO tb_ListaDeProdutos VALUES (@nomeLista, @idUsuario);
+	SET @retorno = (SELECT IDENT_CURRENT('tb_ListaDeProdutos')); --Lista Criada
+	--tem que retornar o ID da lista
 	RETURN @retorno
 END
 
@@ -132,19 +124,16 @@ END
 --Excluir Lista de Compras
 CREATE PROCEDURE usp_excluirListaDeCompras
 	@idLista varchar(50) output,
-	@idUsuario varchar(50) output,
-	@token varchar(50) output
+	@idUsuario varchar(50) output
 AS
 BEGIN
 	DECLARE @retorno int
-	DECLARE @listaExistente varchar(50)
+	DECLARE @listaExistente int
 	SET @listaExistente =  (SELECT COUNT(*)
 							FROM tb_ListaDeProdutos AS LC
-							INNER JOIN tb_Usuario AS US
-							ON  LC.id_usuario = @idUsuario
+							WHERE  LC.id_usuario = @idUsuario
 							AND LC.id_listaDeProdutos = @idLista
-							AND US.id_usuario = @idUsuario
-							AND US.token = @token);
+							);
 	IF (@listaExistente > 0) BEGIN
 		DELETE FROM tb_ProdutoDaLista WHERE id_listaP = @idLista;
 		DELETE FROM tb_ListaDeProdutos WHERE id_listaDeProdutos = @idLista;
@@ -160,22 +149,19 @@ END
 CREATE PROCEDURE usp_editarNomeListaDeCompras
 	@idLista varchar(50) output,
 	@nome varchar(50) output,
-	@idUsuario varchar(50) output,
-	@token varchar(50) output
+	@idUsuario varchar(50) output
 AS
 BEGIN
 	DECLARE @retorno int
-	DECLARE @listaExistente varchar(50)
+	DECLARE @listaExistente int
 	SET @listaExistente =  (SELECT COUNT(*)
 							FROM tb_ListaDeProdutos AS LC
-							INNER JOIN tb_Usuario AS US
-							ON  LC.id_usuario = @idUsuario
+							WHERE LC.id_usuario = @idUsuario
 							AND LC.id_listaDeProdutos = @idLista
-							AND US.id_usuario = @idUsuario
-							AND US.token = @token);
+							);
 	IF (@listaExistente > 0) BEGIN
 		UPDATE tb_ListaDeProdutos SET nome = @nome WHERE id_listaDeProdutos = @idLista;
-		SET @retorno = 1
+		SET @retorno = @idLista
 	END
 	ELSE BEGIN
 		SET @retorno = -1
