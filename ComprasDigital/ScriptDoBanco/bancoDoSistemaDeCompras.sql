@@ -254,11 +254,11 @@ CREATE PROCEDURE usp_criarProdutoDaLista
 	@quantidade int output
 AS
 BEGIN
-	IF ((SELECT COUNT(*) FROM tb_ProdutoDaLista WHERE id_produt = @idProduto AND id_listaP = @idLista) != 1) BEGIN
+	IF ((SELECT COUNT(*) FROM tb_ProdutoDaLista WHERE id_produto = @idProduto AND id_listaP = @idLista) != 1) BEGIN
 		INSERT INTO tb_ProdutoDaLista VALUES (@idProduto, @idLista, @quantidade);
 	END
 	ELSE BEGIN
-		UPDATE tb_produtoDaLista SET quantidade = @quantidade WHERE id_produt = @idProduto AND id_listaP = @idLista
+		UPDATE tb_produtoDaLista SET quantidade = @quantidade WHERE id_produto = @idProduto AND id_listaP = @idLista
 	END
 END
 

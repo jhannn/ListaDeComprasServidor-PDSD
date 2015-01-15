@@ -234,7 +234,7 @@ namespace ComprasDigital.Servidor
 
 
 			//SQL "injector" 
-			cmd.CommandText = "SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_listaP = '" + idLista + "' AND pl.id_produt = p.id_produto";
+			cmd.CommandText = "SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_listaP = '" + idLista + "' AND pl.id_produto = p.id_produto";
 			cmd.CommandType = CommandType.Text;
 			cmd.Connection = conexao;
 
