@@ -36,29 +36,24 @@ namespace ComprasDigital.Servidor
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
 
-			if (nome.Length >= 3)
-			{
 				//SQL "injector" 
-				cmd.CommandText = "SELECT TOP 5 id_produto, nome FROM tb_Produto WHERE nome LIKE '%" + nome + "%'";
+				cmd.CommandText = "SELECT id_produto, nome FROM tb_Produto WHERE nome LIKE '"+ nome + "%'";
 				cmd.CommandType = CommandType.Text;
 				cmd.Connection = conexao;
 
 				conexao.Open();
 
 				reader = cmd.ExecuteReader();
-
 				while (reader.Read())
 				{
 					produtos.Add(reader["nome"].ToString());
 				}
-
+				conexao.Close();
 				JavaScriptSerializer js = new JavaScriptSerializer();
 				return js.Serialize(produtos);
-			}
-			else
-			{
-				return "";
-			}
+
+				
+
         }
 
     }

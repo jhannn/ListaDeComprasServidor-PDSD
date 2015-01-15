@@ -100,11 +100,45 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(resultado);
 		}
 
+		//_______________________________________ RETORNAR NOME LISTA _______________________________________//
+		[WebMethod]
+		public string retornarNomeLista(int idLista)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			string nomeLista = "";
+
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			SqlConnection conexao = new SqlConnection(ConexaoBanco);
+			SqlCommand cmd = new SqlCommand();
+			SqlDataReader reader;
+
+
+			//SQL "injector" 
+			cmd.CommandText = "SELECT nome FROM tb_ListaDeProdutos WHERE id_listaDeProdutos = '" + idLista + "'";
+			cmd.CommandType = CommandType.Text;
+			cmd.Connection = conexao;
+
+			conexao.Open();
+
+			reader = cmd.ExecuteReader();
+
+			while (reader.Read())
+			{
+				nomeLista = reader["nome"].ToString();	
+			}
+
+			conexao.Close();
+
+			return js.Serialize(nomeLista);
+		}
+
+
         //_______________________________________ RETORNAR LISTAS ___________________________________________//
         [WebMethod]
         public string retornarListas(int idUsuario)
         {
-            var listas = new List<string>();
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			List<cListaDeProdutos> listas = new List<cListaDeProdutos>();
 
             String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
             SqlConnection conexao = new SqlConnection(ConexaoBanco);
@@ -123,13 +157,12 @@ namespace ComprasDigital.Servidor
 
             while (reader.Read())
             {
-                listas.Add(reader["id_listaDeProdutos"].ToString());
-                listas.Add(reader["nome"].ToString());
+				listas.Add(new cListaDeProdutos(Convert.ToInt32(reader["id_listaDeProdutos"]),
+												reader["nome"].ToString()) );
             }
 
 			conexao.Close();
 
-            JavaScriptSerializer js = new JavaScriptSerializer();
             return js.Serialize(listas);
         }
 
