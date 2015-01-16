@@ -16,7 +16,6 @@ BEGIN
 	END
 	INSERT INTO tb_ListaDeProdutos VALUES (@nomeLista, @idUsuario);
 	SET @retorno = (SELECT IDENT_CURRENT('tb_ListaDeProdutos')); --Lista Criada
-	--tem que retornar o ID da lista
 	RETURN @retorno
 END
 
@@ -76,16 +75,24 @@ END
 
 CREATE PROCEDURE usp_criarProdutoDaLista
 	@idLista int output,
-	@idProduto int output,
+	@nomeProduto varchar(50) output,
+	@codigoDeBarras varchar(50) output,
+	@tipoCodigo varchar(50) output,
+	@marca varchar(50) output,
+	@tipo int output,
+	@unidade int output,
 	@quantidade int output
 AS
 BEGIN
+	DECLARE @idProduto INT
+	SET @idProduto = EXEC usp_criarProduto @nomeProduto, @codigoDeBarras, @tipoCodigo, @marca, @tipo, @unidade
 	IF ((SELECT COUNT(*) FROM tb_ProdutoDaLista WHERE id_produto = @idProduto AND id_listaP = @idLista) != 1) BEGIN
 		INSERT INTO tb_ProdutoDaLista VALUES (@idProduto, @idLista, @quantidade);
 	END
 	ELSE BEGIN
 		UPDATE tb_produtoDaLista SET quantidade = @quantidade WHERE id_produto = @idProduto AND id_listaP = @idLista
 	END
+	RETURN (SELECT * FROM tb_produtoDaLista WHERE id_produto = @idProduto AND id_listaP = @idLista)
 END
 
 
