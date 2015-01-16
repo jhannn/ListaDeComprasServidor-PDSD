@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -33,38 +34,24 @@ namespace ComprasDigital.Servidor
         [WebMethod]
         public string criarLista(int idUsuario, string token, string nomeLista)
         {
-			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();//O JavaScriptSerializer vai fazer o web service retornar JSON
 
 			if(!cUsuario.usuarioValido(idUsuario, token))
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
-            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-            using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-            {
-                conexao.Open();
-                using (SqlCommand cmd = new SqlCommand("usp_criarListaDeCompras", conexao)) //producer a ser executada
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@nomeLista", nomeLista); //parametros
-                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario); //parametros
-
-                    SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-                    returnValue.Direction = ParameterDirection.ReturnValue;
-                    cmd.Parameters.Add(returnValue);
-
-                    cmd.ExecuteNonQuery();
-                    resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-                }
-            }
-
-            if (resultado == -1)//algum erro ocorreu
-            {
-                return js.Serialize("-1"); //retorna o id -1
-            }
-            else //tudo ok
-                return js.Serialize(resultado.ToString()); //Converte e retorna os dados em JSON do id da lista
+			var dataContext = new Model.DataClasses1DataContext();
+			var listasDoUsuario = from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower().StartsWith(nomeLista.ToLower()) select l;
+			if (listasDoUsuario.Count() > 1) nomeLista += "_" + (listasDoUsuario.Count() + 1);
+			//ArrayList listas = new ArrayList();
+			//foreach (var list in listasDoUsuario)
+			//	listas.Add(new cListaDeProdutos(list.id_listaDeProdutos, list.nome));
+			//tb_ListaDeProdutos novaLista = new tb_ListaDeProdutos { id_usuario = idUsuario, nome = nomeLista };
+			Model.tb_ListaDeProduto novaLista = new Model.tb_ListaDeProduto();
+			novaLista.id_usuario = idUsuario;
+			novaLista.nome = nomeLista;
+			dataContext.tb_ListaDeProdutos.InsertOnSubmit(novaLista);
+			dataContext.SubmitChanges();
+			return js.Serialize(novaLista); // ta dando erro!
         }
 
 		//___________________________________Editar Lista__________________________________//

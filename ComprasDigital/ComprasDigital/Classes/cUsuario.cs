@@ -34,27 +34,9 @@ namespace ComprasDigital.Classes
 
 		public static bool usuarioValido(int idUsuario, string token)
 		{
-			var usuario = new List<string>();
-
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			SqlConnection conexao = new SqlConnection(ConexaoBanco);
-			SqlCommand cmd = new SqlCommand();
-			SqlDataReader reader;
-
-			//SQL "injector" 
-			cmd.CommandText = "SELECT nome FROM tb_Usuario WHERE token = '" + token + "' AND id_usuario = " + idUsuario + "";
-			cmd.CommandType = CommandType.Text;
-			cmd.Connection = conexao;
-
-			conexao.Open();
-			reader = cmd.ExecuteReader();
-			while (reader.Read())
-			{
-				conexao.Close();
-				return true;
-			}
-			conexao.Close();
-
+			var dataContext = new Model.DataClasses1DataContext();
+			var usuarioLogado = from u in dataContext.tb_Usuarios where u.id_usuario == idUsuario && u.token == token select u;
+			if (usuarioLogado.Count() == 1) return true;
 			return false;
 		}
 	}
