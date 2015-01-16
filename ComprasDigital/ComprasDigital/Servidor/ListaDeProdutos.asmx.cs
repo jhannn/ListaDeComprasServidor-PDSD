@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.Web.Script.Services;
 using ComprasDigital.Classes;
+using ComprasDigital.Excecoes;
 
 
 namespace ComprasDigital.Servidor
@@ -30,13 +31,13 @@ namespace ComprasDigital.Servidor
         //______________________________ CRIAR LISTA __________________________________//
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         [WebMethod]
-        public string criarLista(string nomeLista, int idUsuario, string token)
+        public string criarLista(int idUsuario, string token, string nomeLista)
         {
 			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();//O JavaScriptSerializer vai fazer o web service retornar JSON
 
 			if(!cUsuario.usuarioValido(idUsuario, token))
-				return js.Serialize("-1"); //retorna o id -1
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
             String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
             using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
