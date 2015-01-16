@@ -80,14 +80,11 @@ CREATE TABLE tb_ProdutosInvalidos
 
 CREATE TABLE tb_Tipo
 (
-	id_unidade INT PRIMARY KEY IDENTITY(1,1),
-	tipo varchar(50);
+	id_tipo INT PRIMARY KEY IDENTITY(1,1),
+	tipo varchar(50)
 );
 INSERT INTO tb_Unidade VALUES ('Outro');
 INSERT INTO tb_Unidade VALUES ('Combustivel');
-INSERT INTO tb_Unidade VALUES ('Laticinio');
-INSERT INTO tb_Unidade VALUES ('Bombiniere');
-INSERT INTO tb_Unidade VALUES ('Frio');
 INSERT INTO tb_Unidade VALUES ('Futa, Legume ou Verdura');
 INSERT INTO tb_Unidade VALUES ('Eletrônico');
 --Adicionar outros
@@ -95,7 +92,7 @@ INSERT INTO tb_Unidade VALUES ('Eletrônico');
 CREATE TABLE tb_Unidade
 (
 	id_unidade INT PRIMARY KEY IDENTITY(1,1),
-	unidade varchar(50);
+	unidade varchar(50)
 );
 INSERT INTO tb_Unidade VALUES ('Unidade');
 INSERT INTO tb_Unidade VALUES ('KG');
@@ -105,34 +102,9 @@ INSERT INTO tb_Unidade VALUES ('Litro');
 CREATE TABLE tb_Ocorrencia
 (
 	id_ocorrencia INT PRIMARY KEY IDENTITY(1,1),
-	ocorrencia varchar(50);
+	ocorrencia varchar(50)
 );
 INSERT INTO tb_Ocorrencia VALUES ('Codigo de barras ja existente');
 INSERT INTO tb_Ocorrencia VALUES ('Codigo de barras diferente do existente');
 INSERT INTO tb_Ocorrencia VALUES ('Tipo diferente');
 INSERT INTO tb_Ocorrencia VALUES ('Unidade diferente');
-
-
-
-/*
-----------------TESTES----------------
-USE SistemaDeCompras
-SELECT * FROM tb_ListaDeProdutos;
-SELECT * FROM tb_Usuario;
-UPDATE tb_Usuario SET token = NULL WHERE token = '1245723423322';
-DELETE FROM tb_ProdutoDaLista;
-DELETE FROM tb_Produto;
-DELETE FROM tb_ProdutosInvalidos;
-SELECT * FROM tb_ListaDeProdutos
-EXEC usp_editarNomeListaDeCompras 1, 'Sou eu', 1, '124576453875'
-SELECT * FROM tb_Produto
-SELECT * FROM tb_ProdutosInvalidos
-EXEC usp_criarProduto 1, 'Biscoito maria', '1001', '01', 1
-EXEC usp_criarProduto 1, 'Biscoito maria', NULL, '01', 1
-EXEC usp_criarProduto 1, 'Todao', NULL, NULL, 1
-EXEC usp_criarProduto 1, 'Todao', '0101', '01', 1
-EXEC usp_criarProduto 1, 'Todao', '0011', '01', 1
-EXEC usp_criarProduto 1, 'Feijao', '1001', '01', 1
-EXEC usp_criarProduto 1, 'Biscoito maria', '0101', '01', 1
-SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_listaP = 1 AND pl.id_produt = p.id_produto
-*/

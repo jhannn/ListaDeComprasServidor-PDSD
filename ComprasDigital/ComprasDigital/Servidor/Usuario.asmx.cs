@@ -255,61 +255,62 @@ namespace ComprasDigital.Servidor
 
 
         //_______________________________________ RECUPERAR SENHA _______________________________________//
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		[WebMethod]
-        public string recuperarSenha(string emailUsuario)
-        {
+		public string recuperarSenha(string emailUsuario)
+		{
 
 
-            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-            SqlConnection conexao = new SqlConnection(ConexaoBanco);
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            string nome = "";
-            string senha = "";
+			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
+			SqlConnection conexao = new SqlConnection(ConexaoBanco);
+			SqlCommand cmd = new SqlCommand();
+			SqlDataReader reader;
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			string nome = "";
+			string senha = "";
 
 
-            //SQL "injector" 
-            cmd.CommandText = "SELECT * FROM tb_Usuario WHERE email = '"+emailUsuario+"'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = conexao;
+			//SQL "injector" 
+			cmd.CommandText = "SELECT * FROM tb_Usuario WHERE email = '" + emailUsuario + "'";
+			cmd.CommandType = CommandType.Text;
+			cmd.Connection = conexao;
 
-            conexao.Open();
+			conexao.Open();
 
-            reader = cmd.ExecuteReader();
+			reader = cmd.ExecuteReader();
 
-            while (reader.Read())
-            {
-                nome = reader["nome"].ToString();
-                senha = reader["senha"].ToString();
-            }
+			while (reader.Read())
+			{
+				nome = reader["nome"].ToString();
+				senha = reader["senha"].ToString();
+			}
 
-            try
-            {
-                if (nome != "") //tudo ok
-                {
-                    //enviar email
-                    SmtpClient cliente = new SmtpClient();
-                    cliente.Host = "smtp.gmail.com";
-                    cliente.EnableSsl = true;
-                    cliente.Credentials = new NetworkCredential("sistemadecomprasdigitais@gmail.com", "comprasdigitais"); //email e sennha 
+			try
+			{
+				if (nome != "") //tudo ok
+				{
+					//enviar email
+					SmtpClient cliente = new SmtpClient();
+					cliente.Host = "smtp.gmail.com";
+					cliente.EnableSsl = true;
+					cliente.Credentials = new NetworkCredential("sistemadecomprasdigitais@gmail.com", "comprasdigitais"); //email e sennha 
 
-                    cliente.Send("sistemadecomprasdigitais@gmail.com", emailUsuario,
-                    "Recuperar senha", "Olá " + nome + "! Sua senha provisória é: " + senha.Substring(0, 6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
+					cliente.Send("sistemadecomprasdigitais@gmail.com", emailUsuario,
+					"Recuperar senha", "Olá " + nome + "! Sua senha provisória é: " + senha.Substring(0, 6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
 
-                    return js.Serialize("0");
-                }
-                else
-                {
-                    return js.Serialize("1");
-                }
+					return js.Serialize("0");
+				}
+				else
+				{
+					return js.Serialize("1");
+				}
 
-            }catch(Exception ex)
-            {
-                return js.Serialize("2");
-            }
-        }
+			}
+			catch (Exception ex)
+			{
+				return js.Serialize("2");
+			}
+		}
 
     }
 }
