@@ -40,8 +40,9 @@ namespace ComprasDigital.Servidor
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
+			int quant = 0;
 			if (((from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower() == nomeLista.ToLower() select l).Count() == 1) &&
-				((from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower().StartsWith(nomeLista.ToLower()) select l).Count() > 1)) nomeLista += "-" + (listasDoUsuario.Count() + 1);
+				((quant = (from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower().StartsWith(nomeLista.ToLower()) select l).Count()) > 1)) nomeLista += "-" + (quant + 1);
 			//ArrayList listas = new ArrayList();
 			//foreach (var list in listasDoUsuario)
 			//	listas.Add(new cListaDeProdutos(list.id_listaDeProdutos, list.nome));
@@ -57,7 +58,7 @@ namespace ComprasDigital.Servidor
 		//___________________________________Editar Lista__________________________________//
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		[WebMethod]
-		public string editarNomeLista(int idLista, string novoNomeDaLista, int idUsuario, string token)
+		public string editarNomeLista(int idUsuario, string token, int idLista, string novoNomeDaLista)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
