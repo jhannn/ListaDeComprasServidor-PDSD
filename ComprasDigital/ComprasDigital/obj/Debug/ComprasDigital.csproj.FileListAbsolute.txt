@@ -65,3 +65,10 @@ C:\Users\Marcos\Desktop\PDSD\Server\ListaDeComprasServidor-PDSD\ComprasDigital\C
 C:\Users\Marcos\Desktop\PDSD\Server\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.xml
 D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
 D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.dll
+D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.dll
+D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.xml
+D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.xml
+D:\_PDSD\Servidor\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb

@@ -34,7 +34,7 @@ namespace ComprasDigital.Classes
 
 		public static bool usuarioValido(int idUsuario, string token)
 		{
-			var dataContext = new Model.DataClasses1DataContext();
+			var dataContext = new Model.DataClassesDataContext();
 			var usuarioLogado = from u in dataContext.tb_Usuarios where u.id_usuario == idUsuario && u.token == token select u;
 			if (usuarioLogado.Count() == 1) return true;
 			return false;

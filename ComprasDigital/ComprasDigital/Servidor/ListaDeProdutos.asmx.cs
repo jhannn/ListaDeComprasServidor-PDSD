@@ -40,19 +40,18 @@ namespace ComprasDigital.Servidor
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
-			var listasDoUsuario = from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower().StartsWith(nomeLista.ToLower()) select l;
-			if (listasDoUsuario.Count() > 1) nomeLista += "_" + (listasDoUsuario.Count() + 1);
+			if (((from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower() == nomeLista.ToLower() select l).Count() == 1) &&
+				((from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower().StartsWith(nomeLista.ToLower()) select l).Count() > 1)) nomeLista += "-" + (listasDoUsuario.Count() + 1);
 			//ArrayList listas = new ArrayList();
 			//foreach (var list in listasDoUsuario)
 			//	listas.Add(new cListaDeProdutos(list.id_listaDeProdutos, list.nome));
-			//tb_ListaDeProdutos novaLista = new tb_ListaDeProdutos { id_usuario = idUsuario, nome = nomeLista };
+			//tb_ListaDeProduto novaLista = new tb_ListaDeProduto { id_usuario = idUsuario, nome = nomeLista };
 			Model.tb_ListaDeProduto novaLista = new Model.tb_ListaDeProduto();
 			novaLista.id_usuario = idUsuario;
 			novaLista.nome = nomeLista;
 			dataContext.tb_ListaDeProdutos.InsertOnSubmit(novaLista);
-			string retorno = js.Serialize(novaLista);
 			dataContext.SubmitChanges();
-			return retorno;
+			return js.Serialize("precisa pegar o ID da lista criada");
         }
 
 		//___________________________________Editar Lista__________________________________//
@@ -60,33 +59,14 @@ namespace ComprasDigital.Servidor
 		[WebMethod]
 		public string editarNomeLista(int idLista, string novoNomeDaLista, int idUsuario, string token)
 		{
-			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
 			if (!cUsuario.usuarioValido(idUsuario, token))
-				return js.Serialize("-1"); //retorna o id -1
+				return js.Serialize(new UsuarioNaoLogadoException());
 
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_editarNomeListaDeCompras", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
-					cmd.Parameters.AddWithValue("@nome", novoNomeDaLista); //parametros
-					cmd.Parameters.AddWithValue("@idUsuario", idUsuario); //parametros
 
-					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-					returnValue.Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add(returnValue);
 
-					cmd.ExecuteNonQuery();
-					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-				}
-			}
-
-			return js.Serialize(resultado);
+			return js.Serialize(1);
 		}
 
 		//_______________________________________ RETORNAR NOME LISTA _______________________________________//
