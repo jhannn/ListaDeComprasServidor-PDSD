@@ -4,82 +4,74 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SistemaDeComprasModel1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="SistemaDeComprasModel1StoreContainer">
-          <EntitySet Name="tb_Estabelecimento" EntityType="SistemaDeComprasModel1.Store.tb_Estabelecimento" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_Item" EntityType="SistemaDeComprasModel1.Store.tb_Item" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_ItemDaLista" EntityType="SistemaDeComprasModel1.Store.tb_ItemDaLista" store:Type="Tables" store:Schema="dbo" store:Name="tb_ItemDaLista">
-            <DefiningQuery>SELECT 
-      [tb_ItemDaLista].[id_lista] AS [id_lista], 
-      [tb_ItemDaLista].[quantidade] AS [quantidade], 
-      [tb_ItemDaLista].[estabelecimento_item] AS [estabelecimento_item], 
-      [tb_ItemDaLista].[nome_item] AS [nome_item], 
-      [tb_ItemDaLista].[marca_item] AS [marca_item]
-      FROM [dbo].[tb_ItemDaLista] AS [tb_ItemDaLista]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tb_ListaDeItens" EntityType="SistemaDeComprasModel1.Store.tb_ListaDeItens" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_ListaDeProdutos" EntityType="SistemaDeComprasModel1.Store.tb_ListaDeProdutos" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_Marca" EntityType="SistemaDeComprasModel1.Store.tb_Marca" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_Ocorrencia" EntityType="SistemaDeComprasModel1.Store.tb_Ocorrencia" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_Produto" EntityType="SistemaDeComprasModel1.Store.tb_Produto" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_ProdutoDaLista" EntityType="SistemaDeComprasModel1.Store.tb_ProdutoDaLista" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_ProdutoInvalido" EntityType="SistemaDeComprasModel1.Store.tb_ProdutoInvalido" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_Tipo" EntityType="SistemaDeComprasModel1.Store.tb_Tipo" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_Unidade" EntityType="SistemaDeComprasModel1.Store.tb_Unidade" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tb_Usuario" EntityType="SistemaDeComprasModel1.Store.tb_Usuario" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__tb_Item__18EBB532" Association="SistemaDeComprasModel1.Store.FK__tb_Item__18EBB532">
+    <Schema Namespace="SistemaDeComprasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="SistemaDeComprasModelStoreContainer">
+          <EntitySet Name="tb_Estabelecimento" EntityType="SistemaDeComprasModel.Store.tb_Estabelecimento" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_Item" EntityType="SistemaDeComprasModel.Store.tb_Item" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_ItemDaLista" EntityType="SistemaDeComprasModel.Store.tb_ItemDaLista" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_ListaDeItens" EntityType="SistemaDeComprasModel.Store.tb_ListaDeItens" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_ListaDeProdutos" EntityType="SistemaDeComprasModel.Store.tb_ListaDeProdutos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_Marca" EntityType="SistemaDeComprasModel.Store.tb_Marca" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_Ocorrencia" EntityType="SistemaDeComprasModel.Store.tb_Ocorrencia" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_Produto" EntityType="SistemaDeComprasModel.Store.tb_Produto" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_ProdutoDaLista" EntityType="SistemaDeComprasModel.Store.tb_ProdutoDaLista" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_ProdutoInvalido" EntityType="SistemaDeComprasModel.Store.tb_ProdutoInvalido" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_Tipo" EntityType="SistemaDeComprasModel.Store.tb_Tipo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_Unidade" EntityType="SistemaDeComprasModel.Store.tb_Unidade" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_Usuario" EntityType="SistemaDeComprasModel.Store.tb_Usuario" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__tb_Item__3493CFA7" Association="SistemaDeComprasModel.Store.FK__tb_Item__3493CFA7">
             <End Role="tb_Produto" EntitySet="tb_Produto" />
             <End Role="tb_Item" EntitySet="tb_Item" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Item__id_esta__17F790F9" Association="SistemaDeComprasModel1.Store.FK__tb_Item__id_esta__17F790F9">
+          <AssociationSet Name="FK__tb_Item__id_esta__339FAB6E" Association="SistemaDeComprasModel.Store.FK__tb_Item__id_esta__339FAB6E">
             <End Role="tb_Estabelecimento" EntitySet="tb_Estabelecimento" />
             <End Role="tb_Item" EntitySet="tb_Item" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ItemDa__id_li__1AD3FDA4" Association="SistemaDeComprasModel1.Store.FK__tb_ItemDa__id_li__1AD3FDA4">
+          <AssociationSet Name="FK__tb_ItemDa__id_li__367C1819" Association="SistemaDeComprasModel.Store.FK__tb_ItemDa__id_li__367C1819">
             <End Role="tb_ListaDeItens" EntitySet="tb_ListaDeItens" />
             <End Role="tb_ItemDaLista" EntitySet="tb_ItemDaLista" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ItemDaLista__1BC821DD" Association="SistemaDeComprasModel1.Store.FK__tb_ItemDaLista__1BC821DD">
+          <AssociationSet Name="FK__tb_ItemDaLista__37703C52" Association="SistemaDeComprasModel.Store.FK__tb_ItemDaLista__37703C52">
             <End Role="tb_Item" EntitySet="tb_Item" />
             <End Role="tb_ItemDaLista" EntitySet="tb_ItemDaLista" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ListaD__id_us__5535A963" Association="SistemaDeComprasModel1.Store.FK__tb_ListaD__id_us__5535A963">
+          <AssociationSet Name="FK__tb_ListaD__id_us__5535A963" Association="SistemaDeComprasModel.Store.FK__tb_ListaD__id_us__5535A963">
             <End Role="tb_Usuario" EntitySet="tb_Usuario" />
             <End Role="tb_ListaDeItens" EntitySet="tb_ListaDeItens" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ListaD__id_us__59FA5E80" Association="SistemaDeComprasModel1.Store.FK__tb_ListaD__id_us__59FA5E80">
+          <AssociationSet Name="FK__tb_ListaD__id_us__59FA5E80" Association="SistemaDeComprasModel.Store.FK__tb_ListaD__id_us__59FA5E80">
             <End Role="tb_Usuario" EntitySet="tb_Usuario" />
             <End Role="tb_ListaDeProdutos" EntitySet="tb_ListaDeProdutos" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produt__id_li__0B91BA14" Association="SistemaDeComprasModel1.Store.FK__tb_Produt__id_li__0B91BA14">
+          <AssociationSet Name="FK__tb_Produt__id_li__2DE6D218" Association="SistemaDeComprasModel.Store.FK__tb_Produt__id_li__2DE6D218">
             <End Role="tb_ListaDeProdutos" EntitySet="tb_ListaDeProdutos" />
             <End Role="tb_ProdutoDaLista" EntitySet="tb_ProdutoDaLista" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produt__marca__7D439ABD" Association="SistemaDeComprasModel1.Store.FK__tb_Produt__marca__7D439ABD">
-            <End Role="tb_Tipo" EntitySet="tb_Tipo" />
+          <AssociationSet Name="FK__tb_Produt__marca__2739D489" Association="SistemaDeComprasModel.Store.FK__tb_Produt__marca__2739D489">
+            <End Role="tb_Marca" EntitySet="tb_Marca" />
             <End Role="tb_Produto" EntitySet="tb_Produto" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produt__ocorr__208CD6FA" Association="SistemaDeComprasModel1.Store.FK__tb_Produt__ocorr__208CD6FA">
+          <AssociationSet Name="FK__tb_Produt__ocorr__3C34F16F" Association="SistemaDeComprasModel.Store.FK__tb_Produt__ocorr__3C34F16F">
             <End Role="tb_Ocorrencia" EntitySet="tb_Ocorrencia" />
             <End Role="tb_ProdutoInvalido" EntitySet="tb_ProdutoInvalido" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produt__unida__7F2BE32F" Association="SistemaDeComprasModel1.Store.FK__tb_Produt__unida__7F2BE32F">
+          <AssociationSet Name="FK__tb_Produt__unida__29221CFB" Association="SistemaDeComprasModel.Store.FK__tb_Produt__unida__29221CFB">
             <End Role="tb_Unidade" EntitySet="tb_Unidade" />
             <End Role="tb_Produto" EntitySet="tb_Produto" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produto__tipo__7E37BEF6" Association="SistemaDeComprasModel1.Store.FK__tb_Produto__tipo__7E37BEF6">
+          <AssociationSet Name="FK__tb_Produto__tipo__282DF8C2" Association="SistemaDeComprasModel.Store.FK__tb_Produto__tipo__282DF8C2">
             <End Role="tb_Tipo" EntitySet="tb_Tipo" />
             <End Role="tb_Produto" EntitySet="tb_Produto" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ProdutoDaList__0C85DE4D" Association="SistemaDeComprasModel1.Store.FK__tb_ProdutoDaList__0C85DE4D">
+          <AssociationSet Name="FK__tb_ProdutoDaList__2EDAF651" Association="SistemaDeComprasModel.Store.FK__tb_ProdutoDaList__2EDAF651">
             <End Role="tb_Produto" EntitySet="tb_Produto" />
             <End Role="tb_ProdutoDaLista" EntitySet="tb_ProdutoDaLista" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ProdutoInvali__2180FB33" Association="SistemaDeComprasModel1.Store.FK__tb_ProdutoInvali__2180FB33">
+          <AssociationSet Name="FK__tb_ProdutoInvali__3D2915A8" Association="SistemaDeComprasModel.Store.FK__tb_ProdutoInvali__3D2915A8">
             <End Role="tb_Produto" EntitySet="tb_Produto" />
             <End Role="tb_ProdutoInvalido" EntitySet="tb_ProdutoInvalido" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ProdutoInvali__22751F6C" Association="SistemaDeComprasModel1.Store.FK__tb_ProdutoInvali__22751F6C">
+          <AssociationSet Name="FK__tb_ProdutoInvali__3E1D39E1" Association="SistemaDeComprasModel.Store.FK__tb_ProdutoInvali__3E1D39E1">
             <End Role="tb_Produto" EntitySet="tb_Produto" />
             <End Role="tb_ProdutoInvalido" EntitySet="tb_ProdutoInvalido" />
           </AssociationSet>
@@ -107,13 +99,9 @@
           <Property Name="nome_produto" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="marca_produto" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'SistemaDeCompras.dbo.tb_ItemDaLista' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="tb_ItemDaLista">
           <Key>
             <PropertyRef Name="id_lista" />
-            <PropertyRef Name="quantidade" />
             <PropertyRef Name="estabelecimento_item" />
             <PropertyRef Name="nome_item" />
             <PropertyRef Name="marca_item" />
@@ -159,7 +147,6 @@
             <PropertyRef Name="marca" />
             <PropertyRef Name="nome" />
           </Key>
-          <Property Name="id_produto" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="marca" Type="int" Nullable="false" />
           <Property Name="nome" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="codigoDeBarras" Type="varchar" MaxLength="50" />
@@ -217,9 +204,9 @@
           <Property Name="senha" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="token" Type="varchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK__tb_Item__18EBB532">
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.Store.tb_Produto" Multiplicity="1" />
-          <End Role="tb_Item" Type="SistemaDeComprasModel1.Store.tb_Item" Multiplicity="*" />
+        <Association Name="FK__tb_Item__3493CFA7">
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.Store.tb_Produto" Multiplicity="1" />
+          <End Role="tb_Item" Type="SistemaDeComprasModel.Store.tb_Item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Produto">
               <PropertyRef Name="nome" />
@@ -231,9 +218,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Item__id_esta__17F790F9">
-          <End Role="tb_Estabelecimento" Type="SistemaDeComprasModel1.Store.tb_Estabelecimento" Multiplicity="1" />
-          <End Role="tb_Item" Type="SistemaDeComprasModel1.Store.tb_Item" Multiplicity="*" />
+        <Association Name="FK__tb_Item__id_esta__339FAB6E">
+          <End Role="tb_Estabelecimento" Type="SistemaDeComprasModel.Store.tb_Estabelecimento" Multiplicity="1" />
+          <End Role="tb_Item" Type="SistemaDeComprasModel.Store.tb_Item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Estabelecimento">
               <PropertyRef Name="id_estabelecimento" />
@@ -243,9 +230,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ItemDa__id_li__1AD3FDA4">
-          <End Role="tb_ListaDeItens" Type="SistemaDeComprasModel1.Store.tb_ListaDeItens" Multiplicity="1" />
-          <End Role="tb_ItemDaLista" Type="SistemaDeComprasModel1.Store.tb_ItemDaLista" Multiplicity="*" />
+        <Association Name="FK__tb_ItemDa__id_li__367C1819">
+          <End Role="tb_ListaDeItens" Type="SistemaDeComprasModel.Store.tb_ListaDeItens" Multiplicity="1" />
+          <End Role="tb_ItemDaLista" Type="SistemaDeComprasModel.Store.tb_ItemDaLista" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_ListaDeItens">
               <PropertyRef Name="id_listaDeItens" />
@@ -255,9 +242,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ItemDaLista__1BC821DD">
-          <End Role="tb_Item" Type="SistemaDeComprasModel1.Store.tb_Item" Multiplicity="1" />
-          <End Role="tb_ItemDaLista" Type="SistemaDeComprasModel1.Store.tb_ItemDaLista" Multiplicity="*" />
+        <Association Name="FK__tb_ItemDaLista__37703C52">
+          <End Role="tb_Item" Type="SistemaDeComprasModel.Store.tb_Item" Multiplicity="1" />
+          <End Role="tb_ItemDaLista" Type="SistemaDeComprasModel.Store.tb_ItemDaLista" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Item">
               <PropertyRef Name="nome_produto" />
@@ -272,8 +259,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__tb_ListaD__id_us__5535A963">
-          <End Role="tb_Usuario" Type="SistemaDeComprasModel1.Store.tb_Usuario" Multiplicity="1" />
-          <End Role="tb_ListaDeItens" Type="SistemaDeComprasModel1.Store.tb_ListaDeItens" Multiplicity="*" />
+          <End Role="tb_Usuario" Type="SistemaDeComprasModel.Store.tb_Usuario" Multiplicity="1" />
+          <End Role="tb_ListaDeItens" Type="SistemaDeComprasModel.Store.tb_ListaDeItens" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Usuario">
               <PropertyRef Name="id_usuario" />
@@ -284,8 +271,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__tb_ListaD__id_us__59FA5E80">
-          <End Role="tb_Usuario" Type="SistemaDeComprasModel1.Store.tb_Usuario" Multiplicity="1" />
-          <End Role="tb_ListaDeProdutos" Type="SistemaDeComprasModel1.Store.tb_ListaDeProdutos" Multiplicity="*" />
+          <End Role="tb_Usuario" Type="SistemaDeComprasModel.Store.tb_Usuario" Multiplicity="1" />
+          <End Role="tb_ListaDeProdutos" Type="SistemaDeComprasModel.Store.tb_ListaDeProdutos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Usuario">
               <PropertyRef Name="id_usuario" />
@@ -295,9 +282,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produt__id_li__0B91BA14">
-          <End Role="tb_ListaDeProdutos" Type="SistemaDeComprasModel1.Store.tb_ListaDeProdutos" Multiplicity="1" />
-          <End Role="tb_ProdutoDaLista" Type="SistemaDeComprasModel1.Store.tb_ProdutoDaLista" Multiplicity="*" />
+        <Association Name="FK__tb_Produt__id_li__2DE6D218">
+          <End Role="tb_ListaDeProdutos" Type="SistemaDeComprasModel.Store.tb_ListaDeProdutos" Multiplicity="1" />
+          <End Role="tb_ProdutoDaLista" Type="SistemaDeComprasModel.Store.tb_ProdutoDaLista" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_ListaDeProdutos">
               <PropertyRef Name="id_listaDeProdutos" />
@@ -307,21 +294,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produt__marca__7D439ABD">
-          <End Role="tb_Tipo" Type="SistemaDeComprasModel1.Store.tb_Tipo" Multiplicity="1" />
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.Store.tb_Produto" Multiplicity="*" />
+        <Association Name="FK__tb_Produt__marca__2739D489">
+          <End Role="tb_Marca" Type="SistemaDeComprasModel.Store.tb_Marca" Multiplicity="1" />
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.Store.tb_Produto" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tb_Tipo">
-              <PropertyRef Name="id_tipo" />
+            <Principal Role="tb_Marca">
+              <PropertyRef Name="id_marca" />
             </Principal>
             <Dependent Role="tb_Produto">
               <PropertyRef Name="marca" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produt__ocorr__208CD6FA">
-          <End Role="tb_Ocorrencia" Type="SistemaDeComprasModel1.Store.tb_Ocorrencia" Multiplicity="1" />
-          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel1.Store.tb_ProdutoInvalido" Multiplicity="*" />
+        <Association Name="FK__tb_Produt__ocorr__3C34F16F">
+          <End Role="tb_Ocorrencia" Type="SistemaDeComprasModel.Store.tb_Ocorrencia" Multiplicity="1" />
+          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel.Store.tb_ProdutoInvalido" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Ocorrencia">
               <PropertyRef Name="id_ocorrencia" />
@@ -331,9 +318,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produt__unida__7F2BE32F">
-          <End Role="tb_Unidade" Type="SistemaDeComprasModel1.Store.tb_Unidade" Multiplicity="1" />
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.Store.tb_Produto" Multiplicity="*" />
+        <Association Name="FK__tb_Produt__unida__29221CFB">
+          <End Role="tb_Unidade" Type="SistemaDeComprasModel.Store.tb_Unidade" Multiplicity="1" />
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.Store.tb_Produto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Unidade">
               <PropertyRef Name="id_unidade" />
@@ -343,9 +330,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produto__tipo__7E37BEF6">
-          <End Role="tb_Tipo" Type="SistemaDeComprasModel1.Store.tb_Tipo" Multiplicity="1" />
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.Store.tb_Produto" Multiplicity="*" />
+        <Association Name="FK__tb_Produto__tipo__282DF8C2">
+          <End Role="tb_Tipo" Type="SistemaDeComprasModel.Store.tb_Tipo" Multiplicity="1" />
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.Store.tb_Produto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Tipo">
               <PropertyRef Name="id_tipo" />
@@ -355,9 +342,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ProdutoDaList__0C85DE4D">
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.Store.tb_Produto" Multiplicity="1" />
-          <End Role="tb_ProdutoDaLista" Type="SistemaDeComprasModel1.Store.tb_ProdutoDaLista" Multiplicity="*" />
+        <Association Name="FK__tb_ProdutoDaList__2EDAF651">
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.Store.tb_Produto" Multiplicity="1" />
+          <End Role="tb_ProdutoDaLista" Type="SistemaDeComprasModel.Store.tb_ProdutoDaLista" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Produto">
               <PropertyRef Name="nome" />
@@ -369,9 +356,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ProdutoInvali__2180FB33">
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.Store.tb_Produto" Multiplicity="1" />
-          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel1.Store.tb_ProdutoInvalido" Multiplicity="*" />
+        <Association Name="FK__tb_ProdutoInvali__3D2915A8">
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.Store.tb_Produto" Multiplicity="1" />
+          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel.Store.tb_ProdutoInvalido" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Produto">
               <PropertyRef Name="nome" />
@@ -383,9 +370,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ProdutoInvali__22751F6C">
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.Store.tb_Produto" Multiplicity="1" />
-          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel1.Store.tb_ProdutoInvalido" Multiplicity="*" />
+        <Association Name="FK__tb_ProdutoInvali__3E1D39E1">
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.Store.tb_Produto" Multiplicity="1" />
+          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel.Store.tb_ProdutoInvalido" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Produto">
               <PropertyRef Name="nome" />
@@ -397,78 +384,77 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SistemaDeComprasModel1" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="SistemaDeComprasEntities1" p1:LazyLoadingEnabled="true">
-          <EntitySet Name="tb_Estabelecimento" EntityType="SistemaDeComprasModel1.tb_Estabelecimento" />
-          <EntitySet Name="tb_Item" EntityType="SistemaDeComprasModel1.tb_Item" />
-          <EntitySet Name="tb_ItemDaLista" EntityType="SistemaDeComprasModel1.tb_ItemDaLista" />
-          <EntitySet Name="tb_ListaDeItens" EntityType="SistemaDeComprasModel1.tb_ListaDeItens" />
-          <EntitySet Name="tb_ListaDeProdutos" EntityType="SistemaDeComprasModel1.tb_ListaDeProdutos" />
-          <EntitySet Name="tb_Marca" EntityType="SistemaDeComprasModel1.tb_Marca" />
-          <EntitySet Name="tb_Ocorrencia" EntityType="SistemaDeComprasModel1.tb_Ocorrencia" />
-          <EntitySet Name="tb_Produto" EntityType="SistemaDeComprasModel1.tb_Produto" />
-          <EntitySet Name="tb_ProdutoDaLista" EntityType="SistemaDeComprasModel1.tb_ProdutoDaLista" />
-          <EntitySet Name="tb_ProdutoInvalido" EntityType="SistemaDeComprasModel1.tb_ProdutoInvalido" />
-          <EntitySet Name="tb_Tipo" EntityType="SistemaDeComprasModel1.tb_Tipo" />
-          <EntitySet Name="tb_Unidade" EntityType="SistemaDeComprasModel1.tb_Unidade" />
-          <EntitySet Name="tb_Usuario" EntityType="SistemaDeComprasModel1.tb_Usuario" />
-          <AssociationSet Name="FK__tb_Item__id_esta__17F790F9" Association="SistemaDeComprasModel1.FK__tb_Item__id_esta__17F790F9">
+      <Schema Namespace="SistemaDeComprasModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EntidadesSistemaDeCompras" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="tb_Estabelecimento" EntityType="SistemaDeComprasModel.tb_Estabelecimento" />
+          <EntitySet Name="tb_Item" EntityType="SistemaDeComprasModel.tb_Item" />
+          <EntitySet Name="tb_ItemDaLista" EntityType="SistemaDeComprasModel.tb_ItemDaLista" />
+          <EntitySet Name="tb_ListaDeItens" EntityType="SistemaDeComprasModel.tb_ListaDeItens" />
+          <EntitySet Name="tb_ListaDeProdutos" EntityType="SistemaDeComprasModel.tb_ListaDeProdutos" />
+          <EntitySet Name="tb_Marca" EntityType="SistemaDeComprasModel.tb_Marca" />
+          <EntitySet Name="tb_Ocorrencia" EntityType="SistemaDeComprasModel.tb_Ocorrencia" />
+          <EntitySet Name="tb_Produto" EntityType="SistemaDeComprasModel.tb_Produto" />
+          <EntitySet Name="tb_ProdutoDaLista" EntityType="SistemaDeComprasModel.tb_ProdutoDaLista" />
+          <EntitySet Name="tb_ProdutoInvalido" EntityType="SistemaDeComprasModel.tb_ProdutoInvalido" />
+          <EntitySet Name="tb_Tipo" EntityType="SistemaDeComprasModel.tb_Tipo" />
+          <EntitySet Name="tb_Unidade" EntityType="SistemaDeComprasModel.tb_Unidade" />
+          <EntitySet Name="tb_Usuario" EntityType="SistemaDeComprasModel.tb_Usuario" />
+          <AssociationSet Name="FK__tb_Item__id_esta__339FAB6E" Association="SistemaDeComprasModel.FK__tb_Item__id_esta__339FAB6E">
             <End Role="tb_Estabelecimento" EntitySet="tb_Estabelecimento" />
             <End Role="tb_Item" EntitySet="tb_Item" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Item__18EBB532" Association="SistemaDeComprasModel1.FK__tb_Item__18EBB532">
+          <AssociationSet Name="FK__tb_Item__3493CFA7" Association="SistemaDeComprasModel.FK__tb_Item__3493CFA7">
             <End Role="tb_Produto" EntitySet="tb_Produto" />
             <End Role="tb_Item" EntitySet="tb_Item" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ItemDaLista__1BC821DD" Association="SistemaDeComprasModel1.FK__tb_ItemDaLista__1BC821DD">
+          <AssociationSet Name="FK__tb_ItemDaLista__37703C52" Association="SistemaDeComprasModel.FK__tb_ItemDaLista__37703C52">
             <End Role="tb_Item" EntitySet="tb_Item" />
             <End Role="tb_ItemDaLista" EntitySet="tb_ItemDaLista" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ItemDa__id_li__1AD3FDA4" Association="SistemaDeComprasModel1.FK__tb_ItemDa__id_li__1AD3FDA4">
+          <AssociationSet Name="FK__tb_ItemDa__id_li__367C1819" Association="SistemaDeComprasModel.FK__tb_ItemDa__id_li__367C1819">
             <End Role="tb_ListaDeItens" EntitySet="tb_ListaDeItens" />
             <End Role="tb_ItemDaLista" EntitySet="tb_ItemDaLista" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ListaD__id_us__5535A963" Association="SistemaDeComprasModel1.FK__tb_ListaD__id_us__5535A963">
+          <AssociationSet Name="FK__tb_ListaD__id_us__5535A963" Association="SistemaDeComprasModel.FK__tb_ListaD__id_us__5535A963">
             <End Role="tb_Usuario" EntitySet="tb_Usuario" />
             <End Role="tb_ListaDeItens" EntitySet="tb_ListaDeItens" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ListaD__id_us__59FA5E80" Association="SistemaDeComprasModel1.FK__tb_ListaD__id_us__59FA5E80">
+          <AssociationSet Name="FK__tb_ListaD__id_us__59FA5E80" Association="SistemaDeComprasModel.FK__tb_ListaD__id_us__59FA5E80">
             <End Role="tb_Usuario" EntitySet="tb_Usuario" />
             <End Role="tb_ListaDeProdutos" EntitySet="tb_ListaDeProdutos" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produt__id_li__0B91BA14" Association="SistemaDeComprasModel1.FK__tb_Produt__id_li__0B91BA14">
+          <AssociationSet Name="FK__tb_Produt__id_li__2DE6D218" Association="SistemaDeComprasModel.FK__tb_Produt__id_li__2DE6D218">
             <End Role="tb_ListaDeProdutos" EntitySet="tb_ListaDeProdutos" />
             <End Role="tb_ProdutoDaLista" EntitySet="tb_ProdutoDaLista" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produt__ocorr__208CD6FA" Association="SistemaDeComprasModel1.FK__tb_Produt__ocorr__208CD6FA">
+          <AssociationSet Name="FK__tb_Produt__marca__2739D489" Association="SistemaDeComprasModel.FK__tb_Produt__marca__2739D489">
+            <End Role="tb_Marca" EntitySet="tb_Marca" />
+            <End Role="tb_Produto" EntitySet="tb_Produto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_Produt__ocorr__3C34F16F" Association="SistemaDeComprasModel.FK__tb_Produt__ocorr__3C34F16F">
             <End Role="tb_Ocorrencia" EntitySet="tb_Ocorrencia" />
             <End Role="tb_ProdutoInvalido" EntitySet="tb_ProdutoInvalido" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produt__marca__7D439ABD" Association="SistemaDeComprasModel1.FK__tb_Produt__marca__7D439ABD">
-            <End Role="tb_Tipo" EntitySet="tb_Tipo" />
-            <End Role="tb_Produto" EntitySet="tb_Produto" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tb_Produt__unida__7F2BE32F" Association="SistemaDeComprasModel1.FK__tb_Produt__unida__7F2BE32F">
+          <AssociationSet Name="FK__tb_Produt__unida__29221CFB" Association="SistemaDeComprasModel.FK__tb_Produt__unida__29221CFB">
             <End Role="tb_Unidade" EntitySet="tb_Unidade" />
             <End Role="tb_Produto" EntitySet="tb_Produto" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_Produto__tipo__7E37BEF6" Association="SistemaDeComprasModel1.FK__tb_Produto__tipo__7E37BEF6">
+          <AssociationSet Name="FK__tb_Produto__tipo__282DF8C2" Association="SistemaDeComprasModel.FK__tb_Produto__tipo__282DF8C2">
             <End Role="tb_Tipo" EntitySet="tb_Tipo" />
             <End Role="tb_Produto" EntitySet="tb_Produto" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ProdutoDaList__0C85DE4D" Association="SistemaDeComprasModel1.FK__tb_ProdutoDaList__0C85DE4D">
+          <AssociationSet Name="FK__tb_ProdutoDaList__2EDAF651" Association="SistemaDeComprasModel.FK__tb_ProdutoDaList__2EDAF651">
             <End Role="tb_Produto" EntitySet="tb_Produto" />
             <End Role="tb_ProdutoDaLista" EntitySet="tb_ProdutoDaLista" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ProdutoInvali__2180FB33" Association="SistemaDeComprasModel1.FK__tb_ProdutoInvali__2180FB33">
+          <AssociationSet Name="FK__tb_ProdutoInvali__3D2915A8" Association="SistemaDeComprasModel.FK__tb_ProdutoInvali__3D2915A8">
             <End Role="tb_Produto" EntitySet="tb_Produto" />
             <End Role="tb_ProdutoInvalido" EntitySet="tb_ProdutoInvalido" />
           </AssociationSet>
-          <AssociationSet Name="FK__tb_ProdutoInvali__22751F6C" Association="SistemaDeComprasModel1.FK__tb_ProdutoInvali__22751F6C">
+          <AssociationSet Name="FK__tb_ProdutoInvali__3E1D39E1" Association="SistemaDeComprasModel.FK__tb_ProdutoInvali__3E1D39E1">
             <End Role="tb_Produto" EntitySet="tb_Produto" />
             <End Role="tb_ProdutoInvalido" EntitySet="tb_ProdutoInvalido" />
           </AssociationSet>
@@ -482,7 +468,7 @@
           <Property Name="bairro" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
           <Property Name="cidade" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
           <Property Name="numero" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_Item" Relationship="SistemaDeComprasModel1.FK__tb_Item__id_esta__17F790F9" FromRole="tb_Estabelecimento" ToRole="tb_Item" />
+          <NavigationProperty Name="tb_Item" Relationship="SistemaDeComprasModel.FK__tb_Item__id_esta__339FAB6E" FromRole="tb_Estabelecimento" ToRole="tb_Item" />
         </EntityType>
         <EntityType Name="tb_Item">
           <Key>
@@ -496,9 +482,9 @@
           <Property Name="id_estabelecimento" Type="Int32" Nullable="false" />
           <Property Name="nome_produto" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="marca_produto" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_Estabelecimento" Relationship="SistemaDeComprasModel1.FK__tb_Item__id_esta__17F790F9" FromRole="tb_Item" ToRole="tb_Estabelecimento" />
-          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel1.FK__tb_Item__18EBB532" FromRole="tb_Item" ToRole="tb_Produto" />
-          <NavigationProperty Name="tb_ItemDaLista" Relationship="SistemaDeComprasModel1.FK__tb_ItemDaLista__1BC821DD" FromRole="tb_Item" ToRole="tb_ItemDaLista" />
+          <NavigationProperty Name="tb_Estabelecimento" Relationship="SistemaDeComprasModel.FK__tb_Item__id_esta__339FAB6E" FromRole="tb_Item" ToRole="tb_Estabelecimento" />
+          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel.FK__tb_Item__3493CFA7" FromRole="tb_Item" ToRole="tb_Produto" />
+          <NavigationProperty Name="tb_ItemDaLista" Relationship="SistemaDeComprasModel.FK__tb_ItemDaLista__37703C52" FromRole="tb_Item" ToRole="tb_ItemDaLista" />
         </EntityType>
         <EntityType Name="tb_ItemDaLista">
           <Key>
@@ -513,8 +499,8 @@
           <Property Name="estabelecimento_item" Type="Int32" Nullable="false" />
           <Property Name="nome_item" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="marca_item" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_Item" Relationship="SistemaDeComprasModel1.FK__tb_ItemDaLista__1BC821DD" FromRole="tb_ItemDaLista" ToRole="tb_Item" />
-          <NavigationProperty Name="tb_ListaDeItens" Relationship="SistemaDeComprasModel1.FK__tb_ItemDa__id_li__1AD3FDA4" FromRole="tb_ItemDaLista" ToRole="tb_ListaDeItens" />
+          <NavigationProperty Name="tb_Item" Relationship="SistemaDeComprasModel.FK__tb_ItemDaLista__37703C52" FromRole="tb_ItemDaLista" ToRole="tb_Item" />
+          <NavigationProperty Name="tb_ListaDeItens" Relationship="SistemaDeComprasModel.FK__tb_ItemDa__id_li__367C1819" FromRole="tb_ItemDaLista" ToRole="tb_ListaDeItens" />
         </EntityType>
         <EntityType Name="tb_ListaDeItens">
           <Key>
@@ -523,8 +509,8 @@
           <Property Name="id_listaDeItens" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="dataDeCompras" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="id_usuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_ItemDaLista" Relationship="SistemaDeComprasModel1.FK__tb_ItemDa__id_li__1AD3FDA4" FromRole="tb_ListaDeItens" ToRole="tb_ItemDaLista" />
-          <NavigationProperty Name="tb_Usuario" Relationship="SistemaDeComprasModel1.FK__tb_ListaD__id_us__5535A963" FromRole="tb_ListaDeItens" ToRole="tb_Usuario" />
+          <NavigationProperty Name="tb_ItemDaLista" Relationship="SistemaDeComprasModel.FK__tb_ItemDa__id_li__367C1819" FromRole="tb_ListaDeItens" ToRole="tb_ItemDaLista" />
+          <NavigationProperty Name="tb_Usuario" Relationship="SistemaDeComprasModel.FK__tb_ListaD__id_us__5535A963" FromRole="tb_ListaDeItens" ToRole="tb_Usuario" />
         </EntityType>
         <EntityType Name="tb_ListaDeProdutos">
           <Key>
@@ -533,8 +519,8 @@
           <Property Name="id_listaDeProdutos" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="nome" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="id_usuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_Usuario" Relationship="SistemaDeComprasModel1.FK__tb_ListaD__id_us__59FA5E80" FromRole="tb_ListaDeProdutos" ToRole="tb_Usuario" />
-          <NavigationProperty Name="tb_ProdutoDaLista" Relationship="SistemaDeComprasModel1.FK__tb_Produt__id_li__0B91BA14" FromRole="tb_ListaDeProdutos" ToRole="tb_ProdutoDaLista" />
+          <NavigationProperty Name="tb_Usuario" Relationship="SistemaDeComprasModel.FK__tb_ListaD__id_us__59FA5E80" FromRole="tb_ListaDeProdutos" ToRole="tb_Usuario" />
+          <NavigationProperty Name="tb_ProdutoDaLista" Relationship="SistemaDeComprasModel.FK__tb_Produt__id_li__2DE6D218" FromRole="tb_ListaDeProdutos" ToRole="tb_ProdutoDaLista" />
         </EntityType>
         <EntityType Name="tb_Marca">
           <Key>
@@ -542,6 +528,7 @@
           </Key>
           <Property Name="id_marca" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="marca" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel.FK__tb_Produt__marca__2739D489" FromRole="tb_Marca" ToRole="tb_Produto" />
         </EntityType>
         <EntityType Name="tb_Ocorrencia">
           <Key>
@@ -549,27 +536,26 @@
           </Key>
           <Property Name="id_ocorrencia" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="ocorrencia" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="tb_ProdutoInvalido" Relationship="SistemaDeComprasModel1.FK__tb_Produt__ocorr__208CD6FA" FromRole="tb_Ocorrencia" ToRole="tb_ProdutoInvalido" />
+          <NavigationProperty Name="tb_ProdutoInvalido" Relationship="SistemaDeComprasModel.FK__tb_Produt__ocorr__3C34F16F" FromRole="tb_Ocorrencia" ToRole="tb_ProdutoInvalido" />
         </EntityType>
         <EntityType Name="tb_Produto">
           <Key>
             <PropertyRef Name="marca" />
             <PropertyRef Name="nome" />
           </Key>
-          <Property Name="id_produto" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="marca" Type="Int32" Nullable="false" />
           <Property Name="nome" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="codigoDeBarras" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="tipoCodigoDeBarras" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="tipo" Type="Int32" Nullable="false" />
           <Property Name="unidade" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_Item" Relationship="SistemaDeComprasModel1.FK__tb_Item__18EBB532" FromRole="tb_Produto" ToRole="tb_Item" />
-          <NavigationProperty Name="tb_Tipo" Relationship="SistemaDeComprasModel1.FK__tb_Produt__marca__7D439ABD" FromRole="tb_Produto" ToRole="tb_Tipo" />
-          <NavigationProperty Name="tb_Unidade" Relationship="SistemaDeComprasModel1.FK__tb_Produt__unida__7F2BE32F" FromRole="tb_Produto" ToRole="tb_Unidade" />
-          <NavigationProperty Name="tb_Tipo1" Relationship="SistemaDeComprasModel1.FK__tb_Produto__tipo__7E37BEF6" FromRole="tb_Produto" ToRole="tb_Tipo" />
-          <NavigationProperty Name="tb_ProdutoDaLista" Relationship="SistemaDeComprasModel1.FK__tb_ProdutoDaList__0C85DE4D" FromRole="tb_Produto" ToRole="tb_ProdutoDaLista" />
-          <NavigationProperty Name="tb_ProdutoInvalido" Relationship="SistemaDeComprasModel1.FK__tb_ProdutoInvali__2180FB33" FromRole="tb_Produto" ToRole="tb_ProdutoInvalido" />
-          <NavigationProperty Name="tb_ProdutoInvalido1" Relationship="SistemaDeComprasModel1.FK__tb_ProdutoInvali__22751F6C" FromRole="tb_Produto" ToRole="tb_ProdutoInvalido" />
+          <NavigationProperty Name="tb_Item" Relationship="SistemaDeComprasModel.FK__tb_Item__3493CFA7" FromRole="tb_Produto" ToRole="tb_Item" />
+          <NavigationProperty Name="tb_Marca" Relationship="SistemaDeComprasModel.FK__tb_Produt__marca__2739D489" FromRole="tb_Produto" ToRole="tb_Marca" />
+          <NavigationProperty Name="tb_Unidade" Relationship="SistemaDeComprasModel.FK__tb_Produt__unida__29221CFB" FromRole="tb_Produto" ToRole="tb_Unidade" />
+          <NavigationProperty Name="tb_Tipo" Relationship="SistemaDeComprasModel.FK__tb_Produto__tipo__282DF8C2" FromRole="tb_Produto" ToRole="tb_Tipo" />
+          <NavigationProperty Name="tb_ProdutoDaLista" Relationship="SistemaDeComprasModel.FK__tb_ProdutoDaList__2EDAF651" FromRole="tb_Produto" ToRole="tb_ProdutoDaLista" />
+          <NavigationProperty Name="tb_ProdutoInvalido" Relationship="SistemaDeComprasModel.FK__tb_ProdutoInvali__3D2915A8" FromRole="tb_Produto" ToRole="tb_ProdutoInvalido" />
+          <NavigationProperty Name="tb_ProdutoInvalido1" Relationship="SistemaDeComprasModel.FK__tb_ProdutoInvali__3E1D39E1" FromRole="tb_Produto" ToRole="tb_ProdutoInvalido" />
         </EntityType>
         <EntityType Name="tb_ProdutoDaLista">
           <Key>
@@ -581,8 +567,8 @@
           <Property Name="marca_produto" Type="Int32" Nullable="false" />
           <Property Name="id_lista" Type="Int32" Nullable="false" />
           <Property Name="quantidade" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_ListaDeProdutos" Relationship="SistemaDeComprasModel1.FK__tb_Produt__id_li__0B91BA14" FromRole="tb_ProdutoDaLista" ToRole="tb_ListaDeProdutos" />
-          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel1.FK__tb_ProdutoDaList__0C85DE4D" FromRole="tb_ProdutoDaLista" ToRole="tb_Produto" />
+          <NavigationProperty Name="tb_ListaDeProdutos" Relationship="SistemaDeComprasModel.FK__tb_Produt__id_li__2DE6D218" FromRole="tb_ProdutoDaLista" ToRole="tb_ListaDeProdutos" />
+          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel.FK__tb_ProdutoDaList__2EDAF651" FromRole="tb_ProdutoDaLista" ToRole="tb_Produto" />
         </EntityType>
         <EntityType Name="tb_ProdutoInvalido">
           <Key>
@@ -598,9 +584,9 @@
           <Property Name="marca_produtoNovo" Type="Int32" Nullable="false" />
           <Property Name="ocorrencia" Type="Int32" Nullable="false" />
           <Property Name="quantidadeDeOcorrencias" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tb_Ocorrencia" Relationship="SistemaDeComprasModel1.FK__tb_Produt__ocorr__208CD6FA" FromRole="tb_ProdutoInvalido" ToRole="tb_Ocorrencia" />
-          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel1.FK__tb_ProdutoInvali__2180FB33" FromRole="tb_ProdutoInvalido" ToRole="tb_Produto" />
-          <NavigationProperty Name="tb_Produto1" Relationship="SistemaDeComprasModel1.FK__tb_ProdutoInvali__22751F6C" FromRole="tb_ProdutoInvalido" ToRole="tb_Produto" />
+          <NavigationProperty Name="tb_Ocorrencia" Relationship="SistemaDeComprasModel.FK__tb_Produt__ocorr__3C34F16F" FromRole="tb_ProdutoInvalido" ToRole="tb_Ocorrencia" />
+          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel.FK__tb_ProdutoInvali__3D2915A8" FromRole="tb_ProdutoInvalido" ToRole="tb_Produto" />
+          <NavigationProperty Name="tb_Produto1" Relationship="SistemaDeComprasModel.FK__tb_ProdutoInvali__3E1D39E1" FromRole="tb_ProdutoInvalido" ToRole="tb_Produto" />
         </EntityType>
         <EntityType Name="tb_Tipo">
           <Key>
@@ -608,8 +594,7 @@
           </Key>
           <Property Name="id_tipo" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="tipo" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel1.FK__tb_Produt__marca__7D439ABD" FromRole="tb_Tipo" ToRole="tb_Produto" />
-          <NavigationProperty Name="tb_Produto1" Relationship="SistemaDeComprasModel1.FK__tb_Produto__tipo__7E37BEF6" FromRole="tb_Tipo" ToRole="tb_Produto" />
+          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel.FK__tb_Produto__tipo__282DF8C2" FromRole="tb_Tipo" ToRole="tb_Produto" />
         </EntityType>
         <EntityType Name="tb_Unidade">
           <Key>
@@ -617,7 +602,7 @@
           </Key>
           <Property Name="id_unidade" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="unidade" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel1.FK__tb_Produt__unida__7F2BE32F" FromRole="tb_Unidade" ToRole="tb_Produto" />
+          <NavigationProperty Name="tb_Produto" Relationship="SistemaDeComprasModel.FK__tb_Produt__unida__29221CFB" FromRole="tb_Unidade" ToRole="tb_Produto" />
         </EntityType>
         <EntityType Name="tb_Usuario">
           <Key>
@@ -628,12 +613,12 @@
           <Property Name="email" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="senha" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
           <Property Name="token" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="tb_ListaDeItens" Relationship="SistemaDeComprasModel1.FK__tb_ListaD__id_us__5535A963" FromRole="tb_Usuario" ToRole="tb_ListaDeItens" />
-          <NavigationProperty Name="tb_ListaDeProdutos" Relationship="SistemaDeComprasModel1.FK__tb_ListaD__id_us__59FA5E80" FromRole="tb_Usuario" ToRole="tb_ListaDeProdutos" />
+          <NavigationProperty Name="tb_ListaDeItens" Relationship="SistemaDeComprasModel.FK__tb_ListaD__id_us__5535A963" FromRole="tb_Usuario" ToRole="tb_ListaDeItens" />
+          <NavigationProperty Name="tb_ListaDeProdutos" Relationship="SistemaDeComprasModel.FK__tb_ListaD__id_us__59FA5E80" FromRole="tb_Usuario" ToRole="tb_ListaDeProdutos" />
         </EntityType>
-        <Association Name="FK__tb_Item__id_esta__17F790F9">
-          <End Role="tb_Estabelecimento" Type="SistemaDeComprasModel1.tb_Estabelecimento" Multiplicity="1" />
-          <End Role="tb_Item" Type="SistemaDeComprasModel1.tb_Item" Multiplicity="*" />
+        <Association Name="FK__tb_Item__id_esta__339FAB6E">
+          <End Role="tb_Estabelecimento" Type="SistemaDeComprasModel.tb_Estabelecimento" Multiplicity="1" />
+          <End Role="tb_Item" Type="SistemaDeComprasModel.tb_Item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Estabelecimento">
               <PropertyRef Name="id_estabelecimento" />
@@ -643,9 +628,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Item__18EBB532">
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.tb_Produto" Multiplicity="1" />
-          <End Role="tb_Item" Type="SistemaDeComprasModel1.tb_Item" Multiplicity="*" />
+        <Association Name="FK__tb_Item__3493CFA7">
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.tb_Produto" Multiplicity="1" />
+          <End Role="tb_Item" Type="SistemaDeComprasModel.tb_Item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Produto">
               <PropertyRef Name="nome" />
@@ -657,9 +642,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ItemDaLista__1BC821DD">
-          <End Role="tb_Item" Type="SistemaDeComprasModel1.tb_Item" Multiplicity="1" />
-          <End Role="tb_ItemDaLista" Type="SistemaDeComprasModel1.tb_ItemDaLista" Multiplicity="*" />
+        <Association Name="FK__tb_ItemDaLista__37703C52">
+          <End Role="tb_Item" Type="SistemaDeComprasModel.tb_Item" Multiplicity="1" />
+          <End Role="tb_ItemDaLista" Type="SistemaDeComprasModel.tb_ItemDaLista" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Item">
               <PropertyRef Name="nome_produto" />
@@ -673,9 +658,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ItemDa__id_li__1AD3FDA4">
-          <End Role="tb_ListaDeItens" Type="SistemaDeComprasModel1.tb_ListaDeItens" Multiplicity="1" />
-          <End Role="tb_ItemDaLista" Type="SistemaDeComprasModel1.tb_ItemDaLista" Multiplicity="*" />
+        <Association Name="FK__tb_ItemDa__id_li__367C1819">
+          <End Role="tb_ListaDeItens" Type="SistemaDeComprasModel.tb_ListaDeItens" Multiplicity="1" />
+          <End Role="tb_ItemDaLista" Type="SistemaDeComprasModel.tb_ItemDaLista" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_ListaDeItens">
               <PropertyRef Name="id_listaDeItens" />
@@ -686,8 +671,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__tb_ListaD__id_us__5535A963">
-          <End Role="tb_Usuario" Type="SistemaDeComprasModel1.tb_Usuario" Multiplicity="1" />
-          <End Role="tb_ListaDeItens" Type="SistemaDeComprasModel1.tb_ListaDeItens" Multiplicity="*" />
+          <End Role="tb_Usuario" Type="SistemaDeComprasModel.tb_Usuario" Multiplicity="1" />
+          <End Role="tb_ListaDeItens" Type="SistemaDeComprasModel.tb_ListaDeItens" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Usuario">
               <PropertyRef Name="id_usuario" />
@@ -698,8 +683,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__tb_ListaD__id_us__59FA5E80">
-          <End Role="tb_Usuario" Type="SistemaDeComprasModel1.tb_Usuario" Multiplicity="1" />
-          <End Role="tb_ListaDeProdutos" Type="SistemaDeComprasModel1.tb_ListaDeProdutos" Multiplicity="*" />
+          <End Role="tb_Usuario" Type="SistemaDeComprasModel.tb_Usuario" Multiplicity="1" />
+          <End Role="tb_ListaDeProdutos" Type="SistemaDeComprasModel.tb_ListaDeProdutos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Usuario">
               <PropertyRef Name="id_usuario" />
@@ -709,9 +694,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produt__id_li__0B91BA14">
-          <End Role="tb_ListaDeProdutos" Type="SistemaDeComprasModel1.tb_ListaDeProdutos" Multiplicity="1" />
-          <End Role="tb_ProdutoDaLista" Type="SistemaDeComprasModel1.tb_ProdutoDaLista" Multiplicity="*" />
+        <Association Name="FK__tb_Produt__id_li__2DE6D218">
+          <End Role="tb_ListaDeProdutos" Type="SistemaDeComprasModel.tb_ListaDeProdutos" Multiplicity="1" />
+          <End Role="tb_ProdutoDaLista" Type="SistemaDeComprasModel.tb_ProdutoDaLista" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_ListaDeProdutos">
               <PropertyRef Name="id_listaDeProdutos" />
@@ -721,9 +706,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produt__ocorr__208CD6FA">
-          <End Role="tb_Ocorrencia" Type="SistemaDeComprasModel1.tb_Ocorrencia" Multiplicity="1" />
-          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel1.tb_ProdutoInvalido" Multiplicity="*" />
+        <Association Name="FK__tb_Produt__marca__2739D489">
+          <End Role="tb_Marca" Type="SistemaDeComprasModel.tb_Marca" Multiplicity="1" />
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.tb_Produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Marca">
+              <PropertyRef Name="id_marca" />
+            </Principal>
+            <Dependent Role="tb_Produto">
+              <PropertyRef Name="marca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_Produt__ocorr__3C34F16F">
+          <End Role="tb_Ocorrencia" Type="SistemaDeComprasModel.tb_Ocorrencia" Multiplicity="1" />
+          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel.tb_ProdutoInvalido" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Ocorrencia">
               <PropertyRef Name="id_ocorrencia" />
@@ -733,21 +730,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produt__marca__7D439ABD">
-          <End Role="tb_Tipo" Type="SistemaDeComprasModel1.tb_Tipo" Multiplicity="1" />
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.tb_Produto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Tipo">
-              <PropertyRef Name="id_tipo" />
-            </Principal>
-            <Dependent Role="tb_Produto">
-              <PropertyRef Name="marca" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tb_Produt__unida__7F2BE32F">
-          <End Role="tb_Unidade" Type="SistemaDeComprasModel1.tb_Unidade" Multiplicity="1" />
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.tb_Produto" Multiplicity="*" />
+        <Association Name="FK__tb_Produt__unida__29221CFB">
+          <End Role="tb_Unidade" Type="SistemaDeComprasModel.tb_Unidade" Multiplicity="1" />
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.tb_Produto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Unidade">
               <PropertyRef Name="id_unidade" />
@@ -757,9 +742,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_Produto__tipo__7E37BEF6">
-          <End Role="tb_Tipo" Type="SistemaDeComprasModel1.tb_Tipo" Multiplicity="1" />
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.tb_Produto" Multiplicity="*" />
+        <Association Name="FK__tb_Produto__tipo__282DF8C2">
+          <End Role="tb_Tipo" Type="SistemaDeComprasModel.tb_Tipo" Multiplicity="1" />
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.tb_Produto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Tipo">
               <PropertyRef Name="id_tipo" />
@@ -769,9 +754,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ProdutoDaList__0C85DE4D">
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.tb_Produto" Multiplicity="1" />
-          <End Role="tb_ProdutoDaLista" Type="SistemaDeComprasModel1.tb_ProdutoDaLista" Multiplicity="*" />
+        <Association Name="FK__tb_ProdutoDaList__2EDAF651">
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.tb_Produto" Multiplicity="1" />
+          <End Role="tb_ProdutoDaLista" Type="SistemaDeComprasModel.tb_ProdutoDaLista" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Produto">
               <PropertyRef Name="nome" />
@@ -783,9 +768,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ProdutoInvali__2180FB33">
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.tb_Produto" Multiplicity="1" />
-          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel1.tb_ProdutoInvalido" Multiplicity="*" />
+        <Association Name="FK__tb_ProdutoInvali__3D2915A8">
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.tb_Produto" Multiplicity="1" />
+          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel.tb_ProdutoInvalido" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Produto">
               <PropertyRef Name="nome" />
@@ -797,9 +782,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tb_ProdutoInvali__22751F6C">
-          <End Role="tb_Produto" Type="SistemaDeComprasModel1.tb_Produto" Multiplicity="1" />
-          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel1.tb_ProdutoInvalido" Multiplicity="*" />
+        <Association Name="FK__tb_ProdutoInvali__3E1D39E1">
+          <End Role="tb_Produto" Type="SistemaDeComprasModel.tb_Produto" Multiplicity="1" />
+          <End Role="tb_ProdutoInvalido" Type="SistemaDeComprasModel.tb_ProdutoInvalido" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Produto">
               <PropertyRef Name="nome" />
@@ -816,9 +801,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SistemaDeComprasModel1StoreContainer" CdmEntityContainer="SistemaDeComprasEntities1">
+        <EntityContainerMapping StorageEntityContainer="SistemaDeComprasModelStoreContainer" CdmEntityContainer="EntidadesSistemaDeCompras">
           <EntitySetMapping Name="tb_Estabelecimento">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_Estabelecimento">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Estabelecimento">
               <MappingFragment StoreEntitySet="tb_Estabelecimento">
                 <ScalarProperty Name="id_estabelecimento" ColumnName="id_estabelecimento" />
                 <ScalarProperty Name="nome" ColumnName="nome" />
@@ -829,7 +814,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_Item">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_Item">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Item">
               <MappingFragment StoreEntitySet="tb_Item">
                 <ScalarProperty Name="preco" ColumnName="preco" />
                 <ScalarProperty Name="qualificacao" ColumnName="qualificacao" />
@@ -841,7 +826,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_ItemDaLista">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_ItemDaLista">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ItemDaLista">
               <MappingFragment StoreEntitySet="tb_ItemDaLista">
                 <ScalarProperty Name="id_lista" ColumnName="id_lista" />
                 <ScalarProperty Name="quantidade" ColumnName="quantidade" />
@@ -852,7 +837,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_ListaDeItens">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_ListaDeItens">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ListaDeItens">
               <MappingFragment StoreEntitySet="tb_ListaDeItens">
                 <ScalarProperty Name="id_listaDeItens" ColumnName="id_listaDeItens" />
                 <ScalarProperty Name="dataDeCompras" ColumnName="dataDeCompras" />
@@ -861,7 +846,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_ListaDeProdutos">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_ListaDeProdutos">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ListaDeProdutos">
               <MappingFragment StoreEntitySet="tb_ListaDeProdutos">
                 <ScalarProperty Name="id_listaDeProdutos" ColumnName="id_listaDeProdutos" />
                 <ScalarProperty Name="nome" ColumnName="nome" />
@@ -870,7 +855,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_Marca">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_Marca">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Marca">
               <MappingFragment StoreEntitySet="tb_Marca">
                 <ScalarProperty Name="id_marca" ColumnName="id_marca" />
                 <ScalarProperty Name="marca" ColumnName="marca" />
@@ -878,7 +863,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_Ocorrencia">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_Ocorrencia">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Ocorrencia">
               <MappingFragment StoreEntitySet="tb_Ocorrencia">
                 <ScalarProperty Name="id_ocorrencia" ColumnName="id_ocorrencia" />
                 <ScalarProperty Name="ocorrencia" ColumnName="ocorrencia" />
@@ -886,9 +871,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_Produto">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_Produto">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Produto">
               <MappingFragment StoreEntitySet="tb_Produto">
-                <ScalarProperty Name="id_produto" ColumnName="id_produto" />
                 <ScalarProperty Name="marca" ColumnName="marca" />
                 <ScalarProperty Name="nome" ColumnName="nome" />
                 <ScalarProperty Name="codigoDeBarras" ColumnName="codigoDeBarras" />
@@ -899,7 +883,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_ProdutoDaLista">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_ProdutoDaLista">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ProdutoDaLista">
               <MappingFragment StoreEntitySet="tb_ProdutoDaLista">
                 <ScalarProperty Name="nome_produto" ColumnName="nome_produto" />
                 <ScalarProperty Name="marca_produto" ColumnName="marca_produto" />
@@ -909,7 +893,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_ProdutoInvalido">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_ProdutoInvalido">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_ProdutoInvalido">
               <MappingFragment StoreEntitySet="tb_ProdutoInvalido">
                 <ScalarProperty Name="nome_produtoAntigo" ColumnName="nome_produtoAntigo" />
                 <ScalarProperty Name="marca_produtoAntigo" ColumnName="marca_produtoAntigo" />
@@ -921,7 +905,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_Tipo">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_Tipo">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Tipo">
               <MappingFragment StoreEntitySet="tb_Tipo">
                 <ScalarProperty Name="id_tipo" ColumnName="id_tipo" />
                 <ScalarProperty Name="tipo" ColumnName="tipo" />
@@ -929,7 +913,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_Unidade">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_Unidade">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Unidade">
               <MappingFragment StoreEntitySet="tb_Unidade">
                 <ScalarProperty Name="id_unidade" ColumnName="id_unidade" />
                 <ScalarProperty Name="unidade" ColumnName="unidade" />
@@ -937,7 +921,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_Usuario">
-            <EntityTypeMapping TypeName="SistemaDeComprasModel1.tb_Usuario">
+            <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Usuario">
               <MappingFragment StoreEntitySet="tb_Usuario">
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
                 <ScalarProperty Name="nome" ColumnName="nome" />

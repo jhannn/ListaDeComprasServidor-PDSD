@@ -22,7 +22,6 @@ namespace ComprasDigital.Model
             this.tb_ProdutoInvalido1 = new HashSet<tb_ProdutoInvalido>();
         }
     
-        public int id_produto { get; set; }
         public int marca { get; set; }
         public string nome { get; set; }
         public string codigoDeBarras { get; set; }
@@ -31,9 +30,9 @@ namespace ComprasDigital.Model
         public int unidade { get; set; }
     
         public virtual ICollection<tb_Item> tb_Item { get; set; }
-        public virtual tb_Tipo tb_Tipo { get; set; }
+        public virtual tb_Marca tb_Marca { get; set; }
         public virtual tb_Unidade tb_Unidade { get; set; }
-        public virtual tb_Tipo tb_Tipo1 { get; set; }
+        public virtual tb_Tipo tb_Tipo { get; set; }
         public virtual ICollection<tb_ProdutoDaLista> tb_ProdutoDaLista { get; set; }
         public virtual ICollection<tb_ProdutoInvalido> tb_ProdutoInvalido { get; set; }
         public virtual ICollection<tb_ProdutoInvalido> tb_ProdutoInvalido1 { get; set; }

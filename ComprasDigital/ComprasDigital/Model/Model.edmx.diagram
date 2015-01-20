@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="80ef1f84e0b247279b08da7b5b5009f3" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_Estabelecimento" Width="1.5" PointX="0.625" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_Item" Width="1.5" PointX="3.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_ItemDaLista" Width="1.5" PointX="3.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_ListaDeItens" Width="1.5" PointX="3.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_ListaDeProdutos" Width="1.5" PointX="6.625" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_Marca" Width="1.5" PointX="11.375" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_Ocorrencia" Width="1.5" PointX="3.125" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_Produto" Width="1.5" PointX="6.625" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_ProdutoDaLista" Width="1.5" PointX="6.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_ProdutoInvalido" Width="1.5" PointX="6.625" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_Tipo" Width="1.5" PointX="11.375" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_Unidade" Width="1.5" PointX="11.375" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaDeComprasModel.tb_Usuario" Width="1.5" PointX="5.125" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_Item__id_esta__339FAB6E" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_Item__3493CFA7" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_ItemDaLista__37703C52" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_ItemDa__id_li__367C1819" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_ListaD__id_us__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_ListaD__id_us__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_Produt__id_li__2DE6D218" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_Produt__marca__2739D489" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_Produt__ocorr__3C34F16F" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_Produt__unida__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_Produto__tipo__282DF8C2" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_ProdutoDaList__2EDAF651" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_ProdutoInvali__3D2915A8" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaDeComprasModel.FK__tb_ProdutoInvali__3E1D39E1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -17,13 +17,11 @@ namespace ComprasDigital.Model
         public tb_Tipo()
         {
             this.tb_Produto = new HashSet<tb_Produto>();
-            this.tb_Produto1 = new HashSet<tb_Produto>();
         }
     
         public int id_tipo { get; set; }
         public string tipo { get; set; }
     
         public virtual ICollection<tb_Produto> tb_Produto { get; set; }
-        public virtual ICollection<tb_Produto> tb_Produto1 { get; set; }
     }
 }

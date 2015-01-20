@@ -27,8 +27,7 @@ CREATE TABLE tb_Marca
 
 CREATE TABLE tb_Produto
 (
-	id_produto INT IDENTITY(1,1),
-	marca INT FOREIGN KEY REFERENCES tb_Tipo(id_tipo) NOT NULL,
+	marca INT FOREIGN KEY REFERENCES tb_Marca(id_marca) NOT NULL,
 	nome VARCHAR(50) NOT NULL, 
 	codigoDeBarras VARCHAR(50),
 	tipoCodigoDeBarras VARCHAR(50),
@@ -80,7 +79,8 @@ CREATE TABLE tb_ItemDaLista
 	estabelecimento_item INT NOT NULL,
 	nome_item VARCHAR(50) NOT NULL,
 	marca_item INT NOT NULL,
-	FOREIGN KEY (nome_item, marca_item, estabelecimento_item) REFERENCES tb_Item(nome_produto, marca_produto, id_estabelecimento)
+	FOREIGN KEY (nome_item, marca_item, estabelecimento_item) REFERENCES tb_Item(nome_produto, marca_produto, id_estabelecimento),
+	PRIMARY KEY CLUSTERED (nome_item, marca_item, estabelecimento_item, id_lista);
 );
 
 CREATE TABLE tb_ProdutoInvalido

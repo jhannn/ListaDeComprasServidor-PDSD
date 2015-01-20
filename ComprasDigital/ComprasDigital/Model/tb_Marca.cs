@@ -14,7 +14,14 @@ namespace ComprasDigital.Model
     
     public partial class tb_Marca
     {
+        public tb_Marca()
+        {
+            this.tb_Produto = new HashSet<tb_Produto>();
+        }
+    
         public int id_marca { get; set; }
         public string marca { get; set; }
+    
+        public virtual ICollection<tb_Produto> tb_Produto { get; set; }
     }
 }
