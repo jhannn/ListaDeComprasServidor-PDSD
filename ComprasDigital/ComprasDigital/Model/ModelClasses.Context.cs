@@ -13,10 +13,10 @@ namespace ComprasDigital.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class EntidadesSistemaDeCompras : DbContext
+    public partial class SistemaDeComprasEntities : DbContext
     {
-        public EntidadesSistemaDeCompras()
-            : base("name=EntidadesSistemaDeCompras")
+        public SistemaDeComprasEntities()
+            : base("name=SistemaDeComprasEntities")
         {
         }
     

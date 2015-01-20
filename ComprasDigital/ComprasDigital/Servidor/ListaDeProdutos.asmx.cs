@@ -39,7 +39,7 @@ namespace ComprasDigital.Servidor
 			if(!cUsuario.usuarioValido(idUsuario, token))
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
-			var dataContext = new Model.EntidadesSistemaDeCompras();
+			var dataContext = new Model.SistemaDeComprasEntities();
 			var listasDoUsuario = from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower().StartsWith(nomeLista.ToLower()) select l;
 			if (listasDoUsuario.Count() > 1) nomeLista += "_" + (listasDoUsuario.Count() + 1);
 			//ArrayList listas = new ArrayList();

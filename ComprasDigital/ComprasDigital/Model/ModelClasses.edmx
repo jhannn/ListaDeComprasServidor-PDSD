@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SistemaDeComprasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SistemaDeComprasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="SistemaDeComprasModelStoreContainer">
           <EntitySet Name="tb_Estabelecimento" EntityType="SistemaDeComprasModel.Store.tb_Estabelecimento" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="tb_Item" EntityType="SistemaDeComprasModel.Store.tb_Item" store:Type="Tables" Schema="dbo" />
@@ -384,11 +384,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SistemaDeComprasModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="EntidadesSistemaDeCompras" p1:LazyLoadingEnabled="true">
+        <EntityContainer Name="SistemaDeComprasEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="tb_Estabelecimento" EntityType="SistemaDeComprasModel.tb_Estabelecimento" />
           <EntitySet Name="tb_Item" EntityType="SistemaDeComprasModel.tb_Item" />
           <EntitySet Name="tb_ItemDaLista" EntityType="SistemaDeComprasModel.tb_ItemDaLista" />
@@ -489,7 +490,6 @@
         <EntityType Name="tb_ItemDaLista">
           <Key>
             <PropertyRef Name="id_lista" />
-            <PropertyRef Name="quantidade" />
             <PropertyRef Name="estabelecimento_item" />
             <PropertyRef Name="nome_item" />
             <PropertyRef Name="marca_item" />
@@ -801,7 +801,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SistemaDeComprasModelStoreContainer" CdmEntityContainer="EntidadesSistemaDeCompras">
+        <EntityContainerMapping StorageEntityContainer="SistemaDeComprasModelStoreContainer" CdmEntityContainer="SistemaDeComprasEntities">
           <EntitySetMapping Name="tb_Estabelecimento">
             <EntityTypeMapping TypeName="SistemaDeComprasModel.tb_Estabelecimento">
               <MappingFragment StoreEntitySet="tb_Estabelecimento">
