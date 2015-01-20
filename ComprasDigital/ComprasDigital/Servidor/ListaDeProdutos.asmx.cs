@@ -39,19 +39,20 @@ namespace ComprasDigital.Servidor
 			if(!cUsuario.usuarioValido(idUsuario, token))
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
-			var dataContext = new Model.SistemaDeComprasEntities();
+			var dataContext = new Model.DataClassesDataContext();
 			var listasDoUsuario = from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower().StartsWith(nomeLista.ToLower()) select l;
 			if (listasDoUsuario.Count() > 1) nomeLista += "_" + (listasDoUsuario.Count() + 1);
 			//ArrayList listas = new ArrayList();
 			//foreach (var list in listasDoUsuario)
 			//	listas.Add(new cListaDeProdutos(list.id_listaDeProdutos, list.nome));
 			//tb_ListaDeProdutos novaLista = new tb_ListaDeProdutos { id_usuario = idUsuario, nome = nomeLista };
-			Model.tb_ListaDeProdutos novaLista = new Model.tb_ListaDeProdutos();
+			Model.tb_ListaDeProduto novaLista = new Model.tb_ListaDeProduto();
 			novaLista.id_usuario = idUsuario;
 			novaLista.nome = nomeLista;
 			dataContext.tb_ListaDeProdutos.InsertOnSubmit(novaLista);
+			string retorno = js.Serialize(novaLista);
 			dataContext.SubmitChanges();
-			return js.Serialize(novaLista); // ta dando erro!
+			return retorno;
         }
 
 		//___________________________________Editar Lista__________________________________//
