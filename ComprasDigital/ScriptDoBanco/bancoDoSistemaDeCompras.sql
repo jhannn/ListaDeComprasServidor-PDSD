@@ -19,32 +19,22 @@ CREATE TABLE tb_Usuario
 	token VARCHAR(50) NULL
 );
 
+CREATE TABLE tb_Marca
+(
+	id_marca INT PRIMARY KEY IDENTITY(1,1),
+	marca VARCHAR(50)
+);
+
 CREATE TABLE tb_Produto
 (
-	id_produto INT PRIMARY KEY IDENTITY(1,1),
+	id_produto INT IDENTITY(1,1),
+	marca INT FOREIGN KEY REFERENCES tb_Tipo(id_tipo) NOT NULL,
 	nome VARCHAR(50) NOT NULL, 
 	codigoDeBarras VARCHAR(50),
 	tipoCodigoDeBarras VARCHAR(50),
-	marca VARCHAR(50),
 	tipo INT FOREIGN KEY REFERENCES tb_Tipo(id_tipo) NOT NULL,
-	unidade INT FOREIGN KEY REFERENCES tb_Unidade(id_unidade) NOT NULL
-);
-
-CREATE TABLE tb_Item
-(
-	id_item INT PRIMARY KEY IDENTITY(1,1),
-	preco FLOAT NOT NULL,
-	qualificacao INT NOT NULL,
-	compraMaisRecente DATE NOT NULL,
-	id_estabelecimento INT FOREIGN KEY REFERENCES tb_Estabelecimento(id_estabelecimento) NOT NULL,
-	id_produto INT FOREIGN KEY REFERENCES tb_Produto(id_produto) NOT NULL
-);
-
-CREATE TABLE tb_ListaDeItens
-(
-	id_listaDeItens INT PRIMARY KEY IDENTITY(1,1),
-	dataDeCompras DATE NOT NULL,
-	id_usuario INT FOREIGN KEY REFERENCES tb_Usuario(id_usuario) NOT NULL,
+	unidade INT FOREIGN KEY REFERENCES tb_Unidade(id_unidade) NOT NULL,
+	PRIMARY KEY CLUSTERED (nome, marca),
 );
 
 CREATE TABLE tb_ListaDeProdutos
@@ -54,26 +44,56 @@ CREATE TABLE tb_ListaDeProdutos
 	id_usuario INT FOREIGN KEY REFERENCES tb_Usuario(id_usuario) NOT NULL
 );
 
-CREATE TABLE tb_ItemDaLista
-(
-	id_item INT FOREIGN KEY REFERENCES tb_Item(id_item) NOT NULL,
-	id_listaI INT FOREIGN KEY REFERENCES tb_ListaDeItens(id_listaDeItens) NOT NULL,
-	quantidade INT NOT NULL
-);
-
 CREATE TABLE tb_ProdutoDaLista
 (
-	id_produto INT FOREIGN KEY REFERENCES tb_Produto(id_produto) NOT NULL,
-	id_listaP INT FOREIGN KEY REFERENCES tb_ListaDeProdutos(id_listadeProdutos) NOT NULL,
-	quantidade INT NOT NULL
+	nome_produto VARCHAR(50) NOT NULL,
+	marca_produto INT NOT NULL,
+	id_lista INT FOREIGN KEY REFERENCES tb_ListaDeProdutos(id_listadeProdutos) NOT NULL,
+	quantidade INT NOT NULL,
+	PRIMARY KEY CLUSTERED (nome_produto, marca_produto, id_lista),
+	FOREIGN KEY (nome_produto, marca_produto) REFERENCES tb_Produto(nome, marca)
 );
 
-CREATE TABLE tb_ProdutosInvalidos
+CREATE TABLE tb_Item
 (
-	id_produto INT PRIMARY KEY IDENTITY(1,1),
-	produtoAntigo INT FOREIGN KEY REFERENCES tb_Produto(id_produto) NOT NULL,
-	produtoNovo INT FOREIGN KEY REFERENCES tb_Produto(id_produto) NOT NULL,
-	ocorrencias INT FOREIGN KEY REFERENCES tb_Ocorrencia(id_ocorrencia) NOT NULL
+	preco FLOAT NOT NULL,
+	qualificacao INT NOT NULL,
+	compraMaisRecente DATE NOT NULL,
+	id_estabelecimento INT FOREIGN KEY REFERENCES tb_Estabelecimento(id_estabelecimento) NOT NULL,
+	nome_produto VARCHAR(50) NOT NULL,
+	marca_produto INT NOT NULL,
+	FOREIGN KEY (nome_produto, marca_produto) REFERENCES tb_Produto(nome, marca),
+	PRIMARY KEY CLUSTERED (nome_produto, marca_produto, id_estabelecimento)
+);
+
+CREATE TABLE tb_ListaDeItens
+(
+	id_listaDeItens INT PRIMARY KEY IDENTITY(1,1),
+	dataDeCompras DATE NOT NULL,
+	id_usuario INT FOREIGN KEY REFERENCES tb_Usuario(id_usuario) NOT NULL,
+);
+
+CREATE TABLE tb_ItemDaLista
+(
+	id_lista INT FOREIGN KEY REFERENCES tb_ListaDeItens(id_listaDeItens) NOT NULL,
+	quantidade INT NOT NULL,
+	estabelecimento_item INT NOT NULL,
+	nome_item VARCHAR(50) NOT NULL,
+	marca_item INT NOT NULL,
+	FOREIGN KEY (nome_item, marca_item, estabelecimento_item) REFERENCES tb_Item(nome_produto, marca_produto, id_estabelecimento)
+);
+
+CREATE TABLE tb_ProdutoInvalido
+(
+	nome_produtoAntigo VARCHAR(50) NOT NULL,
+	marca_produtoAntigo INT NOT NULL,
+	nome_produtoNovo VARCHAR(50) NOT NULL,
+	marca_produtoNovo INT NOT NULL,
+	ocorrencia INT FOREIGN KEY REFERENCES tb_Ocorrencia(id_ocorrencia) NOT NULL,
+	quantidadeDeOcorrencias INT NOT NULL,
+	FOREIGN KEY (nome_produtoAntigo, marca_produtoAntigo) REFERENCES tb_Produto(nome, marca),
+	FOREIGN KEY (nome_produtoNovo, marca_produtoNovo) REFERENCES tb_Produto(nome, marca),
+	PRIMARY KEY CLUSTERED (nome_produtoAntigo, marca_produtoAntigo, nome_produtoNovo, marca_produtoNovo, ocorrencia)
 );
 
 --______ Enumerators ______--
@@ -83,10 +103,10 @@ CREATE TABLE tb_Tipo
 	id_tipo INT PRIMARY KEY IDENTITY(1,1),
 	tipo varchar(50)
 );
-INSERT INTO tb_Unidade VALUES ('Outro');
-INSERT INTO tb_Unidade VALUES ('Combustivel');
-INSERT INTO tb_Unidade VALUES ('Futa, Legume ou Verdura');
-INSERT INTO tb_Unidade VALUES ('Eletrônico');
+INSERT INTO tb_Tipo VALUES ('Outro');
+INSERT INTO tb_Tipo VALUES ('Combustivel');
+INSERT INTO tb_Tipo VALUES ('Futa, Legume ou Verdura');
+INSERT INTO tb_Tipo VALUES ('Eletrônico');
 --Adicionar outros
 
 CREATE TABLE tb_Unidade
