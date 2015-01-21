@@ -74,6 +74,10 @@ namespace ComprasDigital.Servidor
             {
                 listasDeProdutos.Add(prod.nome);
                 listasDeProdutos.Add(prod.marca);
+                listasDeProdutos.Add(prod.codigoDeBarras);
+                listasDeProdutos.Add(prod.tipoCodigoDeBarras);
+                listasDeProdutos.Add(prod.tipo);
+                listasDeProdutos.Add(prod.unidade);
             }
 
             return js.Serialize(listasDeProdutos);
