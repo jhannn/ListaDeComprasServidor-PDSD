@@ -51,9 +51,6 @@ namespace ComprasDigital.Servidor
 				conexao.Close();
 				JavaScriptSerializer js = new JavaScriptSerializer();
 				return js.Serialize(produtos);
-
-				
-
         }
 
     }

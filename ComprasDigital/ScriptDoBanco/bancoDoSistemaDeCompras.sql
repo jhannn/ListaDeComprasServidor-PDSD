@@ -25,6 +25,39 @@ CREATE TABLE tb_Marca
 	marca VARCHAR(50)
 );
 
+--______ Enumerators ______--
+
+CREATE TABLE tb_Tipo
+(
+	id_tipo INT PRIMARY KEY IDENTITY(1,1),
+	tipo varchar(50)
+);
+INSERT INTO tb_Tipo VALUES ('Outro');
+INSERT INTO tb_Tipo VALUES ('Combustivel');
+INSERT INTO tb_Tipo VALUES ('Futa, Legume ou Verdura');
+INSERT INTO tb_Tipo VALUES ('Eletrônico');
+--Adicionar outros
+
+CREATE TABLE tb_Unidade
+(
+	id_unidade INT PRIMARY KEY IDENTITY(1,1),
+	unidade varchar(50)
+);
+INSERT INTO tb_Unidade VALUES ('Unidade');
+INSERT INTO tb_Unidade VALUES ('KG');
+INSERT INTO tb_Unidade VALUES ('Gramas');
+INSERT INTO tb_Unidade VALUES ('Litro');
+
+CREATE TABLE tb_Ocorrencia
+(
+	id_ocorrencia INT PRIMARY KEY IDENTITY(1,1),
+	ocorrencia varchar(50)
+);
+INSERT INTO tb_Ocorrencia VALUES ('Codigo de barras ja existente');
+INSERT INTO tb_Ocorrencia VALUES ('Codigo de barras diferente do existente');
+INSERT INTO tb_Ocorrencia VALUES ('Tipo diferente');
+INSERT INTO tb_Ocorrencia VALUES ('Unidade diferente');
+
 CREATE TABLE tb_Produto
 (
 	marca INT FOREIGN KEY REFERENCES tb_Marca(id_marca) NOT NULL,
@@ -80,7 +113,7 @@ CREATE TABLE tb_ItemDaLista
 	nome_item VARCHAR(50) NOT NULL,
 	marca_item INT NOT NULL,
 	FOREIGN KEY (nome_item, marca_item, estabelecimento_item) REFERENCES tb_Item(nome_produto, marca_produto, id_estabelecimento),
-	PRIMARY KEY CLUSTERED (nome_item, marca_item, estabelecimento_item, id_lista);
+	PRIMARY KEY CLUSTERED (nome_item, marca_item, estabelecimento_item, id_lista)
 );
 
 CREATE TABLE tb_ProdutoInvalido
@@ -96,35 +129,11 @@ CREATE TABLE tb_ProdutoInvalido
 	PRIMARY KEY CLUSTERED (nome_produtoAntigo, marca_produtoAntigo, nome_produtoNovo, marca_produtoNovo, ocorrencia)
 );
 
---______ Enumerators ______--
+select * from tb_Produto
+select * from tb_Marca
+select * from tb_Usuario
 
-CREATE TABLE tb_Tipo
-(
-	id_tipo INT PRIMARY KEY IDENTITY(1,1),
-	tipo varchar(50)
-);
-INSERT INTO tb_Tipo VALUES ('Outro');
-INSERT INTO tb_Tipo VALUES ('Combustivel');
-INSERT INTO tb_Tipo VALUES ('Futa, Legume ou Verdura');
-INSERT INTO tb_Tipo VALUES ('Eletrônico');
---Adicionar outros
+insert into tb_Marca values('red');
+insert into tb_Produto values(1,'red','4324','aaa',1,1);
+insert into tb_Usuario values('jon','jon','123','123');
 
-CREATE TABLE tb_Unidade
-(
-	id_unidade INT PRIMARY KEY IDENTITY(1,1),
-	unidade varchar(50)
-);
-INSERT INTO tb_Unidade VALUES ('Unidade');
-INSERT INTO tb_Unidade VALUES ('KG');
-INSERT INTO tb_Unidade VALUES ('Gramas');
-INSERT INTO tb_Unidade VALUES ('Litro');
-
-CREATE TABLE tb_Ocorrencia
-(
-	id_ocorrencia INT PRIMARY KEY IDENTITY(1,1),
-	ocorrencia varchar(50)
-);
-INSERT INTO tb_Ocorrencia VALUES ('Codigo de barras ja existente');
-INSERT INTO tb_Ocorrencia VALUES ('Codigo de barras diferente do existente');
-INSERT INTO tb_Ocorrencia VALUES ('Tipo diferente');
-INSERT INTO tb_Ocorrencia VALUES ('Unidade diferente');
