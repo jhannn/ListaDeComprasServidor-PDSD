@@ -45,22 +45,32 @@ namespace ComprasDigital.Servidor
 
 			var dataContext = new Model.DataClassesDataContext();
 			var usuarios = from users in dataContext.tb_Usuarios where users.email == email && users.senha == senhaCriptografada select users;
-			if (usuarios.Count() != 1) return js.Serialize(new UsuarioInexistenteException());
-
-			Model.tb_Usuario usuarioLogado = new Model.tb_Usuario();
-			foreach(var usuario in usuarios)
+			if (usuarios.Count() == 1)
 			{
-				usuarioLogado.id_usuario = usuario.id_usuario;
-				usuarioLogado.nome = usuario.nome;
-				usuarioLogado.email = usuario.email;
-				break;
+				var usuariosTokens = from users in dataContext.tb_Usuarios where users.token == token select users;
+				if (usuariosTokens.Count() > 0)
+				{
+					Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.token == token);
+					objUsuario.token = "";
+					dataContext.SubmitChanges();
+				}
+
+				Model.tb_Usuario usuarioLogado = new Model.tb_Usuario();
+				foreach (var usuario in usuarios)
+				{
+					usuarioLogado.id_usuario = usuario.id_usuario;
+					usuarioLogado.nome = usuario.nome;
+					usuarioLogado.email = usuario.email;
+					break;
+				}
+
+				Model.tb_Usuario objUsuario1 = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
+				objUsuario1.token = token;
+				dataContext.SubmitChanges();
+
+				return js.Serialize(usuarioLogado);
 			}
-
-			Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
-			objUsuario.token = token;
-			dataContext.SubmitChanges();
-
-			return js.Serialize(usuarioLogado);
+			return js.Serialize(new UsuarioInexistenteException());
         }
 
 
@@ -77,17 +87,27 @@ namespace ComprasDigital.Servidor
 
 			var dataContext = new Model.DataClassesDataContext();
 			var usuarios = from users in dataContext.tb_Usuarios where users.email == email select users;
-			if (usuarios.Count()>1) return js.Serialize(new UsuarioExistenteException());
+			if (usuarios.Count() == 0)
+			{
+				var usuariosTokens = from users in dataContext.tb_Usuarios where users.token == token select users;
+				if (usuariosTokens.Count() > 0)
+				{
+					Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.token == token);
+					objUsuario.token = "";
+					dataContext.SubmitChanges();
+				}
 
-			Model.tb_Usuario novoUsuario = new Model.tb_Usuario();
-			novoUsuario.nome = nomeUsuario;
-			novoUsuario.email = email;
-			novoUsuario.senha = senhaCriptografada;
-			dataContext.tb_Usuarios.InsertOnSubmit(novoUsuario);
-			dataContext.SubmitChanges();
+				Model.tb_Usuario novoUsuario = new Model.tb_Usuario();
+				novoUsuario.nome = nomeUsuario;
+				novoUsuario.email = email;
+				novoUsuario.senha = senhaCriptografada;
+				novoUsuario.token = token;
+				dataContext.tb_Usuarios.InsertOnSubmit(novoUsuario);
+				dataContext.SubmitChanges();
 
-			return js.Serialize("Ok");
-
+				return js.Serialize("OK");
+			}
+			return js.Serialize(new UsuarioExistenteException());
         }
 
 
@@ -100,9 +120,11 @@ namespace ComprasDigital.Servidor
 
 			var dataContext = new Model.DataClassesDataContext();
 			var usuarios = from users in dataContext.tb_Usuarios where users.email == email && users.token == token select users;
-			if (usuarios.Count() != 1) return js.Serialize(new UsuarioNaoLogadoException());
-
-			return "OK";
+			if (usuarios.Count() == 1) 
+			{
+				return js.Serialize("OK"); 
+			}			
+			return js.Serialize(new UsuarioNaoLogadoException());
 		}
 
 
@@ -117,13 +139,17 @@ namespace ComprasDigital.Servidor
 			
 			var dataContext = new Model.DataClassesDataContext();
 			var usuarios = from users in dataContext.tb_Usuarios where users.email == email && users.senha == senhaCriptografada select users;
-			if (usuarios.Count() != 1) return js.Serialize(new UsuarioInexistenteException());
-
-			Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
-			objUsuario.senha = novaSenhaCriptografada;
-			dataContext.SubmitChanges();
-
-			return js.Serialize("OK");			
+			if (usuarios.Count() != 1){
+				return js.Serialize(new UsuarioInexistenteException());
+			}
+			else if (usuarios.Count() == 1)
+			{
+				Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
+				objUsuario.senha = novaSenhaCriptografada;
+				dataContext.SubmitChanges();
+				return js.Serialize("OK");		
+			}
+			return js.Serialize("Deu Algum Pau!");			
 		}
 
 
@@ -140,7 +166,7 @@ namespace ComprasDigital.Servidor
 			objUsuario.token = "";
 			dataContext.SubmitChanges();
 
-			return "Ok";
+			return js.Serialize("OK");
 		}
 
 
