@@ -67,7 +67,7 @@ namespace ComprasDigital.Servidor
             var dataContext = new Model.DataClassesDataContext();
             var produtos = from p in dataContext.tb_Produtos where p.nome.Contains(nome) select p;
 
-            if (produtos.Count() < 1) return js.Serialize(new ProdutoNaoEncontradoException());
+            if (produtos.Count() < 1) return js.Serialize("new ProdutoNaoEncontradoException()");
 
             ArrayList listasDeProdutos = new ArrayList();
             foreach (var prod in produtos)

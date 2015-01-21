@@ -84,6 +84,8 @@
     <Compile Include="Classes\cListaDeProdutos.cs" />
     <Compile Include="Classes\cProduto.cs" />
     <Compile Include="Classes\cUsuario.cs" />
+    <Compile Include="Excecoes\UsuarioExistenteException.cs" />
+    <Compile Include="Excecoes\UsuarioInexistenteException.cs" />
     <Compile Include="Excecoes\UsuarioNaoLogadoException.cs" />
     <Compile Include="Model\DataClasses.designer.cs">
       <AutoGen>True</AutoGen>
