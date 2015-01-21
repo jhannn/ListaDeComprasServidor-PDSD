@@ -70,14 +70,18 @@ namespace ComprasDigital.Servidor
             if (produtos.Count() < 1) return js.Serialize(new ProdutoNaoEncontradoException());
 
             ArrayList listasDeProdutos = new ArrayList();
+            Model.tb_Produto produto;
             foreach (var prod in produtos)
             {
-                listasDeProdutos.Add(prod.nome);
-                listasDeProdutos.Add(prod.marca);
-                listasDeProdutos.Add(prod.codigoDeBarras);
-                listasDeProdutos.Add(prod.tipoCodigoDeBarras);
-                listasDeProdutos.Add(prod.tipo);
-                listasDeProdutos.Add(prod.unidade);
+                produto = new Model.tb_Produto();
+                produto.nome = prod.nome;
+                produto.marca = prod.marca;
+                produto.codigoDeBarras = prod.codigoDeBarras;
+                produto.tipoCodigoDeBarras = prod.tipoCodigoDeBarras;
+                produto.unidade = prod.unidade;
+                produto.tipo = prod.tipo;
+
+                listasDeProdutos.Add(produto);
             }
 
             return js.Serialize(listasDeProdutos);
