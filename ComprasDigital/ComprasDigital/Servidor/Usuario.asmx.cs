@@ -70,7 +70,15 @@ namespace ComprasDigital.Servidor
 
 				return js.Serialize(usuarioLogado);
 			}
-			return js.Serialize(new UsuarioInexistenteException());
+			var testUsuario = from users in dataContext.tb_Usuarios where users.email == email && users.senha != senhaCriptografada select users;
+			if (testUsuario.Count() == 1)
+			{
+				return js.Serialize(new SenhaEmailNaoConferemException());
+			}
+			else 
+			{
+				return js.Serialize(new UsuarioInexistenteException());
+			}
         }
 
 
@@ -105,7 +113,16 @@ namespace ComprasDigital.Servidor
 				dataContext.tb_Usuarios.InsertOnSubmit(novoUsuario);
 				dataContext.SubmitChanges();
 
-				return js.Serialize("OK");
+				var usuarioCriado = from users in dataContext.tb_Usuarios where users.email == email select users;
+				Model.tb_Usuario usuarioLogado = new Model.tb_Usuario();
+				foreach (var usuario in usuarioCriado)
+				{
+					usuarioLogado.id_usuario = usuario.id_usuario;
+					usuarioLogado.nome = usuario.nome;
+					usuarioLogado.email = usuario.email;
+					break;
+				}
+				return js.Serialize(usuarioLogado);
 			}
 			return js.Serialize(new UsuarioExistenteException());
         }
@@ -149,7 +166,7 @@ namespace ComprasDigital.Servidor
 				dataContext.SubmitChanges();
 				return js.Serialize("OK");		
 			}
-			return js.Serialize("Deu Algum Pau!");			
+			return js.Serialize(new OcorreuAlgumErroException());			
 		}
 
 

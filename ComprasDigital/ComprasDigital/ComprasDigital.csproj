@@ -84,6 +84,7 @@
     <Compile Include="Classes\cListaDeProdutos.cs" />
     <Compile Include="Classes\cProduto.cs" />
     <Compile Include="Classes\cUsuario.cs" />
+    <Compile Include="Excecoes\SenhaEmailNaoConferemException.cs" />
     <Compile Include="Excecoes\UsuarioExistenteException.cs" />
     <Compile Include="Excecoes\UsuarioInexistenteException.cs" />
     <Compile Include="Excecoes\UsuarioNaoLogadoException.cs" />
@@ -109,6 +110,7 @@
       <DependentUpon>ListaDeProdutos.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Excecoes\OcorreuAlgumErroException.cs" />
     <Compile Include="Servidor\Produto.asmx.cs">
       <DependentUpon>Produto.asmx</DependentUpon>
       <SubType>Component</SubType>
