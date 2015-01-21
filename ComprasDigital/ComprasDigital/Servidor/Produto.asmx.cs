@@ -71,7 +71,10 @@ namespace ComprasDigital.Servidor
 
             ArrayList listasDeProdutos = new ArrayList();
             foreach (var prod in produtos)
-                listasDeProdutos.Add(prod);
+            {
+                listasDeProdutos.Add(prod.nome);
+                listasDeProdutos.Add(prod.marca);
+            }
 
             return js.Serialize(listasDeProdutos);
         }
