@@ -129,6 +129,7 @@ CREATE TABLE tb_ProdutoInvalido
 	PRIMARY KEY CLUSTERED (nome_produtoAntigo, marca_produtoAntigo, nome_produtoNovo, marca_produtoNovo, ocorrencia)
 );
 
+
 select * from tb_Produto
 select * from tb_Marca
 select * from tb_Usuario

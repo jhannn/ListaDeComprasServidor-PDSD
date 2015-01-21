@@ -12,6 +12,8 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.Web.Script.Services;
 using ComprasDigital.Classes;
+using ComprasDigital.Excecoes;
+using System.Collections;
 
 namespace ComprasDigital.Servidor
 {
@@ -51,6 +53,32 @@ namespace ComprasDigital.Servidor
 				conexao.Close();
 				JavaScriptSerializer js = new JavaScriptSerializer();
 				return js.Serialize(produtos);
+        }
+
+        //_______________________________________ RETORNAR PRODUTOS ___________________________________________//
+        [WebMethod]
+        public string retornarProdutos(int idUsuario,string token,string nome,int marca)
+        {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+            var dataContext = new Model.DataClassesDataContext();
+            var produtos = from p in dataContext.tb_Produtos where p.nome.Contains(nome) select p;
+
+            ArrayList listasDeProdutos = new ArrayList();
+            foreach (var prod in produtos)
+                listasDeProdutos.Add(prod);
+
+            return js.Serialize(listasDeProdutos);
+        }
+
+        //_______________________________________ PESQUISAR PRODUTOS ___________________________________________//
+        [WebMethod]
+        public string pesquisarProdutos()
+        {
+            return "";
         }
 
     }
