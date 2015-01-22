@@ -44,7 +44,11 @@ namespace ComprasDigital.Servidor
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
 			var dataContext = new Model.DataClassesDataContext();
-			var usuarios = from users in dataContext.tb_Usuarios where users.email == email && users.senha == senhaCriptografada select users;
+			var usuarios = from users in dataContext.tb_Usuarios 
+						   where users.email == email && 
+						   (users.senha == senhaCriptografada || users.senha.Substring(0,6) == senhaRecuperada) 
+						   select users;
+
 			if (usuarios.Count() == 1)
 			{
 				var usuariosTokens = from users in dataContext.tb_Usuarios where users.token == token select users;
@@ -89,7 +93,6 @@ namespace ComprasDigital.Servidor
         {
 
 			string senhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(senha, "sha1"); //criptografando a senha
-			string senhaRecuperada = senha;
 
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -192,35 +195,14 @@ namespace ComprasDigital.Servidor
 		[WebMethod]
 		public string recuperarSenha(string emailUsuario)
 		{
-
-
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			SqlConnection conexao = new SqlConnection(ConexaoBanco);
-			SqlCommand cmd = new SqlCommand();
-			SqlDataReader reader;
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			string nome = "";
-			string senha = "";
 
-
-			//SQL "injector" 
-			cmd.CommandText = "SELECT * FROM tb_Usuario WHERE email = '" + emailUsuario + "'";
-			cmd.CommandType = CommandType.Text;
-			cmd.Connection = conexao;
-
-			conexao.Open();
-
-			reader = cmd.ExecuteReader();
-
-			while (reader.Read())
-			{
-				nome = reader["nome"].ToString();
-				senha = reader["senha"].ToString();
-			}
+			var dataContext = new Model.DataClassesDataContext();
+			var contemUsuario = from users in dataContext.tb_Usuarios where users.email == emailUsuario select users;
 
 			try
 			{
-				if (nome != "") //tudo ok
+				if (contemUsuario.Count() == 1) //sistema possui um usuário cadastrado
 				{
 					//enviar email
 					SmtpClient cliente = new SmtpClient();
@@ -229,19 +211,19 @@ namespace ComprasDigital.Servidor
 					cliente.Credentials = new NetworkCredential("sistemadecomprasdigitais@gmail.com", "comprasdigitais"); //email e sennha 
 
 					cliente.Send("sistemadecomprasdigitais@gmail.com", emailUsuario,
-					"Recuperar senha", "Olá " + nome + "! Sua senha provisória é: " + senha.Substring(0, 6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
+					"Recuperar senha", "Olá, " + contemUsuario.First().nome + "! Sua senha provisória é: " + contemUsuario.First().senha.Substring(0, 6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
 
-					return js.Serialize("0");
+					return js.Serialize("Operação realizada com sucesso!");
 				}
-				else
+				else //sistema nao possui um usuário cadastrado
 				{
-					return js.Serialize("1");
+					return js.Serialize(new UsuarioInexistenteException());
 				}
 
 			}
 			catch (Exception ex)
 			{
-				return js.Serialize("2");
+				return js.Serialize(ex);
 			}
 		}
 
