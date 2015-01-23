@@ -1,10 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
-using ComprasDigital.Classes;
+using System.Configuration;
 using System.Web.Script.Serialization;
+using System.Web.Services.Protocols;
+using System.Xml.Linq;
+using System.Diagnostics;
+using System.Web.Script.Services;
+using ComprasDigital.Classes;
+using ComprasDigital.Excecoes;
+using System.Collections;
 
 namespace ComprasDigital.Servidor
 {
@@ -20,9 +29,111 @@ namespace ComprasDigital.Servidor
     {
 
         [WebMethod]
-        public string HelloWorld()
+        public string cadastrarEstabelecimento(int idUsuario, string token, string nome, string bairro, string cidade, int numero)
         {
-            return "Hello World";
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+			var dataContext = new Model.DataClassesDataContext();
+			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome == nome && estabelecimento.bairro == bairro && estabelecimento.cidade == cidade select estabelecimento;
+			if (estabelecimentos.Count() == 0)
+			{
+				Model.tb_Estabelecimento novoEstabelecimento = new Model.tb_Estabelecimento();
+				novoEstabelecimento.nome = nome;
+				novoEstabelecimento.bairro = bairro;
+				novoEstabelecimento.cidade = cidade;
+				novoEstabelecimento.numero = numero;
+				dataContext.tb_Estabelecimentos.InsertOnSubmit(novoEstabelecimento);
+				dataContext.SubmitChanges();
+
+				return js.Serialize("OK");
+			}
+			return js.Serialize(new EstabelecimentoExistenteException());
         }
+
+		[WebMethod]
+		public string autoCompleteEstabelecimento(int idUsuario, string token, string nome)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+			var dataContext = new Model.DataClassesDataContext();
+			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome.Contains(nome) select estabelecimento;
+
+			ArrayList listasDeEstabelecimento = new ArrayList();
+			foreach (var estab in estabelecimentos)
+			{
+				listasDeEstabelecimento.Add(estab.nome);
+			}
+			return js.Serialize(listasDeEstabelecimento);
+
+		}
+
+		[WebMethod]
+		public string listarEstabelecimento(int idUsuario, string token, string nome)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+			var dataContext = new Model.DataClassesDataContext();
+			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome == nome select estabelecimento;
+			if (estabelecimentos.Count() > 0)
+			{
+				ArrayList listasDeEstabelecimento = new ArrayList();
+				foreach (var estab in estabelecimentos)
+				{
+					listasDeEstabelecimento.Add(estab);
+				}
+				return js.Serialize(listasDeEstabelecimento);
+			}
+			return js.Serialize(new EstabelecimentoNaoExistenteException());
+		}
+
+		[WebMethod]
+		public string visualizarEstabelecimento(int idUsuario, string token, int id)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+			var dataContext = new Model.DataClassesDataContext();
+			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.id_estabelecimento == id select estabelecimento;
+			if (estabelecimentos.Count() == 1)
+			{
+				return js.Serialize(estabelecimentos.SingleOrDefault()); //FirstOrDefault()
+			}
+			return js.Serialize(new OcorreuAlgumErroEstabelecimentoException());
+		}
+
+		[WebMethod]
+		public string editarEstabelecimento(int idUsuario, string token, int id, string nome, string bairro, string cidade, int numero)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+			var dataContext = new Model.DataClassesDataContext();
+			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.id_estabelecimento == id select estabelecimento;
+			if (estabelecimentos.Count() == 1)
+			{
+				Model.tb_Estabelecimento objEstabelecimento = dataContext.tb_Estabelecimentos.Single(estabelecimento => estabelecimento.id_estabelecimento == id);
+				objEstabelecimento.nome = nome;
+				objEstabelecimento.bairro = bairro;
+				objEstabelecimento.cidade = cidade;
+				objEstabelecimento.numero = numero;
+				dataContext.SubmitChanges();
+
+				return js.Serialize("OK");
+			}
+			return js.Serialize(new OcorreuAlgumErroEstabelecimentoException());
+		}
     }
 }
