@@ -72,34 +72,17 @@ namespace ComprasDigital.Servidor
 
 		//_______________________________________ RETORNAR NOME LISTA _______________________________________//
 		[WebMethod]
-		public string retornarNomeLista(int idLista)
+		public string retornarNomeLista(int idUsuario,string token,int idListaDeProdutos)
 		{
-			JavaScriptSerializer js = new JavaScriptSerializer();
-			string nomeLista = "";
+            JavaScriptSerializer js = new JavaScriptSerializer();
 
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			SqlConnection conexao = new SqlConnection(ConexaoBanco);
-			SqlCommand cmd = new SqlCommand();
-			SqlDataReader reader;
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
-
-			//SQL "injector" 
-			cmd.CommandText = "SELECT nome FROM tb_ListaDeProdutos WHERE id_listaDeProdutos = '" + idLista + "'";
-			cmd.CommandType = CommandType.Text;
-			cmd.Connection = conexao;
-
-			conexao.Open();
-
-			reader = cmd.ExecuteReader();
-
-			while (reader.Read())
-			{
-				nomeLista = reader["nome"].ToString();	
-			}
-
-			conexao.Close();
-
-			return js.Serialize(nomeLista);
+            var dataContext = new Model.DataClassesDataContext();
+            var nomeLista = from l in dataContext.tb_ListaDeProdutos where l.id_listaDeProdutos == idListaDeProdutos select l;
+           
+            return js.Serialize(nomeLista.SingleOrDefault().nome);
 		}
 
 
