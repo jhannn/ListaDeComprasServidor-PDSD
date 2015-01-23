@@ -55,7 +55,7 @@ namespace ComprasDigital.Servidor
 			return js.Serialize("precisa pegar o ID da lista criada");
         }
 
-		//___________________________________Editar Lista__________________________________//
+		//___________________________________ EDITAR LISTA __________________________________//
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		[WebMethod]
 		public string editarNomeLista(int idUsuario, string token, int idLista, string novoNomeDaLista)
@@ -65,9 +65,15 @@ namespace ComprasDigital.Servidor
 			if (!cUsuario.usuarioValido(idUsuario, token))
 				return js.Serialize(new UsuarioNaoLogadoException());
 
+            var dataContext = new Model.DataClassesDataContext();
+            var queryLista = (from l in dataContext.tb_ListaDeProdutos 
+                             where l.id_listaDeProdutos == idLista 
+                             select l).Single();
 
-
-			return js.Serialize(1);
+            queryLista.nome = novoNomeDaLista;
+            dataContext.SubmitChanges();
+           
+			return js.Serialize("Operação realizada com sucesso.");
 		}
 
 		//_______________________________________ RETORNAR NOME LISTA _______________________________________//
