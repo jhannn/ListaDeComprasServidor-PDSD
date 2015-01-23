@@ -136,5 +136,7 @@ select * from tb_Usuario
 
 insert into tb_Marca values('red');
 insert into tb_Produto values(1,'red','4324','aaa',1,1);
-insert into tb_Usuario values('jon','jon','123','123');
+insert into tb_Usuario values('johann','jg@gmail.com','1234','123456');
+delete from tb_Usuario where email='jg@gmail.com';
+
 

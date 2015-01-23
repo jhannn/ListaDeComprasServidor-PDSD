@@ -15,6 +15,8 @@ using System.Web.Security; //pacote de seguraça do ASP.NET
 using ComprasDigital.Classes;
 using System.Net.Mail;
 using System.Net;
+using ComprasDigital.Excecoes;
+using System.Collections;
 
 
 namespace ComprasDigital.Servidor
@@ -36,43 +38,51 @@ namespace ComprasDigital.Servidor
         [WebMethod]
         public string fazerLogin(string email, string senha, string token)
         {
-            int resultado;
             string senhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(senha, "sha1"); //criptografando a senha
             string senhaRecuperada = senha;
 
+			JavaScriptSerializer js = new JavaScriptSerializer();
 
-            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-            using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-            {
-                conexao.Open();
-                using (SqlCommand cmd = new SqlCommand("usp_fazerLogin", conexao)) //producer a ser executada
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
+			var dataContext = new Model.DataClassesDataContext();
+			var usuarios = from users in dataContext.tb_Usuarios 
+						   where users.email == email && 
+						   (users.senha == senhaCriptografada || users.senha.Substring(0,6) == senhaRecuperada) 
+						   select users;
 
-                    cmd.Parameters.AddWithValue("@email", email); //parametros
-                    cmd.Parameters.AddWithValue("@senha", senhaCriptografada); //parametros
-                    cmd.Parameters.AddWithValue("@senhaRecuperada", senhaRecuperada); //parametros)
-                    cmd.Parameters.AddWithValue("@token", token); //parametros
+			if (usuarios.Count() == 1)
+			{
+				var usuariosTokens = from users in dataContext.tb_Usuarios where users.token == token select users;
+				if (usuariosTokens.Count() > 0)
+				{
+					Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.token == token);
+					objUsuario.token = "";
+					dataContext.SubmitChanges();
+				}
 
-                    SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-                    returnValue.Direction = ParameterDirection.ReturnValue;
-                    cmd.Parameters.Add(returnValue);
+				Model.tb_Usuario usuarioLogado = new Model.tb_Usuario();
+				foreach (var usuario in usuarios)
+				{
+					usuarioLogado.id_usuario = usuario.id_usuario;
+					usuarioLogado.nome = usuario.nome;
+					usuarioLogado.email = usuario.email;
+					break;
+				}
 
-                    cmd.ExecuteNonQuery();
-                    resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-                }
-            }
+				Model.tb_Usuario objUsuario1 = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
+				objUsuario1.token = token;
+				dataContext.SubmitChanges();
 
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            if (resultado == -1) //deu treta
-            {
-                return js.Serialize("-1");
-            }
-            else //usuario cadastrado
-            {
-                return js.Serialize(resultado.ToString());
-            }
-
+				return js.Serialize(usuarioLogado);
+			}
+			var testUsuario = from users in dataContext.tb_Usuarios where users.email == email && users.senha != senhaCriptografada select users;
+			if (testUsuario.Count() == 1)
+			{
+				return js.Serialize(new SenhaEmailNaoConferemException());
+			}
+			else 
+			{
+				return js.Serialize(new UsuarioInexistenteException());
+			}
         }
 
 
@@ -82,52 +92,42 @@ namespace ComprasDigital.Servidor
         public string cadastrarUsuario(string nomeUsuario, string email, string senha, string token)
         {
 
-            int resultado;
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            string senhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(senha, "sha1"); //criptografando a senha
+			string senhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(senha, "sha1"); //criptografando a senha
 
-            try
-            {
+			JavaScriptSerializer js = new JavaScriptSerializer();
 
-             
-                String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-                using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-                {
-                    conexao.Open();
-                    using (SqlCommand cmd = new SqlCommand("usp_cadastrarUsuario", conexao)) //producer a ser executada
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
+			var dataContext = new Model.DataClassesDataContext();
+			var usuarios = from users in dataContext.tb_Usuarios where users.email == email select users;
+			if (usuarios.Count() == 0)
+			{
+				var usuariosTokens = from users in dataContext.tb_Usuarios where users.token == token select users;
+				if (usuariosTokens.Count() > 0)
+				{
+					Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.token == token);
+					objUsuario.token = "";
+					dataContext.SubmitChanges();
+				}
 
-                        cmd.Parameters.AddWithValue("@nomeUsuario", nomeUsuario); //parametros
-                        cmd.Parameters.AddWithValue("@email", email); //parametros
-                        cmd.Parameters.AddWithValue("@senha", senhaCriptografada); //parametros
-                        cmd.Parameters.AddWithValue("@token", token); //parametros
+				Model.tb_Usuario novoUsuario = new Model.tb_Usuario();
+				novoUsuario.nome = nomeUsuario;
+				novoUsuario.email = email;
+				novoUsuario.senha = senhaCriptografada;
+				novoUsuario.token = token;
+				dataContext.tb_Usuarios.InsertOnSubmit(novoUsuario);
+				dataContext.SubmitChanges();
 
-                        SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-                        returnValue.Direction = ParameterDirection.ReturnValue;
-                        cmd.Parameters.Add(returnValue);
-
-                        cmd.ExecuteNonQuery();
-                        resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-                    }
-                }
-
-                if (resultado == -1) //tudo ok
-                {
-                    return js.Serialize("0");
-                }
-                else //ja possui uma conta com esse email
-                {
-                    return js.Serialize("1");
-                }
-
-            }
-            catch (Exception msg)
-            {
-                msg.ToString();
-                return js.Serialize("2");
-            }
-
+				var usuarioCriado = from users in dataContext.tb_Usuarios where users.email == email select users;
+				Model.tb_Usuario usuarioLogado = new Model.tb_Usuario();
+				foreach (var usuario in usuarioCriado)
+				{
+					usuarioLogado.id_usuario = usuario.id_usuario;
+					usuarioLogado.nome = usuario.nome;
+					usuarioLogado.email = usuario.email;
+					break;
+				}
+				return js.Serialize(usuarioLogado);
+			}
+			return js.Serialize(new UsuarioExistenteException());
         }
 
 
@@ -136,38 +136,15 @@ namespace ComprasDigital.Servidor
 		[WebMethod]
 		public string verificarLogin(string email, string token)
 		{
-			int resultado;
-
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_verificarLogin", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-
-					cmd.Parameters.AddWithValue("@email", email); //parametros
-					cmd.Parameters.AddWithValue("@token", token); //parametros
-
-					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-					returnValue.Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add(returnValue);
-
-					cmd.ExecuteNonQuery();
-					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-				}
-			}
-
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			if (resultado == -1) //deu treta
-			{
-				return js.Serialize("-1");
-			}
-			else //usuario cadastrado
-			{
-				return js.Serialize("0");
-			}
 
+			var dataContext = new Model.DataClassesDataContext();
+			var usuarios = from users in dataContext.tb_Usuarios where users.email == email && users.token == token select users;
+			if (usuarios.Count() == 1) 
+			{
+				return js.Serialize("OK"); 
+			}			
+			return js.Serialize(new UsuarioNaoLogadoException());
 		}
 
 
@@ -176,81 +153,40 @@ namespace ComprasDigital.Servidor
 		[WebMethod]
 		public string atualizarSenhaUsuario(string email, string senha, string novaSenha)
 		{
-
-			int resultado;
 			JavaScriptSerializer js = new JavaScriptSerializer();
 			string senhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(senha, "sha1"); //criptografando a senha
 			string novaSenhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(novaSenha, "sha1");
-
-				String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-				using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-				{
-					conexao.Open();
-					using (SqlCommand cmd = new SqlCommand("usp_atualizarSenhaUsuario", conexao)) //producer a ser executada
-					{
-						cmd.CommandType = CommandType.StoredProcedure;
-
-						cmd.Parameters.AddWithValue("@email", email); //parametros
-						cmd.Parameters.AddWithValue("@senha", senhaCriptografada); //parametros
-						cmd.Parameters.AddWithValue("@novaSenha", novaSenhaCriptografada); //parametros
-
-
-						SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-						returnValue.Direction = ParameterDirection.ReturnValue;
-						cmd.Parameters.Add(returnValue);
-
-						cmd.ExecuteNonQuery();
-						resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-					}
-				}
-
-				if (resultado == 1) //tudo ok
-				{
-					return js.Serialize("0");
-				}
-				else //ja possui uma conta com esse email
-				{
-					return js.Serialize("1");
-				}
+			
+			var dataContext = new Model.DataClassesDataContext();
+			var usuarios = from users in dataContext.tb_Usuarios where users.email == email && users.senha == senhaCriptografada select users;
+			if (usuarios.Count() != 1){
+				return js.Serialize(new UsuarioInexistenteException());
+			}
+			else if (usuarios.Count() == 1)
+			{
+				Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
+				objUsuario.senha = novaSenhaCriptografada;
+				dataContext.SubmitChanges();
+				return js.Serialize("OK");		
+			}
+			return js.Serialize(new OcorreuAlgumErroException());			
 		}
 
 
         //_______________________________________ LOGOUT _______________________________________//
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		[WebMethod]
-		public string logout(string email)
+		public string logout(string email, string token)
 		{
-
-			int resultado;
 			JavaScriptSerializer js = new JavaScriptSerializer();
+			var dataContext = new Model.DataClassesDataContext();
+			var usuarios = from users in dataContext.tb_Usuarios where users.email==email && users.token==token select users;
+			if (usuarios.Count() != 1) return js.Serialize(new UsuarioNaoLogadoException());
+			Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
+			objUsuario.token = "";
+			dataContext.SubmitChanges();
 
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_logout", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-
-					cmd.Parameters.AddWithValue("@email", email); //parametros
-
-					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-					returnValue.Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add(returnValue);
-
-					cmd.ExecuteNonQuery();
-					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-				}
-			}
-
-			if (resultado == 1) //tudo ok
-			{
-				return js.Serialize("0");
-			}
-			else //ja possui uma conta com esse email
-			{
-				return js.Serialize("1");
-			}
+			return js.Serialize("OK");
 		}
 
 
@@ -259,35 +195,14 @@ namespace ComprasDigital.Servidor
 		[WebMethod]
 		public string recuperarSenha(string emailUsuario)
 		{
-
-
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			SqlConnection conexao = new SqlConnection(ConexaoBanco);
-			SqlCommand cmd = new SqlCommand();
-			SqlDataReader reader;
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			string nome = "";
-			string senha = "";
 
-
-			//SQL "injector" 
-			cmd.CommandText = "SELECT * FROM tb_Usuario WHERE email = '" + emailUsuario + "'";
-			cmd.CommandType = CommandType.Text;
-			cmd.Connection = conexao;
-
-			conexao.Open();
-
-			reader = cmd.ExecuteReader();
-
-			while (reader.Read())
-			{
-				nome = reader["nome"].ToString();
-				senha = reader["senha"].ToString();
-			}
+			var dataContext = new Model.DataClassesDataContext();
+			var contemUsuario = from users in dataContext.tb_Usuarios where users.email == emailUsuario select users;
 
 			try
 			{
-				if (nome != "") //tudo ok
+				if (contemUsuario.Count() == 1) //sistema possui um usuário cadastrado
 				{
 					//enviar email
 					SmtpClient cliente = new SmtpClient();
@@ -296,19 +211,19 @@ namespace ComprasDigital.Servidor
 					cliente.Credentials = new NetworkCredential("sistemadecomprasdigitais@gmail.com", "comprasdigitais"); //email e sennha 
 
 					cliente.Send("sistemadecomprasdigitais@gmail.com", emailUsuario,
-					"Recuperar senha", "Olá " + nome + "! Sua senha provisória é: " + senha.Substring(0, 6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
+					"Recuperar senha", "Olá, " + contemUsuario.First().nome + "! Sua senha provisória é: " + contemUsuario.First().senha.Substring(0, 6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
 
-					return js.Serialize("0");
+					return js.Serialize("Operação realizada com sucesso!");
 				}
-				else
+				else //sistema nao possui um usuário cadastrado
 				{
-					return js.Serialize("1");
+					return js.Serialize(new UsuarioInexistenteException());
 				}
 
 			}
 			catch (Exception ex)
 			{
-				return js.Serialize("2");
+				return js.Serialize(ex);
 			}
 		}
 
