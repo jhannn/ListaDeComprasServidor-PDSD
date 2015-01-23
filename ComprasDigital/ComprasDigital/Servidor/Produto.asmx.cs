@@ -29,30 +29,23 @@ namespace ComprasDigital.Servidor
     {
         //_______________________________________ AUTOCOMPLETE ___________________________________________//
         [WebMethod]
-        public string autocomplete(string nome)
+        public string autocomplete(int idUsuario,string token,string nomeProduto)
         {
-            var produtos = new List<string>();
+            JavaScriptSerializer js = new JavaScriptSerializer();
 
-            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-            SqlConnection conexao = new SqlConnection(ConexaoBanco);
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
-				//SQL "injector" 
-				cmd.CommandText = "SELECT id_produto, nome FROM tb_Produto WHERE nome LIKE '"+ nome + "%'";
-				cmd.CommandType = CommandType.Text;
-				cmd.Connection = conexao;
+             var dataContext = new Model.DataClassesDataContext();
+             var produtos = from p in dataContext.tb_Produtos where p.nome.Contains(nomeProduto) select p;
 
-				conexao.Open();
+             ArrayList listasDeProdutos = new ArrayList();
+             foreach (var prod in produtos)
+             {
+                 listasDeProdutos.Add(prod.nome);
+             }
 
-				reader = cmd.ExecuteReader();
-				while (reader.Read())
-				{
-					produtos.Add(reader["nome"].ToString());
-				}
-				conexao.Close();
-				JavaScriptSerializer js = new JavaScriptSerializer();
-				return js.Serialize(produtos);
+             return js.Serialize(listasDeProdutos);
         }
 
         //_______________________________________ RETORNAR PRODUTOS ___________________________________________//
