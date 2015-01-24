@@ -41,9 +41,9 @@ namespace ComprasDigital.Servidor
 			if (estabelecimentos.Count() == 0)
 			{
 				Model.tb_Estabelecimento novoEstabelecimento = new Model.tb_Estabelecimento();
-				novoEstabelecimento.nome = nome;
-				novoEstabelecimento.bairro = bairro;
-				novoEstabelecimento.cidade = cidade;
+				novoEstabelecimento.nome = nome.ToLower();
+				novoEstabelecimento.bairro = bairro.ToLower();
+				novoEstabelecimento.cidade = cidade.ToLower();
 				novoEstabelecimento.numero = numero;
 				dataContext.tb_Estabelecimentos.InsertOnSubmit(novoEstabelecimento);
 				dataContext.SubmitChanges();

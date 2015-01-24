@@ -27,7 +27,16 @@ namespace ComprasDigital.Classes
 			unidade = prod.tb_Unidade.unidade;
 		}
 
-		public static tb_Produto criarProduto()
+		//sem codigo de barras
+		public static tb_Produto criarProduto(string marca, string nome, int tipo, int unidade)
+		{
+			tb_Produto novoProduto = new tb_Produto();
+
+			return novoProduto;
+		}
+
+		//com codigo de barras
+		public static tb_Produto criarProduto(string marca, string nome, string codigoDeBarras, string tipoCodigoDeBarras, int tipo, int unidade)
 		{
 			tb_Produto novoProduto = new tb_Produto();
 

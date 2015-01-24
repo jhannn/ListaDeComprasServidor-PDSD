@@ -69,12 +69,47 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(new cProduto(produto.FirstOrDefault()));
         }
 
-        //_______________________________________ PESQUISAR PRODUTOS ___________________________________________//
-        [WebMethod]
-        public string pesquisarProdutos()
-        {
-            return "";
-        }
+		//_______________________________________ PESQUISAR PRODUTOS ___________________________________________//
+		[WebMethod]
+		public string pesquisarProdutosMarca(int idUsuario, string token, string marca)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+			var dataContext = new Model.DataClassesDataContext();
+			var produtosPorMarca = from p in dataContext.tb_Produtos where p.tb_Marca.marca.ToLower() == marca.ToLower() orderby p.nome select p;
+
+			if (produtosPorMarca.Count() < 1) return js.Serialize(new PesquisaSemResultadosException());
+
+			ArrayList produtos = new ArrayList();
+			foreach (var prod in produtosPorMarca)
+				produtos.Add(new cProduto(prod));
+
+			return js.Serialize(produtos);
+		}
+
+		//___________________________________ PESQUISAR PRODUTOS POR NOME ________________________________________//
+		[WebMethod]
+		public string pesquisarProdutosNome(int idUsuario, string token, string marca, string nome)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+			var dataContext = new Model.DataClassesDataContext();
+			var produtosPorNome = from p in dataContext.tb_Produtos where p.tb_Marca.marca.ToLower() == marca.ToLower() && p.nome.ToLower().Contains(nome.ToLower()) orderby p.marca select p;
+
+			if (produtosPorNome.Count() < 1) return js.Serialize(new PesquisaSemResultadosException());
+
+			ArrayList produtos = new ArrayList();
+			foreach (var prod in produtosPorNome)
+				produtos.Add(new cProduto(prod));
+
+			return js.Serialize(produtos);
+		}
 
     }
 }
