@@ -50,7 +50,7 @@ namespace ComprasDigital.Servidor
 
 				return js.Serialize("OK");
 			}
-			return js.Serialize(new EstabelecimentoExistenteException());
+			return js.Serialize(estabelecimentos.FirstOrDefault());
         }
 
 		[WebMethod]
@@ -62,7 +62,7 @@ namespace ComprasDigital.Servidor
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
-			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome.Contains(nome) select estabelecimento;
+			var estabelecimentos = (from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome.ToLower().StartsWith(nome.ToLower()) orderby estabelecimento.nome select estabelecimento).Take(5);
 
 			ArrayList listasDeEstabelecimento = new ArrayList();
 			foreach (var estab in estabelecimentos)
@@ -74,7 +74,7 @@ namespace ComprasDigital.Servidor
 		}
 
 		[WebMethod]
-		public string listarEstabelecimento(int idUsuario, string token, string nome)
+		public string listarEstabelecimento(int idUsuario, string token, string nome, string bairro, string cidade)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -82,17 +82,20 @@ namespace ComprasDigital.Servidor
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
-			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome == nome select estabelecimento;
+			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome.ToLower().StartsWith(nome.ToLower())
+																								&& estabelecimento.bairro.ToLower().StartsWith(bairro.ToLower())
+																								&& estabelecimento.cidade.ToLower().StartsWith(cidade.ToLower()) select estabelecimento;
 			if (estabelecimentos.Count() > 0)
 			{
 				ArrayList listasDeEstabelecimento = new ArrayList();
 				foreach (var estab in estabelecimentos)
 				{
-					listasDeEstabelecimento.Add(estab);
+					listasDeEstabelecimento.Add(new Model.tb_Estabelecimento() { nome = estab.nome, bairro = estab.bairro, cidade = estab.cidade, id_estabelecimento = estab.id_estabelecimento, numero = estab.numero });
 				}
 				return js.Serialize(listasDeEstabelecimento);
 			}
 			return js.Serialize(new EstabelecimentoNaoExistenteException());
+			//Caso não encontre nenhum estabelecimento, informar "Nenhum estabelecimento encontrado"
 		}
 
 		[WebMethod]
@@ -107,9 +110,10 @@ namespace ComprasDigital.Servidor
 			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.id_estabelecimento == id select estabelecimento;
 			if (estabelecimentos.Count() == 1)
 			{
-				return js.Serialize(estabelecimentos.SingleOrDefault()); //FirstOrDefault()
+				var estab = estabelecimentos.SingleOrDefault();
+				return js.Serialize(new Model.tb_Estabelecimento() { nome = estab.nome, bairro = estab.bairro, cidade = estab.cidade, id_estabelecimento = estab.id_estabelecimento, numero = estab.numero }); //FirstOrDefault() - Circular Reference
 			}
-			return js.Serialize(new OcorreuAlgumErroEstabelecimentoException());
+			return js.Serialize(new EstabelecimentoNaoExistenteException());
 		}
 
 		[WebMethod]
@@ -133,7 +137,7 @@ namespace ComprasDigital.Servidor
 
 				return js.Serialize("OK");
 			}
-			return js.Serialize(new OcorreuAlgumErroEstabelecimentoException());
+			return js.Serialize(new OcorreuAlgumErroException());
 		}
     }
 }
