@@ -2,47 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Script.Serialization;
+using ComprasDigital.Model;
 
 namespace ComprasDigital.Classes
 {
 	public class cProduto
 	{
+		public string marca { get; set; }
 		public string nome { get; set; }
 		public string codigoDeBarras { get; set; }
-		public string tipoCodigo { get; set; }
-		public int id { get; set; }
-		public int quantidade { get; set; }
+		public string tipoCodigoDeBarras { get; set; }
+		public string tipo { get; set; }
+		public string unidade { get; set; }
 
-		public cProduto()
+		public cProduto() { }
+
+		public cProduto(tb_Produto prod)
 		{
-			/*vazio*/
+			marca = prod.tb_Marca.marca;
+			codigoDeBarras = prod.codigoDeBarras;
+			nome = prod.nome;
+			tipo = prod.tb_Tipo.tipo;
+			tipoCodigoDeBarras = prod.tipoCodigoDeBarras;
+			unidade = prod.tb_Unidade.unidade;
 		}
 
-		public cProduto(int id, string nome, string codigoDeBarras, string tipoCodigo, int quantidade = 0)
+		public static tb_Produto criarProduto()
 		{
-			this.id = id;
-			this.nome = nome;
-			this.codigoDeBarras = codigoDeBarras;
-			this.tipoCodigo = tipoCodigo;
-			this.quantidade = quantidade;
-			if (this.codigoDeBarras.Trim() == "") this.codigoDeBarras = null;
-			if (this.tipoCodigo.Trim() == "") this.tipoCodigo = null;
-			if (this.quantidade < 0) this.quantidade = 0;
-		}
+			tb_Produto novoProduto = new tb_Produto();
 
-		public cProduto(int id, string nome, int quantidade = 0)
-		{
-			this.id = id;
-			this.nome = nome;
-			this.quantidade = quantidade;
-			if (this.quantidade < 0) this.quantidade = 0;
-		}
-
-		public string ToJson()
-		{
-			JavaScriptSerializer js = new JavaScriptSerializer();
-			return js.Serialize(this);
+			return novoProduto;
 		}
 	}
 }

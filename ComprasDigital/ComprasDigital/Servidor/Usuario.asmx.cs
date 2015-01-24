@@ -58,13 +58,11 @@ namespace ComprasDigital.Servidor
 					dataContext.SubmitChanges();
 				}
 
-				Model.tb_Usuario usuarioLogado = usuarios.FirstOrDefault();
-
 				Model.tb_Usuario objUsuario1 = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
 				objUsuario1.token = token;
 				dataContext.SubmitChanges();
 
-				return js.Serialize(new Model.tb_Usuario() { id_usuario = usuarioLogado.id_usuario, email = usuarioLogado.email, nome = usuarioLogado.nome, token = usuarioLogado.token });
+				return js.Serialize(new cUsuario(usuarios.FirstOrDefault()));
 			}
 			
 			return js.Serialize(new SenhaEmailNaoConferemException());
@@ -101,10 +99,7 @@ namespace ComprasDigital.Servidor
 				dataContext.tb_Usuarios.InsertOnSubmit(novoUsuario);
 				dataContext.SubmitChanges();
 
-				var usuarioCriado = from users in dataContext.tb_Usuarios where users.email == email select users;
-				Model.tb_Usuario usuarioLogado = usuarioCriado.FirstOrDefault();
-
-				return js.Serialize(new Model.tb_Usuario() { id_usuario = usuarioLogado.id_usuario, email = usuarioLogado.email, nome = usuarioLogado.nome, token = usuarioLogado.token });
+				return js.Serialize(new cUsuario((from users in dataContext.tb_Usuarios where users.email == email select users).FirstOrDefault()));
 			}
 			return js.Serialize(new UsuarioExistenteException());
         }

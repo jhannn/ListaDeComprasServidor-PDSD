@@ -37,22 +37,22 @@ namespace ComprasDigital.Servidor
                 return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
              var dataContext = new Model.DataClassesDataContext();
-             var produtos = from p in dataContext.tb_Produtos 
+             var produtos = (from p in dataContext.tb_Produtos 
                             where p.nome.Contains(nomeProduto) 
-                            select p;
+                            select p.nome).Take(5);
 
              ArrayList listasDeProdutos = new ArrayList();
-             foreach (var prod in produtos)
+             foreach (var nome in produtos)
              {
-                 listasDeProdutos.Add(prod.nome);
+                 listasDeProdutos.Add(nome);
              }
 
              return js.Serialize(listasDeProdutos);
         }
 
-        //_______________________________________ RETORNAR PRODUTOS ___________________________________________//
+        //_______________________________________ RETORNAR PRODUTO ___________________________________________//
         [WebMethod]
-        public string retornarProdutos(int idUsuario,string token,string nome,int marca)
+        public string retornarProdutos(int idUsuario, string token, string nome, string marca)
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -60,28 +60,13 @@ namespace ComprasDigital.Servidor
                 return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
             var dataContext = new Model.DataClassesDataContext();
-            var produtos = from p in dataContext.tb_Produtos 
-                           where p.nome.Contains(nome) 
+            var produto = from p in dataContext.tb_Produtos 
+                           where p.nome.Contains(nome) && p.tb_Marca.marca == marca
                            select p;
 
-            if (produtos.Count() < 1) return js.Serialize("new ProdutoNaoEncontradoException()");
+            if (produto.Count() < 1) return js.Serialize(new ProdutoNaoEncontradoException());
 
-            ArrayList listasDeProdutos = new ArrayList();
-            Model.tb_Produto produto;
-            foreach (var prod in produtos)
-            {
-                produto = new Model.tb_Produto();
-                produto.nome = prod.nome;
-                produto.marca = prod.marca;
-                produto.codigoDeBarras = prod.codigoDeBarras;
-                produto.tipoCodigoDeBarras = prod.tipoCodigoDeBarras;
-                produto.unidade = prod.unidade;
-                produto.tipo = prod.tipo;
-
-                listasDeProdutos.Add(produto);
-            }
-
-            return js.Serialize(listasDeProdutos);
+			return js.Serialize(new cProduto(produto.FirstOrDefault()));
         }
 
         //_______________________________________ PESQUISAR PRODUTOS ___________________________________________//

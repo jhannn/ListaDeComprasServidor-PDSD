@@ -50,7 +50,7 @@ namespace ComprasDigital.Servidor
 
 				return js.Serialize("OK");
 			}
-			return js.Serialize(estabelecimentos.FirstOrDefault());
+			return js.Serialize(new cEstabelecimento(estabelecimentos.FirstOrDefault()));
         }
 
 		[WebMethod]
@@ -62,12 +62,12 @@ namespace ComprasDigital.Servidor
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
-			var estabelecimentos = (from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome.ToLower().StartsWith(nome.ToLower()) orderby estabelecimento.nome select estabelecimento).Take(5);
+			var estabelecimentos = (from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome.ToLower().StartsWith(nome.ToLower()) orderby estabelecimento.nome select estabelecimento.nome).Take(5);
 
 			ArrayList listasDeEstabelecimento = new ArrayList();
-			foreach (var estab in estabelecimentos)
+			foreach (var nomeEstab in estabelecimentos)
 			{
-				listasDeEstabelecimento.Add(estab.nome);
+				listasDeEstabelecimento.Add(nomeEstab);
 			}
 			return js.Serialize(listasDeEstabelecimento);
 
@@ -90,7 +90,7 @@ namespace ComprasDigital.Servidor
 				ArrayList listasDeEstabelecimento = new ArrayList();
 				foreach (var estab in estabelecimentos)
 				{
-					listasDeEstabelecimento.Add(new Model.tb_Estabelecimento() { nome = estab.nome, bairro = estab.bairro, cidade = estab.cidade, id_estabelecimento = estab.id_estabelecimento, numero = estab.numero });
+					listasDeEstabelecimento.Add(new cEstabelecimento(estab));
 				}
 				return js.Serialize(listasDeEstabelecimento);
 			}
@@ -111,7 +111,7 @@ namespace ComprasDigital.Servidor
 			if (estabelecimentos.Count() == 1)
 			{
 				var estab = estabelecimentos.SingleOrDefault();
-				return js.Serialize(new Model.tb_Estabelecimento() { nome = estab.nome, bairro = estab.bairro, cidade = estab.cidade, id_estabelecimento = estab.id_estabelecimento, numero = estab.numero }); //FirstOrDefault() - Circular Reference
+				return js.Serialize(new cEstabelecimento(estab)); //FirstOrDefault()
 			}
 			return js.Serialize(new EstabelecimentoNaoExistenteException());
 		}
