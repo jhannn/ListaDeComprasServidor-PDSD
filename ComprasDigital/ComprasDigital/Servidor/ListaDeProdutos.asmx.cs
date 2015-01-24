@@ -43,10 +43,7 @@ namespace ComprasDigital.Servidor
 			int quant = 0;
 			if (((from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower() == nomeLista.ToLower() select l).Count() == 1) &&
 				((quant = (from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower().StartsWith(nomeLista.ToLower()) select l).Count()) > 1)) nomeLista += "-" + (quant + 1);
-			//ArrayList listas = new ArrayList();
-			//foreach (var list in listasDoUsuario)
-			//	listas.Add(new cListaDeProdutos(list.id_listaDeProdutos, list.nome));
-			//tb_ListaDeProduto novaLista = new tb_ListaDeProduto { id_usuario = idUsuario, nome = nomeLista };
+		
 			Model.tb_ListaDeProduto novaLista = new Model.tb_ListaDeProduto();
 			novaLista.id_usuario = idUsuario;
 			novaLista.nome = nomeLista;
@@ -55,7 +52,7 @@ namespace ComprasDigital.Servidor
 			return js.Serialize("precisa pegar o ID da lista criada");
         }
 
-		//___________________________________Editar Lista__________________________________//
+		//___________________________________ EDITAR LISTA __________________________________//
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		[WebMethod]
 		public string editarNomeLista(int idUsuario, string token, int idLista, string novoNomeDaLista)
@@ -65,108 +62,90 @@ namespace ComprasDigital.Servidor
 			if (!cUsuario.usuarioValido(idUsuario, token))
 				return js.Serialize(new UsuarioNaoLogadoException());
 
+            var dataContext = new Model.DataClassesDataContext();
+            var queryLista = (from l in dataContext.tb_ListaDeProdutos 
+                             where l.id_listaDeProdutos == idLista 
+                             select l).Single();
 
-
-			return js.Serialize(1);
+            queryLista.nome = novoNomeDaLista;
+            dataContext.SubmitChanges();
+           
+			return js.Serialize("Operação realizada com sucesso.");
 		}
 
 		//_______________________________________ RETORNAR NOME LISTA _______________________________________//
 		[WebMethod]
-		public string retornarNomeLista(int idLista)
+		public string retornarNomeLista(int idUsuario,string token,int idListaDeProdutos)
 		{
-			JavaScriptSerializer js = new JavaScriptSerializer();
-			string nomeLista = "";
+            JavaScriptSerializer js = new JavaScriptSerializer();
 
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			SqlConnection conexao = new SqlConnection(ConexaoBanco);
-			SqlCommand cmd = new SqlCommand();
-			SqlDataReader reader;
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
-
-			//SQL "injector" 
-			cmd.CommandText = "SELECT nome FROM tb_ListaDeProdutos WHERE id_listaDeProdutos = '" + idLista + "'";
-			cmd.CommandType = CommandType.Text;
-			cmd.Connection = conexao;
-
-			conexao.Open();
-
-			reader = cmd.ExecuteReader();
-
-			while (reader.Read())
-			{
-				nomeLista = reader["nome"].ToString();	
-			}
-
-			conexao.Close();
-
-			return js.Serialize(nomeLista);
+            var dataContext = new Model.DataClassesDataContext();
+            var nomeLista = from l in dataContext.tb_ListaDeProdutos where l.id_listaDeProdutos == idListaDeProdutos select l;
+           
+            return js.Serialize(nomeLista.SingleOrDefault().nome);
 		}
 
 
         //_______________________________________ RETORNAR LISTAS ___________________________________________//
         [WebMethod]
-        public string retornarListas(int idUsuario)
+        public string retornarListas(int idUsuario,string token)
         {
-			JavaScriptSerializer js = new JavaScriptSerializer();
-			List<cListaDeProdutos> listas = new List<cListaDeProdutos>();
+            JavaScriptSerializer js = new JavaScriptSerializer();
 
-            String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-            SqlConnection conexao = new SqlConnection(ConexaoBanco);
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
+            List<cListaDeProdutos> listas = new List<cListaDeProdutos>();
 
-            //SQL "injector" 
-            cmd.CommandText = "SELECT nome,id_listaDeProdutos FROM tb_ListaDeProdutos WHERE id_usuario = '" + idUsuario + "'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = conexao;
+            var dataContext = new Model.DataClassesDataContext();
+            var selectListas = from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario select l;
 
-            conexao.Open();
-
-            reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            foreach(var list in selectListas)
             {
-				listas.Add(new cListaDeProdutos(Convert.ToInt32(reader["id_listaDeProdutos"]),
-												reader["nome"].ToString()) );
+                listas.Add( new cListaDeProdutos(list.id_listaDeProdutos,list.nome) );
             }
-
-			conexao.Close();
 
             return js.Serialize(listas);
         }
 
-        //___________________________________ EXCLUIR LISTA _____________________________________________//
+        //___________________________________ REMOVER LISTA _____________________________________________//
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         [WebMethod]
-        public string excluirLista(int idLista, int idUsuario, string token)
+        public string removerLista(int idUsuario,string token,int idLista)
         {
-			int resultado = 0;
-			JavaScriptSerializer js = new JavaScriptSerializer();
+            JavaScriptSerializer js = new JavaScriptSerializer();
 
-			if (!cUsuario.usuarioValido(idUsuario, token))
-				return js.Serialize("-1"); //retorna o id -1
+            if(!cUsuario.usuarioValido(idUsuario,token))
+                return js.Serialize(new UsuarioNaoLogadoException());
 
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_excluirListaDeCompras", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
-					cmd.Parameters.AddWithValue("@idUsuario", idUsuario); //parametros
+            var dataContext = new Model.DataClassesDataContext();
 
-					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-					returnValue.Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add(returnValue);
+            //======== Deletando produtos da lista ===========//
+            var queryProduto = from p in dataContext.tb_ProdutoDaListas
+                               where p.id_lista == idLista
+                               select p;
 
-					cmd.ExecuteNonQuery();
-					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-				}
-			}
+            foreach (var prod in queryProduto)
+            {
+                dataContext.tb_ProdutoDaListas.DeleteOnSubmit(prod);
+                dataContext.SubmitChanges();
+            }
 
-			return js.Serialize(resultado);
+            //============ Deletando a lista =============//
+            var queryLista = from l in dataContext.tb_ListaDeProdutos
+                             where l.id_listaDeProdutos == idLista
+                             select l;
+
+            foreach (var list in queryLista)
+            {
+                dataContext.tb_ListaDeProdutos.DeleteOnSubmit(list);
+                dataContext.SubmitChanges();
+            }
+    
+            return js.Serialize("Lista deletada com sucesso.");
 		}
 
 		//_______________________________________ CADASTRAR PRODUTOS NA LISTA ___________________________________________//
@@ -203,57 +182,50 @@ namespace ComprasDigital.Servidor
 		}
 
 
-		//_______________________________________ EXCLUIR PRODUTO DA LISTA ___________________________________________//
+		//_______________________________________ REMOVER PRODUTO DA LISTA ___________________________________________//
 		[WebMethod]
-		public void removerProduto(int idProduto, int idLista)
+		public string removerProdutoDaLista(int idUsuario,string token,string nomeProduto)
 		{
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_removerProdutoDaLista", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
-					cmd.Parameters.AddWithValue("@idProduto", idProduto); //parametros
+            JavaScriptSerializer js = new JavaScriptSerializer();
 
-					cmd.ExecuteNonQuery();
-				}
-			}
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException());
+
+            var dataContext = new Model.DataClassesDataContext();
+            var querryProdutos = from p in dataContext.tb_ProdutoDaListas
+                                 where p.nome_produto == nomeProduto
+                                 select p;
+
+            foreach(var prod in querryProdutos)
+            {
+                dataContext.tb_ProdutoDaListas.DeleteOnSubmit(prod);
+                dataContext.SubmitChanges();
+            }
+            return js.Serialize("Produto da lista removido.");
 		}
 
 
-		//_______________________________________ LISTAR PRODUTOS DA LISTA ___________________________________________//
+		//_______________________________________ RETORNAR PRODUTOS DA LISTA ___________________________________________//
 		[WebMethod]
-		public string listarProdutosDaLista(int idLista)
+		public string retornarProdutosDaLista(int idUsuario,string token,int idLista)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			List<cProduto> produtos = new List<cProduto>();
 
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			SqlConnection conexao = new SqlConnection(ConexaoBanco);
-			SqlCommand cmd = new SqlCommand();
-			SqlDataReader reader;
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException());
 
+            var dataContext = new Model.DataClassesDataContext();
+            var queryProdutos = from p in dataContext.tb_ProdutoDaListas
+                                where p.id_lista == idLista
+                                select p;
 
-			//SQL "injector" 
-			cmd.CommandText = "SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_listaP = '" + idLista + "' AND pl.id_produto = p.id_produto";
-			cmd.CommandType = CommandType.Text;
-			cmd.Connection = conexao;
+            ArrayList produtos = new ArrayList();
+            foreach(var prod in queryProdutos)
+            {
+                produtos.Add(new cProdutoDaLista(prod.nome_produto,prod.marca_produto,prod.id_lista,prod.quantidade));
+            }
 
-			conexao.Open();
-			reader = cmd.ExecuteReader();
-			while (reader.Read())
-			{
-				produtos.Add(new cProduto(Convert.ToInt32(reader["id_produto"]),
-											reader["nome"].ToString(),
-											Convert.ToInt32(reader["quantidade"])));
-			}
-			conexao.Close();
-
-			return js.Serialize(produtos);
-		}
-
-        
+            return js.Serialize(produtos);
+		}  
     }
 }

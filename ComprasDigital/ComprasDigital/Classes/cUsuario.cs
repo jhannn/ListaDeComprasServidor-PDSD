@@ -39,5 +39,10 @@ namespace ComprasDigital.Classes
 			if (usuarioLogado.Count() == 1) return true;
 			return false;
 		}
-	}
+
+        internal static bool usuarioValido()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
