@@ -37,7 +37,9 @@ namespace ComprasDigital.Servidor
                 return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
              var dataContext = new Model.DataClassesDataContext();
-             var produtos = from p in dataContext.tb_Produtos where p.nome.Contains(nomeProduto) select p;
+             var produtos = from p in dataContext.tb_Produtos 
+                            where p.nome.Contains(nomeProduto) 
+                            select p;
 
              ArrayList listasDeProdutos = new ArrayList();
              foreach (var prod in produtos)
@@ -58,7 +60,9 @@ namespace ComprasDigital.Servidor
                 return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
             var dataContext = new Model.DataClassesDataContext();
-            var produtos = from p in dataContext.tb_Produtos where p.nome.Contains(nome) select p;
+            var produtos = from p in dataContext.tb_Produtos 
+                           where p.nome.Contains(nome) 
+                           select p;
 
             if (produtos.Count() < 1) return js.Serialize(new ProdutoNaoEncontradoException());
 
