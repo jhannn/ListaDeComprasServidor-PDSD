@@ -83,6 +83,7 @@
     <Compile Include="Classes\cListaDeItens.cs" />
     <Compile Include="Classes\cListaDeProdutos.cs" />
     <Compile Include="Classes\cProduto.cs" />
+    <Compile Include="Classes\cProdutoDaLista.cs" />
     <Compile Include="Classes\cUsuario.cs" />
     <Compile Include="Excecoes\ProdutoNaoEncontradoException.cs" />
     <Compile Include="Excecoes\UsuarioNaoLogadoException.cs" />

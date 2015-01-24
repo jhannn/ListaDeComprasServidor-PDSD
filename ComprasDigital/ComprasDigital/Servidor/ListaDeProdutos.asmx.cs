@@ -205,37 +205,27 @@ namespace ComprasDigital.Servidor
 		}
 
 
-		//_______________________________________ LISTAR PRODUTOS DA LISTA ___________________________________________//
+		//_______________________________________ RETORNAR PRODUTOS DA LISTA ___________________________________________//
 		[WebMethod]
-		public string listarProdutosDaLista(int idLista)
+		public string retornarProdutosDaLista(int idUsuario,string token,int idLista)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			List<cProduto> produtos = new List<cProduto>();
 
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			SqlConnection conexao = new SqlConnection(ConexaoBanco);
-			SqlCommand cmd = new SqlCommand();
-			SqlDataReader reader;
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException());
 
+            var dataContext = new Model.DataClassesDataContext();
+            var queryProdutos = from p in dataContext.tb_ProdutoDaListas
+                                where p.id_lista == idLista
+                                select p;
 
-			//SQL "injector" 
-			cmd.CommandText = "SELECT p.nome, p.id_produto, pl.quantidade FROM tb_Produto AS p INNER JOIN tb_ProdutoDaLista AS pl ON pl.id_listaP = '" + idLista + "' AND pl.id_produto = p.id_produto";
-			cmd.CommandType = CommandType.Text;
-			cmd.Connection = conexao;
+            ArrayList produtos = new ArrayList();
+            foreach(var prod in queryProdutos)
+            {
+                produtos.Add(new cProdutoDaLista(prod.nome_produto,prod.marca_produto,prod.id_lista,prod.quantidade));
+            }
 
-			conexao.Open();
-			reader = cmd.ExecuteReader();
-			while (reader.Read())
-			{
-				produtos.Add(new cProduto(Convert.ToInt32(reader["id_produto"]),
-											reader["nome"].ToString(),
-											Convert.ToInt32(reader["quantidade"])));
-			}
-			conexao.Close();
-
-			return js.Serialize(produtos);
-		}
-
-        
+            return js.Serialize(produtos);
+		}  
     }
 }
