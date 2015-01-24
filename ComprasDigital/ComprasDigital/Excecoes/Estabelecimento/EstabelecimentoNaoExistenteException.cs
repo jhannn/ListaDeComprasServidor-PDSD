@@ -9,7 +9,7 @@ namespace ComprasDigital.Excecoes
 	{
 		public string erro { get; set; }
 		public EstabelecimentoNaoExistenteException()
-			: base("O estabelecimento nao existe!")
+			: base("O estabelecimento solicitado nao existe!")
 		{
 			erro = "Erro de Estabelecimento!";
 		}

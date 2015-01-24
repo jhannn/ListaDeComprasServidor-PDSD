@@ -88,7 +88,8 @@
     <Compile Include="Excecoes\Estabelecimento\EstabelecimentoExistenteException.cs" />
     <Compile Include="Excecoes\Estabelecimento\EstabelecimentoNaoExistenteException.cs" />
     <Compile Include="Excecoes\OcorreuAlgumErroException.cs" />
-    <Compile Include="Excecoes\ProdutoNaoEncontradoException.cs" />
+    <Compile Include="Excecoes\PesquisaSemResultadosException.cs" />
+    <Compile Include="Excecoes\Produto\ProdutoNaoEncontradoException.cs" />
     <Compile Include="Excecoes\Usuario\SenhaEmailNaoConferemException.cs" />
     <Compile Include="Excecoes\Usuario\UsuarioExistenteException.cs" />
     <Compile Include="Excecoes\Usuario\UsuarioInexistenteException.cs" />

@@ -9,7 +9,7 @@ namespace ComprasDigital.Excecoes
     {  
 		public string erro { get; set; }
         public ProdutoNaoEncontradoException()
-			: base("Não há nenhum produto cadastrado.")
+			: base("O produto solicitado não existe")
 		{
 			erro = "Erro de Produto";
 		}

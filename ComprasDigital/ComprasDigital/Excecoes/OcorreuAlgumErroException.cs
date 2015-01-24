@@ -11,7 +11,7 @@ namespace ComprasDigital.Excecoes
 		public OcorreuAlgumErroException()
 			: base("Ocorreu algum erro! Por favor repita o procedimento!")
 		{
-			erro = "Erro de Usuário";
+			erro = "Erro de Genérico";
 		}
 	}
 }
