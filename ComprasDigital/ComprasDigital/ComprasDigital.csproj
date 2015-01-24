@@ -84,8 +84,14 @@
     <Compile Include="Classes\cListaDeProdutos.cs" />
     <Compile Include="Classes\cProduto.cs" />
     <Compile Include="Classes\cUsuario.cs" />
+    <Compile Include="Excecoes\Estabelecimento\EstabelecimentoExistenteException.cs" />
+    <Compile Include="Excecoes\Estabelecimento\EstabelecimentoNaoExistenteException.cs" />
+    <Compile Include="Excecoes\OcorreuAlgumErroException.cs" />
     <Compile Include="Excecoes\ProdutoNaoEncontradoException.cs" />
-    <Compile Include="Excecoes\UsuarioNaoLogadoException.cs" />
+    <Compile Include="Excecoes\Usuario\SenhaEmailNaoConferemException.cs" />
+    <Compile Include="Excecoes\Usuario\UsuarioExistenteException.cs" />
+    <Compile Include="Excecoes\Usuario\UsuarioInexistenteException.cs" />
+    <Compile Include="Excecoes\Usuario\UsuarioNaoLogadoException.cs" />
     <Compile Include="Model\DataClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
