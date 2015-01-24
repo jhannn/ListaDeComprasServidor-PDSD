@@ -39,14 +39,13 @@ namespace ComprasDigital.Servidor
         public string fazerLogin(string email, string senha, string token)
         {
             string senhaCriptografada = FormsAuthentication.HashPasswordForStoringInConfigFile(senha, "sha1"); //criptografando a senha
-            string senhaRecuperada = senha;
 
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
 			var dataContext = new Model.DataClassesDataContext();
 			var usuarios = from users in dataContext.tb_Usuarios 
 						   where users.email == email && 
-						   (users.senha == senhaCriptografada || users.senha.Substring(0,6) == senhaRecuperada) 
+						   (users.senha == senhaCriptografada || users.senha.Substring(0,6) == senha) 
 						   select users;
 
 			if (usuarios.Count() == 1)
@@ -59,30 +58,16 @@ namespace ComprasDigital.Servidor
 					dataContext.SubmitChanges();
 				}
 
-				Model.tb_Usuario usuarioLogado = new Model.tb_Usuario();
-				foreach (var usuario in usuarios)
-				{
-					usuarioLogado.id_usuario = usuario.id_usuario;
-					usuarioLogado.nome = usuario.nome;
-					usuarioLogado.email = usuario.email;
-					break;
-				}
+				Model.tb_Usuario usuarioLogado = usuarios.FirstOrDefault();
 
 				Model.tb_Usuario objUsuario1 = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
 				objUsuario1.token = token;
 				dataContext.SubmitChanges();
 
-				return js.Serialize(usuarioLogado);
+				return js.Serialize(new Model.tb_Usuario() { id_usuario = usuarioLogado.id_usuario, email = usuarioLogado.email, nome = usuarioLogado.nome, token = usuarioLogado.token });
 			}
-			var testUsuario = from users in dataContext.tb_Usuarios where users.email == email && users.senha != senhaCriptografada select users;
-			if (testUsuario.Count() == 1)
-			{
-				return js.Serialize(new SenhaEmailNaoConferemException());
-			}
-			else 
-			{
-				return js.Serialize(new UsuarioInexistenteException());
-			}
+			
+			return js.Serialize(new SenhaEmailNaoConferemException());
         }
 
 
@@ -117,15 +102,9 @@ namespace ComprasDigital.Servidor
 				dataContext.SubmitChanges();
 
 				var usuarioCriado = from users in dataContext.tb_Usuarios where users.email == email select users;
-				Model.tb_Usuario usuarioLogado = new Model.tb_Usuario();
-				foreach (var usuario in usuarioCriado)
-				{
-					usuarioLogado.id_usuario = usuario.id_usuario;
-					usuarioLogado.nome = usuario.nome;
-					usuarioLogado.email = usuario.email;
-					break;
-				}
-				return js.Serialize(usuarioLogado);
+				Model.tb_Usuario usuarioLogado = usuarioCriado.FirstOrDefault();
+
+				return js.Serialize(new Model.tb_Usuario() { id_usuario = usuarioLogado.id_usuario, email = usuarioLogado.email, nome = usuarioLogado.nome, token = usuarioLogado.token });
 			}
 			return js.Serialize(new UsuarioExistenteException());
         }
@@ -134,17 +113,14 @@ namespace ComprasDigital.Servidor
         //_______________________________________ VERIFICAR LOGIN _______________________________________//
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		[WebMethod]
-		public string verificarLogin(string email, string token)
+		public string verificarLogin(int idUsuario, string token)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
-			var dataContext = new Model.DataClassesDataContext();
-			var usuarios = from users in dataContext.tb_Usuarios where users.email == email && users.token == token select users;
-			if (usuarios.Count() == 1) 
-			{
-				return js.Serialize("OK"); 
-			}			
-			return js.Serialize(new UsuarioNaoLogadoException());
+			if(!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
+			return js.Serialize("OK"); 
 		}
 
 
