@@ -76,3 +76,13 @@ C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigi
 C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.dll
 C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.xml
 C:\Users\jonnatha\Desktop\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.xml
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.dll
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll.config
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.dll
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.dll
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.xml
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.xml
+C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
