@@ -111,10 +111,10 @@ namespace ComprasDigital.Servidor
             return js.Serialize(listas);
         }
 
-        //___________________________________ EXCLUIR LISTA _____________________________________________//
+        //___________________________________ REMOVER LISTA _____________________________________________//
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         [WebMethod]
-        public string excluirLista(int idUsuario,string token,int idLista)
+        public string removerLista(int idUsuario,string token,int idLista)
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -182,23 +182,26 @@ namespace ComprasDigital.Servidor
 		}
 
 
-		//_______________________________________ EXCLUIR PRODUTO DA LISTA ___________________________________________//
+		//_______________________________________ REMOVER PRODUTO DA LISTA ___________________________________________//
 		[WebMethod]
-		public void removerProduto(int idProduto, int idLista)
+		public string removerProdutoDaLista(int idUsuario,string token,string nomeProduto)
 		{
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_removerProdutoDaLista", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
-					cmd.Parameters.AddWithValue("@idProduto", idProduto); //parametros
+            JavaScriptSerializer js = new JavaScriptSerializer();
 
-					cmd.ExecuteNonQuery();
-				}
-			}
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException());
+
+            var dataContext = new Model.DataClassesDataContext();
+            var querryProdutos = from p in dataContext.tb_ProdutoDaListas
+                                 where p.nome_produto == nomeProduto
+                                 select p;
+
+            foreach(var prod in querryProdutos)
+            {
+                dataContext.tb_ProdutoDaListas.DeleteOnSubmit(prod);
+                dataContext.SubmitChanges();
+            }
+            return js.Serialize("Produto da lista removido.");
 		}
 
 
