@@ -184,7 +184,7 @@ namespace ComprasDigital.Servidor
 					cliente.Send("sistemadecomprasdigitais@gmail.com", emailUsuario,
 					"Recuperar senha", "Olá, " + contemUsuario.First().nome + "! Sua senha provisória é: " + contemUsuario.First().senha.Substring(0, 6)); //1º email do remetende, 2º email do destinario, 3º titulo do email, 4º conteudo//
 
-					return js.Serialize("Operação realizada com sucesso!");
+					return js.Serialize("OK");
 				}
 				else //sistema nao possui um usuário cadastrado
 				{
