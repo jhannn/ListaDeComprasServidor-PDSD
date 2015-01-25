@@ -17,7 +17,7 @@ using ComprasDigital.Excecoes;
 
 
 namespace ComprasDigital.Servidor
-{
+{/*
     /// <summary>
     /// Summary description for ListaDeProdutos
     /// </summary>
@@ -227,5 +227,5 @@ namespace ComprasDigital.Servidor
 
             return js.Serialize(produtos);
 		}  
-    }
+    }*/
 }

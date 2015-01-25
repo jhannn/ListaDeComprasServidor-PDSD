@@ -81,7 +81,9 @@
     <Compile Include="Classes\cEstabelecimento.cs" />
     <Compile Include="Classes\cMarca.cs" />
     <Compile Include="Classes\cProduto.cs" />
+    <Compile Include="Classes\cProdutoInvalido.cs" />
     <Compile Include="Classes\cUsuario.cs" />
+    <Compile Include="Classes\Enum.cs" />
     <Compile Include="Excecoes\Estabelecimento\EstabelecimentoExistenteException.cs" />
     <Compile Include="Excecoes\Estabelecimento\EstabelecimentoNaoExistenteException.cs" />
     <Compile Include="Excecoes\OcorreuAlgumErroException.cs" />
