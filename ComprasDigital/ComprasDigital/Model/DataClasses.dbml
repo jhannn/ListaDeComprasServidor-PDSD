@@ -21,30 +21,6 @@
       <Association Name="tb_Usuario_tb_ListaDeProduto" Member="tb_ListaDeProdutos" ThisKey="id_usuario" OtherKey="id_usuario" Type="tb_ListaDeProduto" />
     </Type>
   </Table>
-  <Table Name="dbo.tb_Item" Member="tb_Items">
-    <Type Name="tb_Item">
-      <Column Name="preco" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="qualificacao" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="compraMaisRecente" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="id_estabelecimento" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="nome_produto" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="marca_produto" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="tb_Item_tb_ItemDaLista" Member="tb_ItemDaListas" ThisKey="nome_produto,marca_produto,id_estabelecimento" OtherKey="nome_item,marca_item,estabelecimento_item" Type="tb_ItemDaLista" />
-      <Association Name="tb_Estabelecimento_tb_Item" Member="tb_Estabelecimento" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_Estabelecimento" IsForeignKey="true" />
-      <Association Name="tb_Produto_tb_Item" Member="tb_Produto" ThisKey="nome_produto,marca_produto" OtherKey="nome,marca" Type="tb_Produto" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.tb_ItemDaLista" Member="tb_ItemDaListas">
-    <Type Name="tb_ItemDaLista">
-      <Column Name="id_lista" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="quantidade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="estabelecimento_item" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="nome_item" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="marca_item" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="tb_Item_tb_ItemDaLista" Member="tb_Item" ThisKey="nome_item,marca_item,estabelecimento_item" OtherKey="nome_produto,marca_produto,id_estabelecimento" Type="tb_Item" IsForeignKey="true" />
-      <Association Name="tb_ListaDeIten_tb_ItemDaLista" Member="tb_ListaDeIten" ThisKey="id_lista" OtherKey="id_listaDeItens" Type="tb_ListaDeIten" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.tb_ListaDeItens" Member="tb_ListaDeItens">
     <Type Name="tb_ListaDeIten">
       <Column Name="id_listaDeItens" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -77,51 +53,10 @@
       <Association Name="tb_Ocorrencia_tb_ProdutoInvalido" Member="tb_ProdutoInvalidos" ThisKey="id_ocorrencia" OtherKey="ocorrencia" Type="tb_ProdutoInvalido" />
     </Type>
   </Table>
-  <Table Name="dbo.tb_Produto" Member="tb_Produtos">
-    <Type Name="tb_Produto">
-      <Column Name="marca" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="codigoDeBarras" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="tipoCodigoDeBarras" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="tipo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="unidade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="tb_Produto_tb_Item" Member="tb_Items" ThisKey="nome,marca" OtherKey="nome_produto,marca_produto" Type="tb_Item" />
-      <Association Name="tb_Produto_tb_ProdutoDaLista" Member="tb_ProdutoDaListas" ThisKey="nome,marca" OtherKey="nome_produto,marca_produto" Type="tb_ProdutoDaLista" />
-      <Association Name="tb_Produto_tb_ProdutoInvalido" Member="tb_ProdutoInvalidos" ThisKey="nome,marca" OtherKey="nome_produtoAntigo,marca_produtoAntigo" Type="tb_ProdutoInvalido" />
-      <Association Name="tb_Produto_tb_ProdutoInvalido1" Member="tb_ProdutoInvalidos1" ThisKey="nome,marca" OtherKey="nome_produtoNovo,marca_produtoNovo" Type="tb_ProdutoInvalido" />
-      <Association Name="tb_Marca_tb_Produto" Member="tb_Marca" ThisKey="marca" OtherKey="id_marca" Type="tb_Marca" IsForeignKey="true" />
-      <Association Name="tb_Tipo_tb_Produto" Member="tb_Tipo" ThisKey="tipo" OtherKey="id_tipo" Type="tb_Tipo" IsForeignKey="true" />
-      <Association Name="tb_Unidade_tb_Produto" Member="tb_Unidade" ThisKey="unidade" OtherKey="id_unidade" Type="tb_Unidade" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.tb_ProdutoDaLista" Member="tb_ProdutoDaListas">
-    <Type Name="tb_ProdutoDaLista">
-      <Column Name="nome_produto" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="marca_produto" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="id_lista" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="quantidade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="tb_ListaDeProduto_tb_ProdutoDaLista" Member="tb_ListaDeProduto" ThisKey="id_lista" OtherKey="id_listaDeProdutos" Type="tb_ListaDeProduto" IsForeignKey="true" />
-      <Association Name="tb_Produto_tb_ProdutoDaLista" Member="tb_Produto" ThisKey="nome_produto,marca_produto" OtherKey="nome,marca" Type="tb_Produto" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.tb_ProdutoInvalido" Member="tb_ProdutoInvalidos">
-    <Type Name="tb_ProdutoInvalido">
-      <Column Name="nome_produtoAntigo" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="marca_produtoAntigo" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="nome_produtoNovo" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="marca_produtoNovo" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ocorrencia" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="quantidadeDeOcorrencias" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="tb_Ocorrencia_tb_ProdutoInvalido" Member="tb_Ocorrencia" ThisKey="ocorrencia" OtherKey="id_ocorrencia" Type="tb_Ocorrencia" IsForeignKey="true" />
-      <Association Name="tb_Produto_tb_ProdutoInvalido" Member="tb_Produto" ThisKey="nome_produtoAntigo,marca_produtoAntigo" OtherKey="nome,marca" Type="tb_Produto" IsForeignKey="true" />
-      <Association Name="tb_Produto_tb_ProdutoInvalido1" Member="tb_Produto1" ThisKey="nome_produtoNovo,marca_produtoNovo" OtherKey="nome,marca" Type="tb_Produto" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.tb_Tipo" Member="tb_Tipos">
     <Type Name="tb_Tipo">
       <Column Name="id_tipo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="tipo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Association Name="tb_Tipo_tb_Produto" Member="tb_Produtos" ThisKey="id_tipo" OtherKey="tipo" Type="tb_Produto" />
     </Type>
   </Table>
   <Table Name="dbo.tb_Unidade" Member="tb_Unidades">
@@ -129,6 +64,65 @@
       <Column Name="id_unidade" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="unidade" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="tb_Unidade_tb_Produto" Member="tb_Produtos" ThisKey="id_unidade" OtherKey="unidade" Type="tb_Produto" />
+      <Association Name="tb_Unidade_tb_ItemDaLista" Member="tb_ItemDaListas" ThisKey="id_unidade" OtherKey="unidade" Type="tb_ItemDaLista" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tb_Produto" Member="tb_Produtos">
+    <Type Name="tb_Produto">
+      <Column Name="id_produto" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="marca" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="codigoDeBarras" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="tipoCodigoDeBarras" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="unidade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tb_Produto_tb_ProdutoDaLista" Member="tb_ProdutoDaListas" ThisKey="id_produto" OtherKey="id_produto" Type="tb_ProdutoDaLista" />
+      <Association Name="tb_Produto_tb_ProdutoInvalido" Member="tb_ProdutoInvalidos" ThisKey="id_produto" OtherKey="id_produtoAntigo" Type="tb_ProdutoInvalido" />
+      <Association Name="tb_Produto_tb_ProdutoInvalido1" Member="tb_ProdutoInvalidos1" ThisKey="id_produto" OtherKey="id_produtoNovo" Type="tb_ProdutoInvalido" />
+      <Association Name="tb_Produto_tb_Item" Member="tb_Items" ThisKey="id_produto" OtherKey="id_produto" Type="tb_Item" />
+      <Association Name="tb_Marca_tb_Produto" Member="tb_Marca" ThisKey="marca" OtherKey="id_marca" Type="tb_Marca" IsForeignKey="true" />
+      <Association Name="tb_Unidade_tb_Produto" Member="tb_Unidade" ThisKey="unidade" OtherKey="id_unidade" Type="tb_Unidade" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tb_ProdutoDaLista" Member="tb_ProdutoDaListas">
+    <Type Name="tb_ProdutoDaLista">
+      <Column Name="id_produto" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id_lista" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="quantidade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tb_ListaDeProduto_tb_ProdutoDaLista" Member="tb_ListaDeProduto" ThisKey="id_lista" OtherKey="id_listaDeProdutos" Type="tb_ListaDeProduto" IsForeignKey="true" />
+      <Association Name="tb_Produto_tb_ProdutoDaLista" Member="tb_Produto" ThisKey="id_produto" OtherKey="id_produto" Type="tb_Produto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tb_ProdutoInvalido" Member="tb_ProdutoInvalidos">
+    <Type Name="tb_ProdutoInvalido">
+      <Column Name="id_produtoAntigo" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id_produtoNovo" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ocorrencia" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="quantidadeDeOcorrencias" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tb_Produto_tb_ProdutoInvalido" Member="tb_Produto" ThisKey="id_produtoAntigo" OtherKey="id_produto" Type="tb_Produto" IsForeignKey="true" />
+      <Association Name="tb_Produto_tb_ProdutoInvalido1" Member="tb_Produto1" ThisKey="id_produtoNovo" OtherKey="id_produto" Type="tb_Produto" IsForeignKey="true" />
+      <Association Name="tb_Ocorrencia_tb_ProdutoInvalido" Member="tb_Ocorrencia" ThisKey="ocorrencia" OtherKey="id_ocorrencia" Type="tb_Ocorrencia" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tb_ItemDaLista" Member="tb_ItemDaListas">
+    <Type Name="tb_ItemDaLista">
+      <Column Name="id_lista" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nome_produto" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="marca_produto" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="preco" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="unidade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="quantidade" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tb_ListaDeIten_tb_ItemDaLista" Member="tb_ListaDeIten" ThisKey="id_lista" OtherKey="id_listaDeItens" Type="tb_ListaDeIten" IsForeignKey="true" />
+      <Association Name="tb_Unidade_tb_ItemDaLista" Member="tb_Unidade" ThisKey="unidade" OtherKey="id_unidade" Type="tb_Unidade" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tb_Item" Member="tb_Items">
+    <Type Name="tb_Item">
+      <Column Name="preco" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="compraMaisRecente" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="id_estabelecimento" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id_produto" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="tb_Estabelecimento_tb_Item" Member="tb_Estabelecimento" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_Estabelecimento" IsForeignKey="true" />
+      <Association Name="tb_Produto_tb_Item" Member="tb_Produto" ThisKey="id_produto" OtherKey="id_produto" Type="tb_Produto" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

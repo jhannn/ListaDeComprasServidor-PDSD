@@ -52,7 +52,7 @@ namespace ComprasDigital.Servidor
 
         //_______________________________________ RETORNAR PRODUTO ___________________________________________//
         [WebMethod]
-        public string retornarProdutos(int idUsuario, string token, string nome, string marca)
+        public string retornarProdutos(int idUsuario, string token, int idProduto)
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -61,7 +61,7 @@ namespace ComprasDigital.Servidor
 
             var dataContext = new Model.DataClassesDataContext();
             var produto = from p in dataContext.tb_Produtos 
-                           where p.nome.Contains(nome) && p.tb_Marca.marca == marca
+                           where p.id_produto == idProduto
                            select p;
 
             if (produto.Count() < 1) return js.Serialize(new ProdutoNaoEncontradoException());
@@ -70,7 +70,7 @@ namespace ComprasDigital.Servidor
         }
 
 		//_______________________________________ PESQUISAR PRODUTOS ___________________________________________//
-		[WebMethod]
+		[WebMethod] //Por Marca
 		public string pesquisarProdutosMarca(int idUsuario, string token, string marca)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
@@ -90,8 +90,7 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(produtos);
 		}
 
-		//___________________________________ PESQUISAR PRODUTOS POR NOME ________________________________________//
-		[WebMethod]
+		[WebMethod] //Por nome
 		public string pesquisarProdutosNome(int idUsuario, string token, string marca, string nome)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
@@ -100,7 +99,7 @@ namespace ComprasDigital.Servidor
 				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
-			var produtosPorNome = from p in dataContext.tb_Produtos where p.tb_Marca.marca.ToLower() == marca.ToLower() && p.nome.ToLower().Contains(nome.ToLower()) orderby p.marca select p;
+			var produtosPorNome = from p in dataContext.tb_Produtos where p.tb_Marca.marca.ToLower().Contains(marca.ToLower()) && p.nome.ToLower().Contains(nome.ToLower()) orderby p.marca select p;
 
 			if (produtosPorNome.Count() < 1) return js.Serialize(new PesquisaSemResultadosException());
 
@@ -111,18 +110,18 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(produtos);
 		}
 
-
+		//____________________________________________ CRIAR PRODUTOS ____________________________________________//
 		[WebMethod]
-		public string criarProduto(string marca, string nome, int tipo, int unidade)
+		public string criarProduto(string marca, string nome, int unidade)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, tipo, unidade)));
+			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, unidade)));
 		}
 		[WebMethod]
-		public string criarProdutoCodigo(string marca, string nome, string codigo, string tipoCod, int tipo, int unidade)
+		public string criarProdutoCodigo(string marca, string nome, string codigo, string tipoCod, int unidade)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, codigo, tipoCod, tipo, unidade)));
+			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, codigo, tipoCod, unidade)));
 		}
     }
 }

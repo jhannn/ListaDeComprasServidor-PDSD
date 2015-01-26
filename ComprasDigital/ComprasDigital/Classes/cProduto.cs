@@ -8,11 +8,11 @@ namespace ComprasDigital.Classes
 {
 	public class cProduto
 	{
+		public int id_produto { get; set; }
 		public string marca { get; set; }
 		public string nome { get; set; }
 		public string codigoDeBarras { get; set; }
 		public string tipoCodigoDeBarras { get; set; }
-		public string tipo { get; set; }
 		public string unidade { get; set; }
 
 		public cProduto() { }
@@ -22,13 +22,15 @@ namespace ComprasDigital.Classes
 			marca = prod.tb_Marca.marca;
 			codigoDeBarras = prod.codigoDeBarras;
 			nome = prod.nome;
-			tipo = prod.tb_Tipo.tipo;
+			id_produto = prod.id_produto;
 			tipoCodigoDeBarras = prod.tipoCodigoDeBarras;
 			unidade = prod.tb_Unidade.unidade;
 		}
 
+
+
 		//sem codigo de barras
-		public static tb_Produto criarProduto(string marca, string nome, int tipo, int unidade)
+		public static tb_Produto criarProduto(string marca, string nome, int unidade)
 		{
 			nome = nome.ToLower();
 			if (marca == "") marca = "sem marca";
@@ -41,7 +43,6 @@ namespace ComprasDigital.Classes
 			{/*produto não existe*/
 				novoProduto = new tb_Produto();
 				novoProduto.nome = nome;
-				novoProduto.tipo = tipo;
 				novoProduto.unidade = unidade;
 				novoProduto.marca = cMarca.criarMarca(marca).id_marca;
 				dataContext.tb_Produtos.InsertOnSubmit(novoProduto);
@@ -49,7 +50,7 @@ namespace ComprasDigital.Classes
 			}
 			else
 			{/*ja tem algum produto como esse*/
-				var prod = from p in produtos where p.unidade == unidade && p.tipo == tipo select p;
+				var prod = from p in produtos where p.unidade == unidade select p;
 				if (prod.Count() == 1)
 				{/*produto ja existe*/
 					return prod.FirstOrDefault();
@@ -63,8 +64,10 @@ namespace ComprasDigital.Classes
 			return (from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
 		}
 
+
+
 		//com codigo de barras
-		public static tb_Produto criarProduto(string marca, string nome, string codigoDeBarras, string tipoCodigoDeBarras, int tipo, int unidade)
+		public static tb_Produto criarProduto(string marca, string nome, string codigoDeBarras, string tipoCodigoDeBarras, int unidade)
 		{
 			nome = nome.ToLower();
 			if (marca == "") marca = "sem marca";
@@ -80,7 +83,6 @@ namespace ComprasDigital.Classes
 				{/*produto não existe*/
 					novoProduto = new tb_Produto();
 					novoProduto.nome = nome;
-					novoProduto.tipo = tipo;
 					novoProduto.unidade = unidade;
 					novoProduto.codigoDeBarras = codigoDeBarras;
 					novoProduto.tipoCodigoDeBarras = tipoCodigoDeBarras;
@@ -90,7 +92,7 @@ namespace ComprasDigital.Classes
 				}
 				else
 				{/*ja tem algum produto como esse*/
-					var prod = from p in produtos where p.unidade == unidade && p.tipo == tipo select p;
+					var prod = from p in produtos where p.unidade == unidade select p;
 					if (prod.Count() == 1)
 					{/*produto ja existe*/
 						if (prod.SingleOrDefault().codigoDeBarras == null)
@@ -119,7 +121,6 @@ namespace ComprasDigital.Classes
 				{/*produto não existe*/
 					novoProduto = new tb_Produto();
 					novoProduto.nome = nome;
-					novoProduto.tipo = tipo;
 					novoProduto.unidade = unidade;
 					novoProduto.marca = cMarca.criarMarca(marca).id_marca;
 					dataContext.tb_Produtos.InsertOnSubmit(novoProduto);
@@ -129,7 +130,7 @@ namespace ComprasDigital.Classes
 				}//-------------------------------------------------- parei aqui ------------------------------------------------------
 				else
 				{/*ja tem algum produto como esse*/
-					var prod = from p in produtos where p.unidade == unidade && p.tipo == tipo select p;
+					var prod = from p in produtos where p.unidade == unidade select p;
 					if (prod.Count() == 1)
 					{/*produto ja existe*/
 						if (prod.SingleOrDefault().codigoDeBarras == null)
