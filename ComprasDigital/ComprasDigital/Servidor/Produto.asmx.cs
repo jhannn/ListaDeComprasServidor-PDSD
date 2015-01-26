@@ -117,12 +117,13 @@ namespace ComprasDigital.Servidor
 			JavaScriptSerializer js = new JavaScriptSerializer();
 			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, unidade)));
 		}
-		[WebMethod]
-		public string criarProdutoCodigo(string marca, string nome, string codigo, string tipoCod, int unidade)
-		{
-			JavaScriptSerializer js = new JavaScriptSerializer();
-			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, codigo, tipoCod, unidade)));
-		}
+
+		//[WebMethod]
+		//public string criarProdutoCodigo(string marca, string nome, string codigo, string tipoCod, int unidade)
+		//{
+		//	JavaScriptSerializer js = new JavaScriptSerializer();
+		//	return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, codigo, tipoCod, unidade)));
+		//}
     }
 }
 

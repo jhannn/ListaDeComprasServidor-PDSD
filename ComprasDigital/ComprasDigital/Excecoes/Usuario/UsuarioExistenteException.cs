@@ -9,7 +9,7 @@ namespace ComprasDigital.Excecoes
 	{
 		public string erro { get; set; }
 		public UsuarioExistenteException()
-			: base("Já existe um usuário com este email!")
+			: base("Já existe um usuário com este email")
 		{
 			erro = "Erro de Usuário";
 		}

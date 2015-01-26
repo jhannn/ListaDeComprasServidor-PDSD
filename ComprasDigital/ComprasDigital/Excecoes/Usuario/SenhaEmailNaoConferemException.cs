@@ -9,7 +9,7 @@ namespace ComprasDigital.Excecoes
 	{
 		public string erro { get; set; }
 		public SenhaEmailNaoConferemException()
-			: base("A senha ou o email não conferem!")
+			: base("A senha ou o email não conferem")
 		{
 			erro = "Erro de Usuário";
 		}

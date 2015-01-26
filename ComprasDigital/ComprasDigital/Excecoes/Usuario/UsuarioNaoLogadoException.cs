@@ -9,7 +9,7 @@ namespace ComprasDigital.Excecoes
 	{
 		public string erro { get; set; }
 		public UsuarioNaoLogadoException()
-			: base("O usuário não está logado!")
+			: base("O usuário não está logado")
 		{
 			erro = "Erro de Usuário";
 		}

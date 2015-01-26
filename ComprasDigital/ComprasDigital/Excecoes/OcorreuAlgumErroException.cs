@@ -9,7 +9,7 @@ namespace ComprasDigital.Excecoes
 	{
 		public string erro { get; set; }
 		public OcorreuAlgumErroException()
-			: base("Ocorreu algum erro! Por favor repita o procedimento!")
+			: base("Ocorreu algum erro! Por favor repita o procedimento")
 		{
 			erro = "Erro de Genérico";
 		}

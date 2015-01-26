@@ -9,7 +9,7 @@ namespace ComprasDigital.Excecoes
 	{
 		public string erro { get; set; }
 		public PesquisaSemResultadosException()
-			: base("A pesquisa não trouxe nenhum resultado!")
+			: base("A pesquisa não trouxe nenhum resultado")
 		{
 			erro = "Erro de Pesquisa";
 		}

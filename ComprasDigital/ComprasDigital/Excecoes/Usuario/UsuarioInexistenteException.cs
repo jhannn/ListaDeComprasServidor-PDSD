@@ -9,7 +9,7 @@ namespace ComprasDigital.Excecoes
 	{
 		public string erro { get; set; }
 		public UsuarioInexistenteException()
-			: base("O usuário não existe!")
+			: base("O usuário não existe")
 		{
 			erro = "Erro de Usuário";
 		}
