@@ -147,13 +147,13 @@ namespace ComprasDigital.Servidor
         //_______________________________________ LOGOUT _______________________________________//
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		[WebMethod]
-		public string logout(string email, string token)
+		public string logout(int idUsuario, string token)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 			var dataContext = new Model.DataClassesDataContext();
-			var usuarios = from users in dataContext.tb_Usuarios where users.email==email && users.token==token select users;
+			var usuarios = from users in dataContext.tb_Usuarios where users.id_usuario==idUsuario && users.token==token select users;
 			if (usuarios.Count() != 1) return js.Serialize(new UsuarioNaoLogadoException());
-			Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.email == email);
+			Model.tb_Usuario objUsuario = dataContext.tb_Usuarios.Single(usuario => usuario.id_usuario == idUsuario);
 			objUsuario.token = "";
 			dataContext.SubmitChanges();
 
