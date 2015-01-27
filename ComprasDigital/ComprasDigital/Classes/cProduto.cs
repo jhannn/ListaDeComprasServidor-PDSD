@@ -13,9 +13,8 @@ namespace ComprasDigital.Classes
 		public string nome { get; set; }
 		public string codigoDeBarras { get; set; }
 		public string tipoCodigoDeBarras { get; set; }
+		public string embalagem { get; set; }
 		public string unidade { get; set; }
-
-		public cProduto() { }
 
 		public cProduto(tb_Produto prod)
 		{
@@ -25,18 +24,19 @@ namespace ComprasDigital.Classes
 			id_produto = prod.id_produto;
 			tipoCodigoDeBarras = prod.tipoCodigoDeBarras;
 			unidade = prod.tb_Unidade.unidade;
+			embalagem = prod.tb_Embalagem.embalagem;
 		}
 
 
 
 		//sem codigo de barras
-		public static tb_Produto criarProduto(string marca, string nome, int unidade)
+		public static tb_Produto criarProduto(string marca, string nome, int unidade, int embalagem)
 		{
 			nome = nome.ToLower();
 			if (marca == "") marca = "sem marca";
 			else marca = marca.ToLower();
 			var dataContext = new DataClassesDataContext();
-			var produtos = from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca select p;
+			var produtos = from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca && p.embalagem == embalagem select p;
 
 			tb_Produto novoProduto;
 			if (produtos.Count() < 1)
@@ -45,10 +45,11 @@ namespace ComprasDigital.Classes
 				novoProduto.nome = nome;
 				novoProduto.unidade = unidade;
 				novoProduto.marca = cMarca.criarMarca(marca).id_marca;
+				novoProduto.embalagem = embalagem;
 				dataContext.tb_Produtos.InsertOnSubmit(novoProduto);
 				dataContext.SubmitChanges();
 
-				novoProduto = (from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca && p.unidade == unidade orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
+				novoProduto = (from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca && p.unidade == unidade && p.embalagem == embalagem orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
 			}
 			else
 			{/*ja tem algum produto como esse*/
@@ -58,12 +59,13 @@ namespace ComprasDigital.Classes
 					return prod.FirstOrDefault();
 				}
 				else
-				{/*produto está com unidade ou tipo diferentes*/
+				{/*produto está com unidade ou embalagem diferentes*/
 					tb_Produto produtoAntigo = (from p in produtos orderby p.codigoDeBarras select p).FirstOrDefault();
 					novoProduto = new tb_Produto();
 					novoProduto.nome = nome;
 					novoProduto.unidade = unidade;
 					novoProduto.marca = cMarca.criarMarca(marca).id_marca;
+					novoProduto.embalagem = embalagem;
 					dataContext.tb_Produtos.InsertOnSubmit(novoProduto);
 					dataContext.SubmitChanges();
 

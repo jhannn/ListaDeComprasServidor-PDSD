@@ -110,12 +110,32 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(produtos);
 		}
 
-		//____________________________________________ CRIAR PRODUTOS ____________________________________________//
-		[WebMethod]
-		public string criarProduto(string marca, string nome, int unidade)
+		[WebMethod] //Por embalagem
+		public string pesquisarProdutosEmbalagem(int idUsuario, string token, string marca, string nome, int embalagem)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, unidade)));
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+			var dataContext = new Model.DataClassesDataContext();
+			var produtosPorNome = from p in dataContext.tb_Produtos where p.tb_Marca.marca.ToLower().Contains(marca.ToLower()) && p.nome.ToLower().Contains(nome.ToLower()) && p.embalagem == embalagem orderby p.marca select p;
+
+			if (produtosPorNome.Count() < 1) return js.Serialize(new PesquisaSemResultadosException());
+
+			ArrayList produtos = new ArrayList();
+			foreach (var prod in produtosPorNome)
+				produtos.Add(new cProduto(prod));
+
+			return js.Serialize(produtos);
+		}
+
+		//____________________________________________ CRIAR PRODUTOS ____________________________________________//
+		[WebMethod]
+		public string criarProduto(string marca, string nome, int unidade, int embalagem)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem)));
 		}
 
 		//[WebMethod]

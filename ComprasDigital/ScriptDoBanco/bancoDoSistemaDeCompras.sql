@@ -1,6 +1,8 @@
 CREATE DATABASE SistemaDeCompras;
 USE SistemaDeCompras;
 
+
+
 CREATE TABLE tb_Usuario
 (
 	id_usuario INT PRIMARY KEY IDENTITY(1,1),
@@ -8,17 +10,6 @@ CREATE TABLE tb_Usuario
 	email VARCHAR(50) NOT NULL,
 	senha VARCHAR(100) NOT NULL,
 	token VARCHAR(50) NULL
-);
-
-
-
-CREATE TABLE tb_Estabelecimento
-(
-	id_estabelecimento INT PRIMARY KEY IDENTITY(1,1),
-	nome VARCHAR(50) NOT NULL,
-	bairro VARCHAR(100) NOT NULL,
-	cidade VARCHAR(100) NOT NULL,
-	numero INT NOT NULL
 );
 
 
@@ -56,6 +47,22 @@ INSERT INTO tb_Unidade VALUES ('Litro');
 
 
 
+CREATE TABLE tb_Embalagem
+(
+	id_embalagem INT PRIMARY KEY IDENTITY(1,1),
+	embalagem varchar(20)
+);
+INSERT INTO tb_Embalagem VALUES ('Outra');
+INSERT INTO tb_Embalagem VALUES ('Unidade');
+INSERT INTO tb_Embalagem VALUES ('Pacote');
+INSERT INTO tb_Embalagem VALUES ('Caixa');
+INSERT INTO tb_Embalagem VALUES ('Garrafa');
+INSERT INTO tb_Embalagem VALUES ('Lata');
+INSERT INTO tb_Embalagem VALUES ('Barra');
+INSERT INTO tb_Embalagem VALUES ('Peso');
+
+
+
 CREATE TABLE tb_Ocorrencia
 (
 	id_ocorrencia INT PRIMARY KEY IDENTITY(1,1),
@@ -68,6 +75,17 @@ INSERT INTO tb_Ocorrencia VALUES ('Unidade diferente');
 
 
 
+CREATE TABLE tb_Estabelecimento
+(
+	id_estabelecimento INT PRIMARY KEY IDENTITY(1,1),
+	nome VARCHAR(50) NOT NULL,
+	bairro VARCHAR(100) NOT NULL,
+	cidade VARCHAR(100) NOT NULL,
+	numero INT NOT NULL
+);
+
+
+
 CREATE TABLE tb_Produto
 (
 	id_produto INT PRIMARY KEY IDENTITY(1,1),
@@ -76,6 +94,7 @@ CREATE TABLE tb_Produto
 	codigoDeBarras VARCHAR(50),
 	tipoCodigoDeBarras VARCHAR(50),
 	unidade INT FOREIGN KEY REFERENCES tb_Unidade(id_unidade) NOT NULL,
+	embalagem INT FOREIGN KEY REFERENCES tb_Embalagem(id_embalagem) NOT NULL
 );
 
 
