@@ -239,7 +239,7 @@ namespace ComprasDigital.Servidor
 
 		//_______________________________________ REMOVER PRODUTO DA LISTA ___________________________________________//
 		[WebMethod]
-		public string removerProdutoDaLista(int idUsuario,string token,string nomeProduto)
+		public string removerProdutoDaLista(int idUsuario,string token,int idProduto)
 		{
             JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -248,7 +248,7 @@ namespace ComprasDigital.Servidor
 
             var dataContext = new Model.DataClassesDataContext();
             var querryProdutos = from p in dataContext.tb_ProdutoDaListas
-                                 where p.nome_produto == nomeProduto
+                                 where p.id_produto == idProduto
                                  select p;
 
             foreach(var prod in querryProdutos)
