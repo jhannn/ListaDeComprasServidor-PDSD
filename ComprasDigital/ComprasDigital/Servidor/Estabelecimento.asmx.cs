@@ -111,7 +111,7 @@ namespace ComprasDigital.Servidor
 			if (estabelecimentos.Count() == 1)
 			{
 				var estab = estabelecimentos.SingleOrDefault();
-				return js.Serialize(estab); //FirstOrDefault()
+				return js.Serialize(new cEstabelecimento(estab)); //FirstOrDefault()
 			}
 			return js.Serialize(new EstabelecimentoNaoExistenteException());
 		}
