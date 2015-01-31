@@ -24,7 +24,7 @@ namespace ComprasDigital.Servidor
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-    // [System.Web.Script.Services.ScriptService]
+    [System.Web.Script.Services.ScriptService]
     public class Estabelecimento : System.Web.Services.WebService
     {
 
@@ -111,7 +111,7 @@ namespace ComprasDigital.Servidor
 			if (estabelecimentos.Count() == 1)
 			{
 				var estab = estabelecimentos.SingleOrDefault();
-				return js.Serialize(new cEstabelecimento(estab)); //FirstOrDefault()
+				return js.Serialize(estab); //FirstOrDefault()
 			}
 			return js.Serialize(new EstabelecimentoNaoExistenteException());
 		}
