@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\inetpub\wwwroot\WebService</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/ComprasDigital.dll">
+      <publishTime>02/01/2015 12:05:32</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>01/27/2015 09:34:51</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>01/27/2015 09:34:50</publishTime>
+    </File>
+    <File Include="Model/DataClasses.dbml">
+      <publishTime>01/27/2015 19:45:08</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>01/27/2015 09:34:47</publishTime>
+    </File>
+    <File Include="Servidor/Estabelecimento.asmx">
+      <publishTime>01/27/2015 09:34:40</publishTime>
+    </File>
+    <File Include="Servidor/Item.asmx">
+      <publishTime>01/27/2015 09:34:40</publishTime>
+    </File>
+    <File Include="Servidor/ListaDeItens.asmx">
+      <publishTime>01/27/2015 09:34:40</publishTime>
+    </File>
+    <File Include="Servidor/ListaDeProdutos.asmx">
+      <publishTime>01/27/2015 09:34:40</publishTime>
+    </File>
+    <File Include="Servidor/Produto.asmx">
+      <publishTime>01/27/2015 09:34:40</publishTime>
+    </File>
+    <File Include="Servidor/Usuario.asmx">
+      <publishTime>01/27/2015 09:34:40</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>01/27/2015 20:03:30</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
