@@ -74,7 +74,7 @@ namespace ComprasDigital.Servidor
                              where l.id_listaDeProdutos == idLista 
                              select l).Single();
 
-			if (queryLista.id_listaDeProdutos == null)
+			if (queryLista.id_listaDeProdutos < 1)
 				return js.Serialize(new ListaNaoEncontradaException());
 
 			var listas = from l in dataContext.tb_ListaDeProdutos where l.id_usuario == idUsuario && l.nome.ToLower() == novoNomeDaLista.ToLower() select l;
