@@ -69,31 +69,6 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(new cProduto(produto.FirstOrDefault()));
         }
 
-        //_______________________________________ RETORNAR PRODUTOS DA LISTA___________________________________________//
-        [WebMethod]
-        public string retornarProdutosDaLista(int idUsuario, string token,int idLista)
-        {
-            JavaScriptSerializer js = new JavaScriptSerializer();
-
-            if (!cUsuario.usuarioValido(idUsuario, token))
-                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
-
-            var dataContext = new Model.DataClassesDataContext();
-            var produto = from p in dataContext.tb_ProdutoDaListas
-                          where p.id_lista == idLista
-                          select p;
-
-            if (produto.Count() < 1) return js.Serialize(new ProdutoNaoEncontradoException());
-
-            ArrayList listaDeprodutos = new ArrayList();
-            foreach (var prod in produto)
-            {
-                listaDeprodutos.Add(new cProdutoDaLista(prod));
-            }
-
-            return js.Serialize(listaDeprodutos);
-        }
-
 		//_______________________________________ PESQUISAR PRODUTOS ___________________________________________//
 		[WebMethod] //Por Marca
 		public string pesquisarProdutosMarca(int idUsuario, string token, string marca)

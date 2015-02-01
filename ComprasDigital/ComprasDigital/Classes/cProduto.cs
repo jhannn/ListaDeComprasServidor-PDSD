@@ -24,7 +24,7 @@ namespace ComprasDigital.Classes
 			id_produto = prod.id_produto;
 			tipoCodigoDeBarras = prod.tipoCodigoDeBarras;
 			unidade = prod.tb_Unidade.unidade;
-            embalagem = prod.tb_Embalagem.embalagem;
+			embalagem = prod.tb_Embalagem.embalagem;
 		}
 
 
