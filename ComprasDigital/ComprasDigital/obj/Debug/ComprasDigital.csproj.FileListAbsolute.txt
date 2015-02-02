@@ -86,3 +86,7 @@ C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\Comp
 C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.xml
 C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.xml
 C:\Users\Ruann\Desktop\Faculdade\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Debug\ComprasDigital.pdb
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.dll
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.dll
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.xml
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.xml

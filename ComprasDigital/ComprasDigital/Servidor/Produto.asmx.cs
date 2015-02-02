@@ -50,6 +50,29 @@ namespace ComprasDigital.Servidor
              return js.Serialize(listasDeProdutos);
         }
 
+        //_______________________________________ AUTOCOMPLETE MARCA ___________________________________________//
+        [WebMethod]
+        public string autocompleteMarca(int idUsuario, string token, string nomeMarca)
+        {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+            var dataContext = new Model.DataClassesDataContext();
+            var marcas = (from m in dataContext.tb_Marcas
+                            where m.marca.Contains(nomeMarca)
+                            select m.marca).Take(5);
+
+            ArrayList listasDeMarcas = new ArrayList();
+            foreach (var nome in marcas)
+            {
+                listasDeMarcas.Add(nome);
+            }
+
+            return js.Serialize(listasDeMarcas);
+        }
+
         //_______________________________________ RETORNAR PRODUTO ___________________________________________//
         [WebMethod]
         public string retornarProdutos(int idUsuario, string token, int idProduto)
