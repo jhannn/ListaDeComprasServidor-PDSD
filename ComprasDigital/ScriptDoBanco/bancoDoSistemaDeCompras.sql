@@ -44,6 +44,8 @@ INSERT INTO tb_Unidade VALUES (1, 'Unidade');
 INSERT INTO tb_Unidade VALUES (2, 'KG');
 INSERT INTO tb_Unidade VALUES (3, 'Gramas');
 INSERT INTO tb_Unidade VALUES (4, 'Litro');
+INSERT INTO tb_Unidade VALUES (5, 'ML');
+INSERT INTO tb_Unidade VALUES (6, 'Penca, Molho');
 
 
 
@@ -177,6 +179,9 @@ CREATE TABLE tb_ItemDaLista
 
 
 
+INSERT INTO tb_Usuario VALUES ('teste_banco', 'teste_banco', '123', '1');
+INSERT INTO tb_Usuario VALUES ('teste_banco2', 'teste_banco2', '456', '2');
+
 INSERT INTO tb_Marca VALUES ('');
 INSERT INTO tb_Marca VALUES ('garoto');
 INSERT INTO tb_Marca VALUES ('nestle');
@@ -204,23 +209,146 @@ INSERT INTO tb_Produto VALUES('leite integral',4 , null, null, 1, 4);
 INSERT INTO tb_Produto VALUES('milk',4 , null, null, 1, 4);
 INSERT INTO tb_Produto VALUES('classico semidesnatado',4 , null, null, 1, 4);
 
+--('Nordestão', 'ZN', 'Natal', 0);
+INSERT INTO tb_Item VALUES(1, 01, 1.99, 5, GETDATE());	--banana
+INSERT INTO tb_Item VALUES(1, 01, 2.00, 1, GETDATE()-2);--banana de outra data
+INSERT INTO tb_Item VALUES(1, 01, 1.95, 1, GETDATE()-9);--banana de outra data
+INSERT INTO tb_Item VALUES(1, 01, 2.00, 1, GETDATE());	--banana com preço errado
+INSERT INTO tb_Item VALUES(1, 02, 3.50, 7, GETDATE());	--maçã
+INSERT INTO tb_Item VALUES(1, 02, 3.50, 7, GETDATE()-3);--maçã de outra data
+INSERT INTO tb_Item VALUES(1, 02, 3.50, 7, GETDATE()-9);--maçã de outra data
+INSERT INTO tb_Item VALUES(1, 05, 2.30, 6, GETDATE());	--alcool garrafa
+INSERT INTO tb_Item VALUES(1, 05, 2.00, 2, GETDATE());	--alcool garrafa com preço errado
+INSERT INTO tb_Item VALUES(1, 05, 2.00, 2, GETDATE()-3);--alcool garrafa outra data
+INSERT INTO tb_Item VALUES(1, 06, 3.75, 5, GETDATE());	--variedades
+INSERT INTO tb_Item VALUES(1, 06, 3.80, 5, GETDATE()-3);--variedades de outra data
+INSERT INTO tb_Item VALUES(1, 07, 2.50, 2, GETDATE());	--neston 200ml
+INSERT INTO tb_Item VALUES(1, 07, 2.40, 2, GETDATE());	--neston 200ml
+INSERT INTO tb_Item VALUES(1, 08, 2.55, 5, GETDATE());	--nescau 200ml
+INSERT INTO tb_Item VALUES(1, 08, 2.50, 1, GETDATE());	--nescau 200ml com preço errado
+INSERT INTO tb_Item VALUES(1, 08, 2.50, 1, GETDATE());	--nescau 200ml com preço errado
+INSERT INTO tb_Item VALUES(1, 09, 2.90, 2, GETDATE()-2);--alpino 200ml outra data
+INSERT INTO tb_Item VALUES(1, 10, 5.55, 6, GETDATE());	--farinha lactea 400g
+INSERT INTO tb_Item VALUES(1, 11, 1.00, 2, GETDATE());	--Baton
+INSERT INTO tb_Item VALUES(1, 16, 2.00, 3, GETDATE());	--Milk
+
+--('Nordestão', 'ZS', 'Natal', 0);
+INSERT INTO tb_Item VALUES(3, 01, 2.99, 5, GETDATE());	--banana
+INSERT INTO tb_Item VALUES(3, 01, 3.00, 1, GETDATE()-2);--banana de outra data
+INSERT INTO tb_Item VALUES(3, 01, 2.95, 1, GETDATE()-9);--banana de outra data
+INSERT INTO tb_Item VALUES(3, 01, 3.00, 1, GETDATE());	--banana com preço errado
+INSERT INTO tb_Item VALUES(3, 02, 4.50, 7, GETDATE());	--maçã
+INSERT INTO tb_Item VALUES(3, 02, 4.50, 7, GETDATE()-3);--maçã de outra data
+INSERT INTO tb_Item VALUES(3, 02, 4.50, 7, GETDATE()-9);--maçã de outra data
+INSERT INTO tb_Item VALUES(3, 05, 3.30, 6, GETDATE());	--alcool garrafa
+INSERT INTO tb_Item VALUES(3, 05, 3.00, 2, GETDATE());	--alcool garrafa com preço errado
+INSERT INTO tb_Item VALUES(3, 05, 3.00, 2, GETDATE()-3);--alcool garrafa outra data
+INSERT INTO tb_Item VALUES(3, 06, 4.75, 5, GETDATE());	--variedades
+INSERT INTO tb_Item VALUES(3, 06, 4.80, 5, GETDATE()-3);--variedades de outra data
+INSERT INTO tb_Item VALUES(3, 07, 3.50, 2, GETDATE());	--neston 200ml
+INSERT INTO tb_Item VALUES(3, 07, 3.40, 2, GETDATE());	--neston 200ml
+INSERT INTO tb_Item VALUES(3, 08, 3.55, 5, GETDATE());	--nescau 200ml
+INSERT INTO tb_Item VALUES(3, 08, 3.50, 1, GETDATE());	--nescau 200ml com preço errado
+INSERT INTO tb_Item VALUES(3, 08, 3.50, 1, GETDATE());	--nescau 200ml com preço errado
+INSERT INTO tb_Item VALUES(3, 09, 3.90, 2, GETDATE()-2);--alpino 200ml outra data
+INSERT INTO tb_Item VALUES(3, 10, 6.55, 6, GETDATE());	--farinha lactea 400g
+INSERT INTO tb_Item VALUES(3, 11, 2.00, 2, GETDATE());	--Baton
+INSERT INTO tb_Item VALUES(3, 16, 3.00, 3, GETDATE());	--Milk
+
+--('Carrefour', 'ZN', 'Natal', 0);
+INSERT INTO tb_Item VALUES(2, 01, 2.15, 5, GETDATE());	--banana
+INSERT INTO tb_Item VALUES(2, 01, 2.00, 1, GETDATE()-2);--banana de outra data
+INSERT INTO tb_Item VALUES(2, 01, 1.95, 1, GETDATE()-9);--banana de outra data
+INSERT INTO tb_Item VALUES(2, 01, 2.00, 1, GETDATE());	--banana com preço errado
+INSERT INTO tb_Item VALUES(2, 05, 2.20, 6, GETDATE());	--alcool garrafa
+INSERT INTO tb_Item VALUES(2, 05, 2.00, 2, GETDATE());	--alcool garrafa com preço errado
+INSERT INTO tb_Item VALUES(2, 05, 2.00, 2, GETDATE()-3);--alcool garrafa outra data
+INSERT INTO tb_Item VALUES(2, 06, 3.70, 5, GETDATE());	--variedades
+INSERT INTO tb_Item VALUES(2, 06, 3.80, 5, GETDATE()-3);--variedades de outra data
+INSERT INTO tb_Item VALUES(2, 07, 2.50, 2, GETDATE());	--neston 200ml
+INSERT INTO tb_Item VALUES(2, 07, 2.40, 2, GETDATE());	--neston 200ml
+INSERT INTO tb_Item VALUES(2, 08, 2.55, 5, GETDATE());	--nescau 200ml
+INSERT INTO tb_Item VALUES(2, 09, 2.90, 2, GETDATE()-2);--alpino 200ml outra data
+INSERT INTO tb_Item VALUES(2, 10, 5.50, 6, GETDATE());	--farinha lactea 400g
+
+INSERT INTO tb_ListaDeProdutos VALUES ('Lista A', 1);
+INSERT INTO tb_ListaDeProdutos VALUES ('Lista B', 1);
+INSERT INTO tb_ListaDeProdutos VALUES ('Lista a', 2);
+
+INSERT INTO tb_ProdutoDaLista VALUES (10, 1, 2);	--Lista A	-Farinha Lactea 400g
+INSERT INTO tb_ProdutoDaLista VALUES (08, 1, 3);	--Lista A	-Nescau 200ml
+INSERT INTO tb_ProdutoDaLista VALUES (11, 1, 3);	--Lista A	-Baton
+INSERT INTO tb_ProdutoDaLista VALUES (06, 1, 1);	--Lista A	-Variedades
+INSERT INTO tb_ProdutoDaLista VALUES (16, 1, 2);	--Lista A	-Milk
+INSERT INTO tb_ProdutoDaLista VALUES (01, 1, 1);	--Lista A	-Banana
+INSERT INTO tb_ProdutoDaLista VALUES (02, 1, 1);	--Lista A	-Maçã
+
+INSERT INTO tb_ProdutoDaLista VALUES (10, 2, 1);	--Lista B	-Farinha Lactea 400g
+INSERT INTO tb_ProdutoDaLista VALUES (11, 2, 3);	--Lista B	-Baton
+INSERT INTO tb_ProdutoDaLista VALUES (01, 2, 1);	--Lista B	-Banana
+INSERT INTO tb_ProdutoDaLista VALUES (02, 2, 1);	--Lista B	-Maçã
+
+INSERT INTO tb_ProdutoDaLista VALUES (10, 3, 3);	--Lista C	-Farinha Lactea 400g
+INSERT INTO tb_ProdutoDaLista VALUES (16, 3, 2);	--Lista C	-Milk
+INSERT INTO tb_ProdutoDaLista VALUES (01, 3, 1);	--Lista C	-Banana
+INSERT INTO tb_ProdutoDaLista VALUES (02, 3, 1);	--Lista C	-Maçã
 
 
+
+--Usuario
+SELECT id_usuario AS id, token, nome, email, senha
+FROM tb_Usuario;
+
+--Listas dos usuarios
+SELECT u.id_usuario AS idUsuario, u.nome AS nomeUsuario, l.id_listaDeProdutos AS idLista, l.nome AS nomeLista
+FROM tb_ListaDeProdutos AS l
+INNER JOIN tb_Usuario AS u ON u.id_usuario = l.id_usuario;
+
+--Produtos de alguma lista
+DECLARE @idLista INT;
+SET @idLista = 2;
+SELECT pdl.quantidade, m.marca, p.nome, e.embalagem, u.unidade
+FROM tb_ProdutoDaLista AS pdl
+INNER JOIN tb_ListaDeProdutos AS l ON l.id_listaDeProdutos = @idLista
+									AND l.id_listaDeProdutos = pdl.id_lista
+INNER JOIN tb_Produto AS p ON p. id_produto = pdl.id_produto
+INNER JOIN tb_Marca AS m ON p.marca = m.id_marca
+INNER JOIN tb_Unidade AS u ON p.unidade = u.id_unidade
+INNER JOIN tb_Embalagem AS e ON p.embalagem = e.id_embalagem;
+
+--Unidades
 SELECT id_unidade AS id, unidade
 FROM tb_Unidade;
 
+--Marcas
 SELECT id_marca AS id, marca
 FROM tb_Marca;
 
+--Embalagens
 SELECT id_embalagem AS id, embalagem
 FROM tb_Embalagem
 
+--Estabelecimentos
 SELECT id_estabelecimento AS id, nome, bairro, cidade, numero
 FROM tb_Estabelecimento;
 
+--Produtos
 SELECT p.id_produto AS id, m.marca, p.nome, e.embalagem, u.unidade, p.codigoDeBarras, p.tipoCodigoDeBarras
 FROM tb_Produto AS p
 INNER JOIN tb_Marca AS m ON p.marca = m.id_marca
 INNER JOIN tb_Unidade AS u ON p.unidade = u.id_unidade
 INNER JOIN tb_Embalagem AS e ON p.embalagem = e.id_embalagem
 ORDER BY m.marca, p.nome, e.embalagem, u.unidade
+
+--Produtos de algum estabelecimento
+DECLARE @idEstabelecimento INT;
+SET @idEstabelecimento = 3;
+SELECT i.data, i.preco, i.qualificacao, p.id_produto AS idProduto, m.marca, p.nome, e.embalagem, u.unidade
+FROM tb_Item AS i
+INNER JOIN tb_Estabelecimento AS estab ON estab.id_estabelecimento = @idEstabelecimento
+										AND estab.id_estabelecimento = i.id_estabelecimento
+INNER JOIN tb_Produto AS p ON p.id_produto = i.id_produto
+INNER JOIN tb_Marca AS m ON p.marca = m.id_marca
+INNER JOIN tb_Unidade AS u ON p.unidade = u.id_unidade
+INNER JOIN tb_Embalagem AS e ON p.embalagem = e.id_embalagem
+ORDER BY i.data DESC, i.qualificacao DESC;
