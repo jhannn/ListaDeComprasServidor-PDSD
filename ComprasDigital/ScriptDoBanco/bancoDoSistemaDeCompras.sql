@@ -131,11 +131,12 @@ CREATE TABLE tb_ProdutoInvalido
 
 CREATE TABLE tb_Item
 (
-	preco FLOAT NOT NULL,
-	compraMaisRecente DATE NOT NULL,
+	id_item INT PRIMARY KEY IDENTITY(1,1),
 	id_estabelecimento INT FOREIGN KEY REFERENCES tb_Estabelecimento(id_estabelecimento) NOT NULL,
 	id_produto INT FOREIGN KEY REFERENCES tb_Produto(id_produto) NOT NULL,
-	PRIMARY KEY CLUSTERED (id_produto, id_estabelecimento)
+	preco FLOAT NOT NULL,
+	qualificacao INT NOT NULL,
+	data DATE NOT NULL
 );
 
 
@@ -185,23 +186,23 @@ INSERT INTO tb_Estabelecimento VALUES ('Nordestão', 'ZN', 'Natal', 0);
 INSERT INTO tb_Estabelecimento VALUES ('Carrefour', 'ZN', 'Natal', 0);
 INSERT INTO tb_Estabelecimento VALUES ('Nordestão', 'ZS', 'Natal', 0);
 
-INSERT INTO tb_Produto VALUES('banana',@vazio , null, null, 2, @Outra);
-INSERT INTO tb_Produto VALUES('maçã',@vazio , null, null, 2, @Outra);
-INSERT INTO tb_Produto VALUES('gasolina',@vazio , null, null, 4, @Outra);
-INSERT INTO tb_Produto VALUES('alcool',@vazio , null, null, 4, @Outra);
-INSERT INTO tb_Produto VALUES('alcool',@vazio , null, null, 1, @Garrafa);
-INSERT INTO tb_Produto VALUES('variedades',@nestle , null, null, 1, @Caixa);
-INSERT INTO tb_Produto VALUES('neston 200ml',@nestle , null, null, 1, @Garrafa);
-INSERT INTO tb_Produto VALUES('nescau 200ml',@nestle , null, null, 1, @Garrafa);
-INSERT INTO tb_Produto VALUES('alpino 200ml',@nestle , null, null, 1, @Garrafa);
-INSERT INTO tb_Produto VALUES('farinha lactea 400g',@nestle , null, null, 1, @Lata);
-INSERT INTO tb_Produto VALUES('baton',@garoto , null, null, 1, @Unidade);
-INSERT INTO tb_Produto VALUES('talento 100g',@garoto , null, null, 1, @Barra);
-INSERT INTO tb_Produto VALUES('talento',@garoto , null, null, 1, @Unidade);
-INSERT INTO tb_Produto VALUES('castanha de caju',@garoto , null, null, 1, @Barra);
-INSERT INTO tb_Produto VALUES('leite integral',@parmalat , null, null, 1, @Caixa);
-INSERT INTO tb_Produto VALUES('milk',@parmalat , null, null, 1, @Caixa);
-INSERT INTO tb_Produto VALUES('classico semidesnatado',@parmalat , null, null, 1, @Caixa);
+INSERT INTO tb_Produto VALUES('banana',1 , null, null, 2, 1);
+INSERT INTO tb_Produto VALUES('maçã',1 , null, null, 2, 1);
+INSERT INTO tb_Produto VALUES('gasolina',1 , null, null, 4, 1);
+INSERT INTO tb_Produto VALUES('alcool',1 , null, null, 4, 1);
+INSERT INTO tb_Produto VALUES('alcool',1 , null, null, 1, 5);
+INSERT INTO tb_Produto VALUES('variedades',3 , null, null, 1, 4);
+INSERT INTO tb_Produto VALUES('neston 200ml',3 , null, null, 1, 5);
+INSERT INTO tb_Produto VALUES('nescau 200ml',3 , null, null, 1, 5);
+INSERT INTO tb_Produto VALUES('alpino 200ml',3 , null, null, 1, 5);
+INSERT INTO tb_Produto VALUES('farinha lactea 400g',3 , null, null, 1, 6);
+INSERT INTO tb_Produto VALUES('baton',2 , null, null, 1, 2);
+INSERT INTO tb_Produto VALUES('talento 100g',2 , null, null, 1, 7);
+INSERT INTO tb_Produto VALUES('talento',2 , null, null, 1, 2);
+INSERT INTO tb_Produto VALUES('castanha de caju',2 , null, null, 1, 7);
+INSERT INTO tb_Produto VALUES('leite integral',4 , null, null, 1, 4);
+INSERT INTO tb_Produto VALUES('milk',4 , null, null, 1, 4);
+INSERT INTO tb_Produto VALUES('classico semidesnatado',4 , null, null, 1, 4);
 
 
 
