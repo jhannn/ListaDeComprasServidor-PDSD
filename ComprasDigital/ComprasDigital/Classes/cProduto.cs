@@ -65,11 +65,14 @@ namespace ComprasDigital.Classes
 				var prod = from p in produtos where p.unidade == unidade orderby p.codigoDeBarras select p;
 				if (prod.Count() == 1)
 				{/*produto ja existe*/
-					return prod.FirstOrDefault();
+					tb_Produto retorno = prod.FirstOrDefault();
+					cProdutoInvalido.verificarOcorrencias(retorno);
+					return retorno;
+
 				}
 				else
 				{/*produto está com unidade diferentes*/
-					tb_Produto produtoAntigo = (from p in produtos orderby p.codigoDeBarras select p).FirstOrDefault();
+					tb_Produto produtoAntigo = (from p in produtos orderby p.codigoDeBarras orderby p.id_produto select p).FirstOrDefault();
 					gravarProduto(marca, nome, unidade, embalagem);
 					novoProduto = (from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca && p.unidade == unidade orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
 					cProdutoInvalido.criarProdutoInvalido(produtoAntigo, novoProduto, (int)Ocorrencia.UnidadeDiferente);
@@ -107,7 +110,7 @@ namespace ComprasDigital.Classes
 					var prodComUnidade = from p in produtos where p.unidade == unidade select p;
 					if (prodComCodigo.Count() < 1)
 					{//Nenhuma das versões do produto possuem código de barras
-						//se tiver com a mesma unidade, att; se não, cria outro
+						//se tiver com a mesma unidade, coloca o código nele; se não, cria outro
 						if(prodComUnidade.Count() < 1)
 						{//cria um novo produto
 							gravarProduto(marca, nome, unidade, embalagem, codigoDeBarras, tipoCodigoDeBarras);
@@ -115,6 +118,7 @@ namespace ComprasDigital.Classes
 						else
 						{//atualiza o antigo
 							novoProduto = (prodComUnidade).SingleOrDefault();
+							cProdutoInvalido.verificarOcorrencias(novoProduto);
 							novoProduto.codigoDeBarras = codigoDeBarras;
 							novoProduto.tipoCodigoDeBarras = tipoCodigoDeBarras;
 							dataContext.SubmitChanges();
@@ -129,7 +133,7 @@ namespace ComprasDigital.Classes
 							gravarProduto(marca, nome, unidade, embalagem, codigoDeBarras, tipoCodigoDeBarras);
 						}
 						else
-						{// é o mesmo produto
+						{// é o mesmo produto, mas com código diferente
 							//criar produto inválido: 2 codigos pra 1 produto
 							tb_Produto produtoAntigo = (from p in prodComUnidade orderby p.codigoDeBarras select p).FirstOrDefault();
 							gravarProduto(marca, nome, unidade, embalagem, codigoDeBarras, tipoCodigoDeBarras);
@@ -142,22 +146,45 @@ namespace ComprasDigital.Classes
 			}
 			else
 			{//o código de barras ja existe
+				tb_Produto produtoAntigo;
 				var produtos = from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca && p.embalagem == embalagem select p;
 				if(produtos.Count() < 1)
 				{//o produto não existe
 					//criar produto inválido: 1 código pra 2 produtos
-					tb_Produto produtoAntigo = (codigo).FirstOrDefault();
+					produtoAntigo = (codigo).FirstOrDefault();
 					gravarProduto(marca, nome, unidade, embalagem);
 					novoProduto = (from p in dataContext.tb_Produtos where p.codigoDeBarras == codigoDeBarras orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
 					cProdutoInvalido.criarProdutoInvalido(produtoAntigo, novoProduto, (int)Ocorrencia.CodigoJaExistente);
 				}
 				else
 				{//o produto já existe
-					//existe com a mesma unidade?
+					var prodComCodigo = (from p in produtos where p.codigoDeBarras == codigoDeBarras select p).SingleOrDefault();
 					var prodComUnidade = from p in produtos where p.unidade == unidade select p;
-					tb_Produto produtoAntigo;
+					//o código pertence a ele?
+					if (prodComUnidade.Count() == 1)
+					{//retorna o produto
+						if (prodComUnidade.SingleOrDefault().id_produto == prodComCodigo.id_produto)
+						{
+							novoProduto = prodComUnidade.FirstOrDefault();
+							cProdutoInvalido.verificarOcorrencias(novoProduto);
+						}
+						else
+						{
+
+						}
+					}
+					else
+					{//apenas gera o produto inválido
+						novoProduto = (prodComUnidade).FirstOrDefault();
+						cProdutoInvalido.verificarOcorrencias(novoProduto);
+						cProdutoInvalido.criarProdutoInvalido(produtoAntigo, novoProduto, (int)Ocorrencia.CodigoJaExistente);
+					}
+
+					produtoAntigo = prodComUnidade.FirstOrDefault();
+					//existe com a mesma unidade?
 					if (prodComUnidade.Count() < 1)
-					{//cadastra um novo e cria um produto inválido
+					{//a unidade existente é diferente
+						//cadastra um novo e cria um produto inválido
 						produtoAntigo = (codigo).FirstOrDefault();
 						gravarProduto(marca, nome, unidade, embalagem);
 						novoProduto = (from p in dataContext.tb_Produtos where p.codigoDeBarras == codigoDeBarras orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
@@ -165,17 +192,6 @@ namespace ComprasDigital.Classes
 					}
 					else
 					{
-						//o código pertence a ele?
-						produtoAntigo = prodComUnidade.FirstOrDefault();
-						if (produtoAntigo.codigoDeBarras == codigoDeBarras)
-						{//retorna o produto
-							novoProduto = produtoAntigo;
-						}
-						else
-						{//apenas gera o produto inválido
-							novoProduto = (prodComUnidade).FirstOrDefault();
-							cProdutoInvalido.criarProdutoInvalido(produtoAntigo, novoProduto, (int)Ocorrencia.CodigoJaExistente);
-						}
 					}
 				}
 			}
