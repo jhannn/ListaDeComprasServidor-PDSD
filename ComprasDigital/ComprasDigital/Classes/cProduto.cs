@@ -92,111 +92,128 @@ namespace ComprasDigital.Classes
 			var dataContext = new DataClassesDataContext();
 			tb_Produto novoProduto;
 
-			var codigo = from p in dataContext.tb_Produtos where p.codigoDeBarras == codigoDeBarras select p;
-
-			if (codigo.Count() < 1)
-			{//O código não existe
-				var produtos = from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca && p.embalagem == embalagem select p;
-
-				if (produtos.Count() < 1)
-				{//O produto não existe
-					//cria novo produto
-					gravarProduto(marca, nome, unidade, embalagem, codigoDeBarras, tipoCodigoDeBarras);
-					novoProduto = (from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca && p.unidade == unidade && p.embalagem == embalagem orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
-				}
-				else
-				{//ja tem algum produto como esse. checar se ele tem codigo
-					var prodComCodigo = from p in produtos where p.codigoDeBarras != null orderby p.codigoDeBarras select p;
-					var prodComUnidade = from p in produtos where p.unidade == unidade select p;
-					if (prodComCodigo.Count() < 1)
-					{//Nenhuma das versões do produto possuem código de barras
-						//se tiver com a mesma unidade, coloca o código nele; se não, cria outro
-						if(prodComUnidade.Count() < 1)
-						{//cria um novo produto
-							gravarProduto(marca, nome, unidade, embalagem, codigoDeBarras, tipoCodigoDeBarras);
-						}
-						else
-						{//atualiza o antigo
-							novoProduto = (prodComUnidade).SingleOrDefault();
-							cProdutoInvalido.verificarOcorrencias(novoProduto);
-							novoProduto.codigoDeBarras = codigoDeBarras;
-							novoProduto.tipoCodigoDeBarras = tipoCodigoDeBarras;
-							dataContext.SubmitChanges();
-						}
-					}
-					else
-					{//algum dos produtos tem código de barras
-						//checa se o que tem código é a mesma unidade
-						prodComUnidade = from p in prodComCodigo where p.unidade == unidade select p;
-						if(prodComUnidade.Count() < 1)
-						{//cria um novo produto
-							gravarProduto(marca, nome, unidade, embalagem, codigoDeBarras, tipoCodigoDeBarras);
-						}
-						else
-						{// é o mesmo produto, mas com código diferente
-							//criar produto inválido: 2 codigos pra 1 produto
-							tb_Produto produtoAntigo = (from p in prodComUnidade orderby p.codigoDeBarras select p).FirstOrDefault();
-							gravarProduto(marca, nome, unidade, embalagem, codigoDeBarras, tipoCodigoDeBarras);
-							novoProduto = (from p in dataContext.tb_Produtos where p.codigoDeBarras == codigoDeBarras orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
-							cProdutoInvalido.criarProdutoInvalido(produtoAntigo, novoProduto, (int)Ocorrencia.CodigoDiferente);
-						}
-					}
-				}
-				novoProduto = (from p in dataContext.tb_Produtos where p.codigoDeBarras == codigoDeBarras orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
+			var produtos = from p in dataContext.tb_Produtos
+						   where p.marca == cMarca.criarMarca(marca).id_marca &&
+								p.nome == nome &&
+								p.unidade == unidade &&
+								p.embalagem == embalagem
+						   select p;
+			var produtoExistente = from p in produtos where p.codigoDeBarras == codigoDeBarras select p;
+			if (produtoExistente.Count() == 1) //O produto já existe?
+			{//Retorne-o
+				cProdutoInvalido.verificarOcorrencias(produtoExistente.SingleOrDefault());
+				return produtoExistente.SingleOrDefault();
 			}
 			else
-			{//o código de barras ja existe
-				tb_Produto produtoAntigo;
-				var produtos = from p in dataContext.tb_Produtos where p.nome == nome && p.tb_Marca.marca == marca && p.embalagem == embalagem select p;
-				if(produtos.Count() < 1)
-				{//o produto não existe
-					//criar produto inválido: 1 código pra 2 produtos
-					produtoAntigo = (codigo).FirstOrDefault();
-					gravarProduto(marca, nome, unidade, embalagem);
-					novoProduto = (from p in dataContext.tb_Produtos where p.codigoDeBarras == codigoDeBarras orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
-					cProdutoInvalido.criarProdutoInvalido(produtoAntigo, novoProduto, (int)Ocorrencia.CodigoJaExistente);
-				}
-				else
-				{//o produto já existe
-					var prodComCodigo = (from p in produtos where p.codigoDeBarras == codigoDeBarras select p).SingleOrDefault();
-					var prodComUnidade = from p in produtos where p.unidade == unidade select p;
-					//o código pertence a ele?
-					if (prodComUnidade.Count() == 1)
-					{//retorna o produto
-						if (prodComUnidade.SingleOrDefault().id_produto == prodComCodigo.id_produto)
-						{
-							novoProduto = prodComUnidade.FirstOrDefault();
-							cProdutoInvalido.verificarOcorrencias(novoProduto);
+			{
+				var codigo = from p in dataContext.tb_Produtos where p.codigoDeBarras == codigoDeBarras select p;
+				if (codigo.Count() > 0)//O codigo já existe?
+				{//O codigo JÁ existe!
+					tb_Produto produtoComCodigo = dataContext.tb_Produtos.Single(p => p.codigoDeBarras == codigoDeBarras);
+					if (produtos.Count() > 0)//O produto já existe?
+					{//O produto JÁ existe
+						if((from p in produtos where p.codigoDeBarras == null select p).Count() == 1
+						&& (from p in produtos where p.codigoDeBarras != null select p).Count() >= 1)
+						{//caso tenha la algum conflito de codigo de barras
+							//ex.: Variedades Nestlê com código e Variedades Nestlê sem código (por ter dado conflito com outro produto)
+							novoProduto = produtos.First(p => p.codigoDeBarras == null);
+							cProdutoInvalido.verificarOcorrencias(novoProduto, codigoDeBarras);
+							return novoProduto;
 						}
 						else
 						{
-
+							tb_Produto produtoJaExistente = produtos.SingleOrDefault();
+							if (produtoJaExistente.codigoDeBarras != null)//Tem código?
+							{//TEM código
+								novoProduto = new tb_Produto();
+								novoProduto.marca = cMarca.criarMarca(marca).id_marca;
+								novoProduto.nome = nome;
+								novoProduto.embalagem = embalagem;
+								novoProduto.unidade = unidade;
+								dataContext.tb_Produtos.InsertOnSubmit(novoProduto);
+								dataContext.SubmitChanges();
+								novoProduto = dataContext.tb_Produtos.Single(p => p.unidade == unidade && p.nome == nome && p.tb_Marca.marca == marca && p.embalagem == embalagem && p.codigoDeBarras == null);
+								cProdutoInvalido.criarProdutoInvalido(produtoJaExistente, novoProduto, (int)Ocorrencia.CodigoDiferente);
+								cProdutoInvalido.criarProdutoInvalido(produtoComCodigo, novoProduto, (int)Ocorrencia.CodigoJaExistente);
+								return novoProduto;
+							}
+							else
+							{//NÃO tem código
+								cProdutoInvalido.verificarOcorrencias(produtoJaExistente, codigoDeBarras);
+								cProdutoInvalido.criarProdutoInvalido(produtoComCodigo, produtoJaExistente, (int)Ocorrencia.CodigoJaExistente);
+								return produtoJaExistente;
+							}
 						}
 					}
 					else
-					{//apenas gera o produto inválido
-						novoProduto = (prodComUnidade).FirstOrDefault();
-						cProdutoInvalido.verificarOcorrencias(novoProduto);
-						cProdutoInvalido.criarProdutoInvalido(produtoAntigo, novoProduto, (int)Ocorrencia.CodigoJaExistente);
+					{//O produto NÃO existe
+						novoProduto = new tb_Produto();
+						novoProduto.marca = cMarca.criarMarca(marca).id_marca;
+						novoProduto.nome = nome;
+						novoProduto.embalagem = embalagem;
+						novoProduto.unidade = unidade;
+						dataContext.tb_Produtos.InsertOnSubmit(novoProduto);
+						dataContext.SubmitChanges();
+						novoProduto = dataContext.tb_Produtos.Single(p => p.unidade == unidade && p.nome == nome && p.tb_Marca.marca == marca && p.embalagem == embalagem && p.codigoDeBarras == null);
+						cProdutoInvalido.criarProdutoInvalido(produtoComCodigo, novoProduto, (int)Ocorrencia.CodigoJaExistente);
+						return novoProduto;
 					}
-
-					produtoAntigo = prodComUnidade.FirstOrDefault();
-					//existe com a mesma unidade?
-					if (prodComUnidade.Count() < 1)
-					{//a unidade existente é diferente
-						//cadastra um novo e cria um produto inválido
-						produtoAntigo = (codigo).FirstOrDefault();
-						gravarProduto(marca, nome, unidade, embalagem);
-						novoProduto = (from p in dataContext.tb_Produtos where p.codigoDeBarras == codigoDeBarras orderby p.nome, p.tb_Marca.marca select p).FirstOrDefault();
-						cProdutoInvalido.criarProdutoInvalido(produtoAntigo, novoProduto, (int)Ocorrencia.CodigoJaExistente);
+				}
+				else
+				{//O codigo NÃO existe!
+					if (produtos.Count() > 0)//O produto já existe?
+					{//O produto JÁ existe
+						tb_Produto produtoJaExistente;
+						if ((from p in produtos where p.codigoDeBarras == null select p).Count() == 1
+						&& (from p in produtos where p.codigoDeBarras != null select p).Count() >= 1)
+						{//caso tenha la algum conflito de codigo de barras
+							//ex.: Variedades Nestlê com código e Variedades Nestlê sem código (por ter dado conflito com outro produto)
+							produtoJaExistente = produtos.First(p => p.codigoDeBarras != null);
+						}
+						else
+						{
+							produtoJaExistente = produtos.SingleOrDefault();
+						}
+						if (produtoJaExistente.codigoDeBarras != null)//Tem código?
+						{//TEM código
+							novoProduto = new tb_Produto();
+							novoProduto.marca = cMarca.criarMarca(marca).id_marca;
+							novoProduto.nome = nome;
+							novoProduto.embalagem = embalagem;
+							novoProduto.unidade = unidade;
+							novoProduto.codigoDeBarras = codigoDeBarras;
+							novoProduto.tipoCodigoDeBarras = tipoCodigoDeBarras;
+							dataContext.tb_Produtos.InsertOnSubmit(novoProduto);
+							dataContext.SubmitChanges();
+							novoProduto = dataContext.tb_Produtos.Single(p => p.unidade == unidade && p.nome == nome && p.tb_Marca.marca == marca && p.embalagem == embalagem && p.codigoDeBarras == codigoDeBarras);
+							cProdutoInvalido.criarProdutoInvalido(produtoJaExistente, novoProduto, (int)Ocorrencia.CodigoDiferente);
+							return novoProduto;
+						}
+						else
+						{//NÃO tem código
+							cProdutoInvalido.verificarOcorrencias(produtoJaExistente);
+							produtoJaExistente.codigoDeBarras = codigoDeBarras;
+							produtoJaExistente.tipoCodigoDeBarras = tipoCodigoDeBarras;
+							dataContext.SubmitChanges();
+							return produtoJaExistente;
+						}
 					}
 					else
-					{
+					{//O produto NÃO existe
+						novoProduto = new tb_Produto();
+						novoProduto.marca = cMarca.criarMarca(marca).id_marca;
+						novoProduto.nome = nome;
+						novoProduto.embalagem = embalagem;
+						novoProduto.unidade = unidade;
+						novoProduto.codigoDeBarras = codigoDeBarras;
+						novoProduto.tipoCodigoDeBarras = tipoCodigoDeBarras;
+						dataContext.tb_Produtos.InsertOnSubmit(novoProduto);
+						dataContext.SubmitChanges();
+						novoProduto = dataContext.tb_Produtos.Single(p => p.unidade == unidade && p.nome == nome && p.tb_Marca.marca == marca && p.embalagem == embalagem && p.codigoDeBarras == codigoDeBarras);
+						return novoProduto;
 					}
 				}
 			}
-
-			return novoProduto;
 		}
 	}
 }
