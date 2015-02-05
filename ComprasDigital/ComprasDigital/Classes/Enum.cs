@@ -22,7 +22,8 @@ namespace ComprasDigital.Classes
 		Garrafa = 5,
 		Lata = 6,
 		Barra = 7,
-		Peso = 8
+		Peso = 8,
+		Granel = 9
 	};
 
 	public enum Unidade
@@ -32,6 +33,6 @@ namespace ComprasDigital.Classes
 		Gramas = 3,
 		Litro = 4,
 		ML = 5,
-		PencaOuMolho = 6
+		Granel = 6
 	};
 }

@@ -35,6 +35,25 @@ INSERT INTO tb_Tipo VALUES (4, 'Eletrônico');
 
 
 
+/*
+drop table tb_Item
+drop table tb_ItemDaLista
+drop table tb_ListaDeItens
+drop table tb_Estabelecimento
+drop table tb_ProdutoInvalido
+drop table tb_Ocorrencia
+drop table tb_ProdutoDaLista
+drop table tb_Produto
+drop table tb_Marca
+drop table tb_Embalagem
+drop table tb_Tipo
+drop table tb_ListaDeProdutos
+drop table tb_Unidade
+drop table tb_Usuario
+*/
+
+
+
 CREATE TABLE tb_Unidade
 (
 	id_unidade INT PRIMARY KEY,
@@ -45,7 +64,6 @@ INSERT INTO tb_Unidade VALUES (2, 'KG');
 INSERT INTO tb_Unidade VALUES (3, 'Gramas');
 INSERT INTO tb_Unidade VALUES (4, 'Litro');
 INSERT INTO tb_Unidade VALUES (5, 'ML');
-INSERT INTO tb_Unidade VALUES (6, 'Penca, Molho');
 
 
 
@@ -62,6 +80,7 @@ INSERT INTO tb_Embalagem VALUES (5, 'Garrafa');
 INSERT INTO tb_Embalagem VALUES (6, 'Lata');
 INSERT INTO tb_Embalagem VALUES (7, 'Barra');
 INSERT INTO tb_Embalagem VALUES (8, 'Peso');
+INSERT INTO tb_Embalagem VALUES (9, 'Granel');
 
 
 
