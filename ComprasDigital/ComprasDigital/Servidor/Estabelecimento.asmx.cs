@@ -163,6 +163,7 @@ namespace ComprasDigital.Servidor
             {
                 listaEstabelecimento.Add(estabelecimento.retornarPrecoEstabelecimento(estab.id_estabelecimento,estab.nome,idLista));
             }
+            
             return js.Serialize(listaEstabelecimento);
         }
 

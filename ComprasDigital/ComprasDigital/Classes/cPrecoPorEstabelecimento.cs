@@ -29,7 +29,6 @@ namespace ComprasDigital.Classes
         //_____________________________________ RETORNAR PREÇO POR ESTABELECIMENTO _______________________________________//
         public object retornarPrecoEstabelecimento(int idEstabelecimento,string nome,int idLista)
         {
-            JavaScriptSerializer js = new JavaScriptSerializer();
             var totalDaLista = 0;
             var produtosEncontradosNoEstabelecimento = 0;
 
@@ -45,7 +44,6 @@ namespace ComprasDigital.Classes
                 produtos.Add(prod.id_produto); //--pegando produtos da lista
                 quantidade.Add(prod.quantidade); //--pegando as quantidades
             }
-
 
 
             var itens = from i in dataContext.tb_Items
@@ -69,7 +67,5 @@ namespace ComprasDigital.Classes
 
             return estab;
         }
-
-        //________________________________________ ORDENAR ESTABELECIMENTO POR PREÇO E RELAÇÃO _________________________________//
     }
 }
