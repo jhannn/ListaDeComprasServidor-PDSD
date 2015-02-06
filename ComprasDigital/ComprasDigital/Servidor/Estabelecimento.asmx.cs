@@ -150,7 +150,7 @@ namespace ComprasDigital.Servidor
         public string listarEstabelecimentosMaisBarato(int idUsuario, string token, int idLista)
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
-            cEstabelecimento estabelecimento = new cEstabelecimento();
+            cPrecoPorEstabelecimento estabelecimento = new cPrecoPorEstabelecimento();
 
             //if (!cUsuario.usuarioValido(idUsuario, token))
             //    return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
@@ -158,13 +158,12 @@ namespace ComprasDigital.Servidor
             var dataContext = new Model.DataClassesDataContext();
             var estabelecimentos = from e in dataContext.tb_Estabelecimentos select e;
 
-            ArrayList listasDeEstabelecimento = new ArrayList();
+            ArrayList listaEstabelecimento = new ArrayList();
             foreach (var estab in estabelecimentos)
             {
-                listasDeEstabelecimento.Add(estabelecimento.retornarPrecoEstabelecimento(estab.id_estabelecimento, idLista));
+                listaEstabelecimento.Add(estabelecimento.retornarPrecoEstabelecimento(estab.id_estabelecimento,estab.nome,idLista));
             }
-
-            return js.Serialize(listasDeEstabelecimento);
+            return js.Serialize(listaEstabelecimento);
         }
 
     }
