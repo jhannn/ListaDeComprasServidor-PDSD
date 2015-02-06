@@ -145,6 +145,27 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(new OcorreuAlgumErroException());
 		}
 
+        //___________________________________ LISTAR ESTABELECIMENTOS MAIS BARATO ______________________________//
+        [WebMethod]
+        public string listarEstabelecimentosMaisBarato(int idUsuario, string token, int idLista)
+        {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            cEstabelecimento estabelecimento = new cEstabelecimento();
+
+            //if (!cUsuario.usuarioValido(idUsuario, token))
+            //    return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+            var dataContext = new Model.DataClassesDataContext();
+            var estabelecimentos = from e in dataContext.tb_Estabelecimentos select e;
+
+            ArrayList listasDeEstabelecimento = new ArrayList();
+            foreach (var estab in estabelecimentos)
+            {
+                listasDeEstabelecimento.Add(estabelecimento.retornarPrecoEstabelecimento(estab.id_estabelecimento, idLista));
+            }
+
+            return js.Serialize(listasDeEstabelecimento);
+        }
 
     }
 }
