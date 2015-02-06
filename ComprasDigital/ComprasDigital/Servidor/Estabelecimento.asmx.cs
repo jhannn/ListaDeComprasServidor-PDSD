@@ -28,6 +28,7 @@ namespace ComprasDigital.Servidor
     public class Estabelecimento : System.Web.Services.WebService
     {
 
+        //_____________________________________ CADASTRAR ESTABELECIMENTO _______________________________________//
         [WebMethod]
         public string cadastrarEstabelecimento(int idUsuario, string token, string nome, string bairro, string cidade, int numero)
         {
@@ -53,6 +54,7 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(new cEstabelecimento(estabelecimentos.FirstOrDefault()));
         }
 
+        //_____________________________________ AUTO COMPLETE ESTABELECIMENTO _______________________________________//
 		[WebMethod]
 		public string autoCompleteEstabelecimento(int idUsuario, string token, string nome)
 		{
@@ -73,6 +75,7 @@ namespace ComprasDigital.Servidor
 
 		}
 
+        //_____________________________________ LISTAR ESTABELECIMENTO _______________________________________//
 		[WebMethod]
 		public string listarEstabelecimento(int idUsuario, string token, string nome, string bairro, string cidade)
 		{
@@ -98,6 +101,7 @@ namespace ComprasDigital.Servidor
 			//Caso não encontre nenhum estabelecimento, informar "Nenhum estabelecimento encontrado"
 		}
 
+        //_____________________________________ VISUALIZAR ESTABELECIMENTO _______________________________________//
 		[WebMethod]
 		public string visualizarEstabelecimento(int idUsuario, string token, int id)
 		{
@@ -116,6 +120,7 @@ namespace ComprasDigital.Servidor
 			return js.Serialize(new EstabelecimentoNaoExistenteException());
 		}
 
+        //_____________________________________ EDITAR ESTABELECIMENTO _______________________________________//
 		[WebMethod]
 		public string editarEstabelecimento(int idUsuario, string token, int id, string nome, string bairro, string cidade, int numero)
 		{
@@ -139,5 +144,7 @@ namespace ComprasDigital.Servidor
 			}
 			return js.Serialize(new OcorreuAlgumErroException());
 		}
+
+
     }
 }
