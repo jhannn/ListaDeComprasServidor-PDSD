@@ -152,13 +152,13 @@ namespace ComprasDigital.Servidor
             JavaScriptSerializer js = new JavaScriptSerializer();
             cPrecoPorEstabelecimento estabelecimento = new cPrecoPorEstabelecimento();
 
-            //if (!cUsuario.usuarioValido(idUsuario, token))
-            //    return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception usuarionaologado
 
             var dataContext = new Model.DataClassesDataContext();
-            var estabelecimentos = from e in dataContext.tb_Estabelecimentos select e;
+            var estabelecimentos = from e in dataContext.tb_Estabelecimentos select e; //select de todos os estabelecimentos
 
-            ArrayList listaEstabelecimento = new ArrayList();
+            ArrayList listaEstabelecimento = new ArrayList();//lista de estabelecimentos
             foreach (var estab in estabelecimentos)
             {
                 listaEstabelecimento.Add(estabelecimento.retornarPrecoEstabelecimento(estab.id_estabelecimento,estab.nome,idLista));
