@@ -170,69 +170,15 @@ namespace ComprasDigital.Servidor
 
 
 		//_______________________________________ CADASTRAR PRODUTOS NA LISTA ___________________________________________//
-		/*------ Sem Codigo de Barras ------*/
 		[WebMethod]
-		public string cadastrarProduto(int idUsuario, string token, int idLista, string nomeProduto, string marca, string codigoDeBarras, string tipoCodigo, int unidade, int quantidade)
+		public string cadastrarProduto(int idUsuario, string token, int idLista, int idProduto, int quantidade)
 		{
-			int resultado = 0;
 			JavaScriptSerializer js = new JavaScriptSerializer();
-			//cProduto produto = js.Deserialize<cProduto>(produtoJson);
 
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_criarProduto", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
-					cmd.Parameters.AddWithValue("@nomeProduto", nomeProduto); //parametros
-					cmd.Parameters.AddWithValue("@codigoDeBarras", codigoDeBarras); //parametros
-					cmd.Parameters.AddWithValue("@tipoCodigo", tipoCodigo); //parametros
-					cmd.Parameters.AddWithValue("@quantidade", quantidade); //parametros
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
 
-					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-					returnValue.Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add(returnValue);
-
-					cmd.ExecuteNonQuery();
-					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-				}
-			}
-
-			return js.Serialize(resultado);
-		}
-		/*------ Com Codigo de Barras ------*/
-		[WebMethod]
-		public string cadastrarProdutoCodigo(int idUsuario, string token, int idLista, string nomeProduto, string marca, string codigoDeBarras, string tipoCodigo, int unidade, int quantidade)
-		{
-			int resultado = 0;
-			JavaScriptSerializer js = new JavaScriptSerializer();
-			//cProduto produto = js.Deserialize<cProduto>(produtoJson);
-
-			String ConexaoBanco = ConfigurationManager.ConnectionStrings["BancoDeDados"].ConnectionString;
-			using (SqlConnection conexao = new SqlConnection(ConexaoBanco))
-			{
-				conexao.Open();
-				using (SqlCommand cmd = new SqlCommand("usp_criarProduto", conexao)) //producer a ser executada
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@idLista", idLista); //parametros
-					cmd.Parameters.AddWithValue("@nomeProduto", nomeProduto); //parametros
-					cmd.Parameters.AddWithValue("@codigoDeBarras", codigoDeBarras); //parametros
-					cmd.Parameters.AddWithValue("@tipoCodigo", tipoCodigo); //parametros
-					cmd.Parameters.AddWithValue("@quantidade", quantidade); //parametros
-
-					SqlParameter returnValue = new SqlParameter(); //variavel para salvar o retorno
-					returnValue.Direction = ParameterDirection.ReturnValue;
-					cmd.Parameters.Add(returnValue);
-
-					cmd.ExecuteNonQuery();
-					resultado = (Int32)returnValue.Value; //atribuição do resultado de retorno a variavel resultado
-				}
-			}
-
-			return js.Serialize(resultado);
+			return "";
 		}
 		
 		

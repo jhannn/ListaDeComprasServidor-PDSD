@@ -13,7 +13,7 @@ INNER JOIN tb_Usuario AS u ON u.id_usuario = l.id_usuario;
 --Produtos de alguma lista
 DECLARE @idLista INT;
 SET @idLista = 2;
-SELECT pdl.quantidade, m.marca, p.nome, e.embalagem, u.unidade
+SELECT pdl.quantidade, p.id_produto AS idProduto, m.marca, p.nome, e.embalagem, u.unidade
 FROM tb_ProdutoDaLista AS pdl
 INNER JOIN tb_ListaDeProdutos AS l ON l.id_listaDeProdutos = @idLista
 									AND l.id_listaDeProdutos = pdl.id_lista
@@ -57,4 +57,17 @@ INNER JOIN tb_Produto AS p ON p.id_produto = i.id_produto
 INNER JOIN tb_Marca AS m ON p.marca = m.id_marca
 INNER JOIN tb_Unidade AS u ON p.unidade = u.id_unidade
 INNER JOIN tb_Embalagem AS e ON p.embalagem = e.id_embalagem
+ORDER BY i.data DESC, i.qualificacao DESC;
+
+--Produto da lista no estabelecimento
+DECLARE @idEstabelecimento INT;
+SET @idEstabelecimento = 3;
+DECLARE @idLista INT;
+SET @idLista = 2;
+SELECT i.data, i.preco, i.id_produto AS idProduto
+FROM tb_Item AS i
+INNER JOIN tb_ProdutoDaLista AS p
+	ON i.id_produto = p.id_produto
+	AND i.id_estabelecimento = @idEstabelecimento
+	AND p.id_lista = @idLista
 ORDER BY i.data DESC, i.qualificacao DESC;

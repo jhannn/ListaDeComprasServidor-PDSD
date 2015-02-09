@@ -155,16 +155,24 @@ namespace ComprasDigital.Servidor
 
 		//____________________________________________ CRIAR PRODUTOS ____________________________________________//
 		[WebMethod]
-		public string criarProduto(string marca, string nome, int unidade, int embalagem)
+		public string criarProduto(int idUsuario, string token, string marca, string nome, int unidade, int embalagem)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
 			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem)));
 		}
 
 		[WebMethod]
-		public string criarProdutoCodigo(string marca, string nome, int unidade, int embalagem, string codigo, string tipoCod)
+		public string criarProdutoCodigo(int idUsuario, string token, string marca, string nome, int unidade, int embalagem, string codigo, string tipoCod)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
 			return js.Serialize(new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem, codigo, tipoCod)));
 		}
     }
