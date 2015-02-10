@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using ComprasDigital.Classes;
+using System.Web.Script.Serialization;
+using ComprasDigital.Excecoes;
 
 namespace ComprasDigital.Servidor
 {
@@ -17,11 +19,23 @@ namespace ComprasDigital.Servidor
     // [System.Web.Script.Services.ScriptService]
     public class Item : System.Web.Services.WebService
     {
-
+		//_______________________________________ PESQUISAR ITENS DE PRODUTO ___________________________________________//
         [WebMethod]
-        public string HelloWorld()
-        {
-            return "Hello World";
+		public string pesquisarItens(int idUsuario, string token, int idProduto)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
+			var dataContext = new Model.DataClassesDataContext();
+			List<cItem> itens = new List<cItem>();
+			Model.tb_Produto produto = dataContext.tb_Produtos.First(p => p.id_produto == idProduto);
+			var estabelecimentos = from e in dataContext.tb_Estabelecimentos select e;
+			foreach (var estab in estabelecimentos)
+				itens.Add(new cItem(produto));
+
+			return js.Serialize(itens);
         }
     }
 }

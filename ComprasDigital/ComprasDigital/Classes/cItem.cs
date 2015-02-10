@@ -14,6 +14,16 @@ namespace ComprasDigital.Classes
 		public double preco { get; set; }
 		public int quantidade { get; set; }
 
+		public cItem(tb_Produto prod, int qt = 0)
+			: base(prod)
+		{
+			id_estabelecimento = -1;
+			nomeEstabelecimento = "-";
+			quantidade = qt;
+			dataAtual = "-";
+			preco = 0;
+		}
+
 		public cItem(tb_Produto prod, tb_Estabelecimento estab, int qt = 0)
 			: base(prod)
 		{
@@ -22,7 +32,7 @@ namespace ComprasDigital.Classes
 			quantidade = qt;
 			var dataContext = new DataClassesDataContext();
 			var itens = from i in dataContext.tb_Items where i.id_estabelecimento == this.id_estabelecimento && i.id_produto == this.id_produto orderby i.data, i.qualificacao select i;
-			if(itens.Count() < 1)
+			if (itens.Count() < 1)
 			{
 				dataAtual = "-";
 				preco = 0;

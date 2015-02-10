@@ -110,7 +110,7 @@ namespace ComprasDigital.Servidor
 			if (queryLista.Count() != 1)
 				return js.Serialize(new ListaNaoEncontradaException());
 
-            return js.Serialize(new cListaDeProduto(queryLista.FirstOrDefault(), true));
+            return js.Serialize(new cListaDeItem(queryLista.FirstOrDefault()));
 		}
 
 
@@ -131,7 +131,7 @@ namespace ComprasDigital.Servidor
 
             foreach(var list in selectListas)
             {
-                listas.Add(new cListaDeProduto(list) );
+                listas.Add(new cListaDeProduto(list));
             }
 
             return js.Serialize(listas);
@@ -178,14 +178,22 @@ namespace ComprasDigital.Servidor
 			if (!cUsuario.usuarioValido(idUsuario, token))
 				return js.Serialize(new UsuarioNaoLogadoException());
 
-			return "";
+			var dataContext = new Model.DataClassesDataContext();
+			Model.tb_ProdutoDaLista novoProduto = new Model.tb_ProdutoDaLista();
+			novoProduto.id_lista = idLista;
+			novoProduto.id_produto = idProduto;
+			novoProduto.quantidade = quantidade;
+			dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+			dataContext.SubmitChanges();
+
+			return "OK";
 		}
 		
 		
 
 		//_______________________________________ REMOVER PRODUTO DA LISTA ___________________________________________//
 		[WebMethod]
-		public string removerProdutoDaLista(int idUsuario,string token,int idProduto)
+		public string removerProdutoDaLista(int idUsuario, string token, int idProduto, int idLista)
 		{
             JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -193,16 +201,10 @@ namespace ComprasDigital.Servidor
                 return js.Serialize(new UsuarioNaoLogadoException());
 
             var dataContext = new Model.DataClassesDataContext();
-            var querryProdutos = from p in dataContext.tb_ProdutoDaListas
-                                 where p.id_produto == idProduto
-                                 select p;
-
-            foreach(var prod in querryProdutos)
-            {
-                dataContext.tb_ProdutoDaListas.DeleteOnSubmit(prod);
-                dataContext.SubmitChanges();
-            }
-            return js.Serialize("Produto da lista removido.");
+			Model.tb_ProdutoDaLista produto = dataContext.tb_ProdutoDaListas.First(p => p.id_produto == idProduto && p.id_lista == idLista);
+			dataContext.tb_ProdutoDaListas.DeleteOnSubmit(produto);
+			dataContext.SubmitChanges();
+            return js.Serialize("OK");
 		}
     }
 }

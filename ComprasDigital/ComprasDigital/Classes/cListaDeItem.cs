@@ -22,10 +22,17 @@ namespace ComprasDigital.Classes
 		public cListaDeItem(tb_ListaDeProduto lista)
 			: base(lista)
 		{
+			var dataContext = new DataClassesDataContext();
+			var produtosDaLista = from p in dataContext.tb_ProdutoDaListas where p.id_lista == this.id_listaDeProdutos select p;
+			itens = new List<cItem>();
+			itensTotal = produtosDaLista.Count();
+			foreach (var prod in produtosDaLista)
+			{
+				itens.Add(new cItem(prod.tb_Produto, prod.quantidade));
+			}
+
 			idEstabelecimento = -1;
 			nomeEstabelecimento = "-";
-			itens = null;
-			itensTotal = itens.Count();
 			itensEncontrados = 0;
 			precoDaLista = 0;
 		}
