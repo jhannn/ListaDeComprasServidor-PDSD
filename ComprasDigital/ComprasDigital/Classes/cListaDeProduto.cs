@@ -12,21 +12,12 @@ namespace ComprasDigital.Classes
 		public int id_listaDeProdutos{ get; set; }
 		public string nome { get; set; }
 		public int id_usuario{ get; set; }
-		public ArrayList produtosDaLista { get; set; }
 
-		public cListaDeProduto(tb_ListaDeProduto lista, bool comProdutos = false)
+		public cListaDeProduto(tb_ListaDeProduto lista)
 		{
 			id_listaDeProdutos = lista.id_listaDeProdutos;
 			nome = lista.nome;
 			id_usuario = lista.id_usuario;
-			produtosDaLista = null;
-
-			if (comProdutos)
-			{
-				produtosDaLista = new ArrayList();
-				foreach (tb_ProdutoDaLista prod in lista.tb_ProdutoDaListas)
-					produtosDaLista.Add(new cProdutoDaLista(prod));
-			}
 		}
 	}
 }
