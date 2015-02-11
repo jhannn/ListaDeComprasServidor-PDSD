@@ -77,14 +77,25 @@ namespace ComprasDigital.Classes
 
 		public static cListaDeItem buscarMelhorOferta(tb_ListaDeProduto lista)
 		{
+			//Fazer uma funcionalidade que possa mesclar resultados
+			//Ex.: Lista tem item A, B, C e D
+			//Nordestão tem item A, B e C, sendo a mais barata e outro estabelecimento tem os itens C e D, com C sendo mais barato que no Nordestão
+			//Então o sistema sugere criar 2 listas e fazer as compras nos 2 estabelecimentos.
 			cListaDeItem[] listas = buscarOfertas(lista);
 			if (listas.Length > 1)
 			{
 				int idLista = 0;
 				double custo = 0;
+				int quantidadeEncontrada = 0;
 				for (int i = 0; i < listas.Length; i++)
 				{
-					if (listas[i].precoDaLista < custo)
+					if (listas[i].itensEncontrados > quantidadeEncontrada)
+					{
+						custo = listas[i].precoDaLista;
+						idLista = i;
+						quantidadeEncontrada = listas[i].itensEncontrados;
+					}
+					else if (listas[i].itensEncontrados == quantidadeEncontrada && listas[i].precoDaLista < custo)
 					{
 						custo = listas[i].precoDaLista;
 						idLista = i;
