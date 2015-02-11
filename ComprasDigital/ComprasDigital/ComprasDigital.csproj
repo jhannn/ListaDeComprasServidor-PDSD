@@ -79,14 +79,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\cEstabelecimento.cs" />
+    <Compile Include="Classes\cItem.cs" />
+    <Compile Include="Classes\cListaDeItem.cs" />
     <Compile Include="Classes\cListaDeProduto.cs" />
     <Compile Include="Classes\cMarca.cs" />
-    <Compile Include="Classes\cOfertaLista.cs" />
     <Compile Include="Classes\cProduto.cs" />
     <Compile Include="Classes\cProdutoDaLista.cs" />
     <Compile Include="Classes\cProdutoInvalido.cs" />
     <Compile Include="Classes\cUsuario.cs" />
     <Compile Include="Classes\Enum.cs" />
+    <Compile Include="Classes\Retorno.cs" />
     <Compile Include="Excecoes\Estabelecimento\EstabelecimentoExistenteException.cs" />
     <Compile Include="Excecoes\Estabelecimento\EstabelecimentoNaoExistenteException.cs" />
     <Compile Include="Excecoes\ListaDeProduto\ListaNaoEncontradaException.cs" />
