@@ -244,5 +244,54 @@ namespace ComprasDigital.Servidor
 			dataContext.SubmitChanges();
             return js.Serialize("OK");
 		}
+
+
+
+		//________________________________________ BUSCAR MELHOR OFERTA _______________________________________________//
+		[WebMethod]
+		public string buscarMelhorOferta(int idUsuario, string token, int idLista)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
+			var dataContext = new Model.DataClassesDataContext();
+			Model.tb_ListaDeProduto lista = dataContext.tb_ListaDeProdutos.First(l => l.id_listaDeProdutos == idLista && l.id_usuario == idUsuario);
+			return js.Serialize(cListaDeItem.buscarMelhorOferta(lista));
+		}
+
+
+
+		//________________________________________ BUSCAR OFERTAS _______________________________________________//
+		[WebMethod]
+		public string buscarOfertas(int idUsuario, string token, int idLista)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
+			var dataContext = new Model.DataClassesDataContext();
+			Model.tb_ListaDeProduto lista = dataContext.tb_ListaDeProdutos.First(l => l.id_listaDeProdutos == idLista && l.id_usuario == idUsuario);
+			return js.Serialize(cListaDeItem.buscarOfertas(lista));
+		}
+
+
+
+		//________________________________________ ABRIR LISTA DE ITENS _______________________________________________//
+		[WebMethod]
+		public string listaDeItens(int idUsuario, string token, int idLista, int idEstabelecimento)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
+			var dataContext = new Model.DataClassesDataContext();
+			Model.tb_ListaDeProduto lista = dataContext.tb_ListaDeProdutos.First(l => l.id_listaDeProdutos == idLista && l.id_usuario == idUsuario);
+			Model.tb_Estabelecimento estabelecimento = dataContext.tb_Estabelecimentos.First(e => e.id_estabelecimento == idEstabelecimento);
+			return js.Serialize(new cListaDeItem(lista, estabelecimento));
+		}
     }
 }

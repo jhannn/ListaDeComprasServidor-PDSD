@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace ComprasDigital.Classes
 {
-    public class cListaDeItem : cListaDeProduto
+    class cListaDeItem : cListaDeProduto
     {
         public int idEstabelecimento { get; set; }
 		public string nomeEstabelecimento { get; set; }

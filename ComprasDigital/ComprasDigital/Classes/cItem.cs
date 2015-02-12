@@ -31,7 +31,8 @@ namespace ComprasDigital.Classes
 			nomeEstabelecimento = estab.nome;
 			quantidade = qt;
 			var dataContext = new DataClassesDataContext();
-			var itens = from i in dataContext.tb_Items where i.id_estabelecimento == this.id_estabelecimento && i.id_produto == this.id_produto orderby i.data, i.qualificacao select i;
+			DateTime dataMaisAtual = dataContext.tb_Items.Max(i => i.data);
+			var itens = from i in dataContext.tb_Items where i.id_estabelecimento == this.id_estabelecimento && i.id_produto == this.id_produto && i.data == dataMaisAtual orderby i.qualificacao select i;
 			if (itens.Count() < 1)
 			{
 				dataAtual = "-";
