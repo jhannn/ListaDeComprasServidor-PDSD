@@ -188,6 +188,44 @@ namespace ComprasDigital.Servidor
 
 			return "OK";
 		}
+		//Criar produto
+		[WebMethod]
+		public string criarProduto(int idUsuario, string token, int idLista, string marca, string nome, int unidade, int embalagem, int quantidade)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
+			var dataContext = new Model.DataClassesDataContext();
+			Model.tb_ProdutoDaLista novoProduto = new Model.tb_ProdutoDaLista();
+			novoProduto.id_lista = idLista;
+			novoProduto.id_produto = (new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem))).id_produto;
+			novoProduto.quantidade = quantidade;
+			dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+			dataContext.SubmitChanges();
+
+			return "OK";
+		}
+		//Criar produto Com Código
+		[WebMethod]
+		public string criarProduto(int idUsuario, string token, int idLista, string marca, string nome, int unidade, int embalagem, string codigo, string tipoCod, int quantidade)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+
+			if (!cUsuario.usuarioValido(idUsuario, token))
+				return js.Serialize(new UsuarioNaoLogadoException());
+
+			var dataContext = new Model.DataClassesDataContext();
+			Model.tb_ProdutoDaLista novoProduto = new Model.tb_ProdutoDaLista();
+			novoProduto.id_lista = idLista;
+			novoProduto.id_produto = (new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem, codigo, tipoCod))).id_produto;
+			novoProduto.quantidade = quantidade;
+			dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+			dataContext.SubmitChanges();
+
+			return "OK";
+		}
 		
 		
 
