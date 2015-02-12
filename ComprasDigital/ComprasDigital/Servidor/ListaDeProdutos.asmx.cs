@@ -209,7 +209,7 @@ namespace ComprasDigital.Servidor
 		}
 		//Criar produto Com Código
 		[WebMethod]
-		public string criarProduto(int idUsuario, string token, int idLista, string marca, string nome, int unidade, int embalagem, string codigo, string tipoCod, int quantidade)
+		public string criarProdutoComCodigo(int idUsuario, string token, int idLista, string marca, string nome, int unidade, int embalagem, string codigo, string tipoCod, int quantidade)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
