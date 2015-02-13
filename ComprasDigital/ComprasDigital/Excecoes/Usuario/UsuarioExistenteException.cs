@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ComprasDigital.Excecoes
+namespace ComprasDigital.Excecoes.Usuario
 {
-	public class UsuarioExistenteException : Exception
+    public class UsuarioExistenteException : OcorreuAlgumErroException
 	{
 		public string erro { get; set; }
 		public UsuarioExistenteException()
-			: base("Já existe um usuário com este email")
+			: base("Erro de Usuário", "Já existe um usuário com este email")
 		{
-			erro = "Erro de Usuário";
 		}
 	}
 }

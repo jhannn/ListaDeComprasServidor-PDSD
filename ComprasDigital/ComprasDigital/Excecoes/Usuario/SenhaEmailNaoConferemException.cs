@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ComprasDigital.Excecoes
+namespace ComprasDigital.Excecoes.Usuario
 {
-	public class SenhaEmailNaoConferemException: Exception
+    public class SenhaEmailNaoConferemException : OcorreuAlgumErroException
 	{
 		public string erro { get; set; }
 		public SenhaEmailNaoConferemException()
-			: base("A senha ou o email não conferem")
+			: base("Erro de Usuário", "A senha ou o email não conferem")
 		{
-			erro = "Erro de Usuário";
 		}
 	}
 }

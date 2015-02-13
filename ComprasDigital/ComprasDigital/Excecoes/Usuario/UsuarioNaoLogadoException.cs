@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ComprasDigital.Excecoes
+namespace ComprasDigital.Excecoes.Usuario
 {
-	public class UsuarioNaoLogadoException : Exception
+    public class UsuarioNaoLogadoException : OcorreuAlgumErroException
 	{
 		public string erro { get; set; }
 		public UsuarioNaoLogadoException()
-			: base("O usuário não está logado")
+			: base("Erro de Usuário", "O usuário não está logado")
 		{
-			erro = "Erro de Usuário";
 		}
 	}
 }

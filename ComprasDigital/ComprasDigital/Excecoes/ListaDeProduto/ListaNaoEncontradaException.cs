@@ -5,13 +5,12 @@ using System.Web;
 
 namespace ComprasDigital.Excecoes.ListaDeProduto
 {
-	public class ListaNaoEncontradaException : Exception
+    public class ListaNaoEncontradaException : OcorreuAlgumErroException
 	{
 		public string erro { get; set; }
 		public ListaNaoEncontradaException()
-			: base("A lista solicitada não existe")
+			: base("Erro de Lista de Produto", "A lista solicitada não existe")
 		{
-			erro = "Erro de Lista de Produto";
 		}
 	}
 }

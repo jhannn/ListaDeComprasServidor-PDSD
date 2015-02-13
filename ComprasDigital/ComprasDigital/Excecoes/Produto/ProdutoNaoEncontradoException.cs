@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ComprasDigital.Excecoes
+namespace ComprasDigital.Excecoes.Produto
 {
-    public class ProdutoNaoEncontradoException : Exception
-    {  
-		public string erro { get; set; }
+    public class ProdutoNaoEncontradoException : OcorreuAlgumErroException
+    {
         public ProdutoNaoEncontradoException()
-			: base("O produto solicitado não existe")
+			: base("Erro de Produto", "O produto solicitado não existe")
 		{
-			erro = "Erro de Produto";
 		}
     }
 }

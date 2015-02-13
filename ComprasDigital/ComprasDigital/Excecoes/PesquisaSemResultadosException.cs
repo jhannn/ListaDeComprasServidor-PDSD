@@ -5,13 +5,11 @@ using System.Web;
 
 namespace ComprasDigital.Excecoes
 {
-	public class PesquisaSemResultadosException : Exception
+    public class PesquisaSemResultadosException : OcorreuAlgumErroException
 	{
-		public string erro { get; set; }
 		public PesquisaSemResultadosException()
-			: base("A pesquisa não trouxe nenhum resultado")
+			: base("Erro de Pesquisa", "A pesquisa não trouxe nenhum resultado")
 		{
-			erro = "Erro de Pesquisa";
 		}
 	}
 }

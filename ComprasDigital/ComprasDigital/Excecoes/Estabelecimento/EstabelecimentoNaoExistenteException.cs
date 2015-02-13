@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ComprasDigital.Excecoes
+namespace ComprasDigital.Excecoes.Estabelecimento
 {
-	public class EstabelecimentoNaoExistenteException : Exception
+    public class EstabelecimentoNaoExistenteException : OcorreuAlgumErroException
 	{
-		public string erro { get; set; }
 		public EstabelecimentoNaoExistenteException()
-			: base("O estabelecimento solicitado nao existe")
+			: base("Erro de Estabelecimento", "O estabelecimento solicitado nao existe")
 		{
-			erro = "Erro de Estabelecimento";
 		}
 	}
 }

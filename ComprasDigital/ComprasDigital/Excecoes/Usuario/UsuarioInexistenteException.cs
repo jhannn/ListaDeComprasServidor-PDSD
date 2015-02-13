@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ComprasDigital.Excecoes
+namespace ComprasDigital.Excecoes.Usuario
 {
-	public class UsuarioInexistenteException : Exception
+    public class UsuarioInexistenteException : OcorreuAlgumErroException
 	{
 		public string erro { get; set; }
 		public UsuarioInexistenteException()
-			: base("O usuário não existe")
+			: base("Erro de Usuário", "O usuário não existe")
 		{
-			erro = "Erro de Usuário";
 		}
 	}
 }

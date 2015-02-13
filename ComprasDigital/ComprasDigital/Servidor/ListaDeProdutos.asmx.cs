@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Web.Script.Services;
 using ComprasDigital.Classes;
 using ComprasDigital.Excecoes;
+using ComprasDigital.Excecoes.Usuario;
 using ComprasDigital.Excecoes.ListaDeProduto;
 
 

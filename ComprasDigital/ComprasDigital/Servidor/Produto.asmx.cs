@@ -13,6 +13,8 @@ using System.Diagnostics;
 using System.Web.Script.Services;
 using ComprasDigital.Classes;
 using ComprasDigital.Excecoes;
+using ComprasDigital.Excecoes.Produto;
+using ComprasDigital.Excecoes.Usuario;
 using System.Collections;
 
 namespace ComprasDigital.Servidor

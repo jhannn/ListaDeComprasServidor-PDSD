@@ -16,6 +16,7 @@ using ComprasDigital.Classes;
 using System.Net.Mail;
 using System.Net;
 using ComprasDigital.Excecoes;
+using ComprasDigital.Excecoes.Usuario;
 using System.Collections;
 
 

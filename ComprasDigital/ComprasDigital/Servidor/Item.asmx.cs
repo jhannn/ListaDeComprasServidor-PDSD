@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Services;
 using ComprasDigital.Classes;
 using System.Web.Script.Serialization;
-using ComprasDigital.Excecoes;
+using ComprasDigital.Excecoes.Usuario;
 
 namespace ComprasDigital.Servidor
 {
