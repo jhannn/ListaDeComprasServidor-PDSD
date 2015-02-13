@@ -26,15 +26,6 @@ namespace ComprasDigital.Classes
 			unidade = prod.tb_Unidade.unidade;
 			embalagem = prod.tb_Embalagem.embalagem;
 		}
-
-		public static tb_Item itemMaisRecente(int idProduto, int idEstabelecimento)
-		{
-			var dataContext = new DataClassesDataContext();
-			var item = from i in dataContext.tb_Items where i.id_produto == idProduto && i.id_estabelecimento == idEstabelecimento orderby i.data, i.qualificacao select i;
-			if (item.Count() < 1)
-				return null;
-			return item.First();
-		}
 		
 		private static void gravarProduto(string marca, string nome, int unidade, int embalagem, string codigoDeBarras = null, string tipoCodigoDeBarras = null)
 		{

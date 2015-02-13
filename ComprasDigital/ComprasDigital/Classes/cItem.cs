@@ -24,6 +24,7 @@ namespace ComprasDigital.Classes
 			preco = 0;
 		}
 
+        //Retorna o item mais recente
 		public cItem(tb_Produto prod, tb_Estabelecimento estab, int qt = 0)
 			: base(prod)
 		{
