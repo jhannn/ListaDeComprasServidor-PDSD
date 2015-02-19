@@ -93,6 +93,7 @@
     <Compile Include="Excecoes\ListaDeProduto\ListaNaoEncontradaException.cs" />
     <Compile Include="Excecoes\OcorreuAlgumErroException.cs" />
     <Compile Include="Excecoes\PesquisaSemResultadosException.cs" />
+    <Compile Include="Excecoes\Produto\ProdutoJaCadastradoException.cs" />
     <Compile Include="Excecoes\Produto\ProdutoNaoEncontradoException.cs" />
     <Compile Include="Excecoes\Usuario\SenhaEmailNaoConferemException.cs" />
     <Compile Include="Excecoes\Usuario\UsuarioExistenteException.cs" />

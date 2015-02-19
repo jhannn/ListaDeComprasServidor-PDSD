@@ -16,6 +16,7 @@ using ComprasDigital.Classes;
 using ComprasDigital.Excecoes;
 using ComprasDigital.Excecoes.Usuario;
 using ComprasDigital.Excecoes.ListaDeProduto;
+using ComprasDigital.Excecoes.Produto;
 
 
 namespace ComprasDigital.Servidor
@@ -187,7 +188,7 @@ namespace ComprasDigital.Servidor
 			dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
 			dataContext.SubmitChanges();
 
-			return "OK";
+            return js.Serialize("OK");
 		}
 		//Criar produto
 		[WebMethod]
@@ -198,16 +199,22 @@ namespace ComprasDigital.Servidor
 			if (!cUsuario.usuarioValido(idUsuario, token))
 				return js.Serialize(new UsuarioNaoLogadoException());
 
-			var dataContext = new Model.DataClassesDataContext();
-			Model.tb_ProdutoDaLista novoProduto = new Model.tb_ProdutoDaLista();
-			novoProduto.id_lista = idLista;
-			novoProduto.id_produto = (new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem))).id_produto;
-			novoProduto.quantidade = quantidade;
-			dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
-			dataContext.SubmitChanges();
+            try{
+			    var dataContext = new Model.DataClassesDataContext();
+			    Model.tb_ProdutoDaLista novoProduto = new Model.tb_ProdutoDaLista();
+			    novoProduto.id_lista = idLista;
+			    novoProduto.id_produto = (new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem))).id_produto;
+			    novoProduto.quantidade = quantidade;
+			    dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+			    dataContext.SubmitChanges();
+                return js.Serialize("OK");
+            }catch(Exception){
+                return js.Serialize(new ProdutoJaCadastradoException());
+            }
 
-			return "OK";
+			
 		}
+
 		//Criar produto Com Código
 		[WebMethod]
 		public string criarProdutoComCodigo(int idUsuario, string token, int idLista, string marca, string nome, int unidade, int embalagem, string codigo, string tipoCod, int quantidade)
@@ -225,7 +232,7 @@ namespace ComprasDigital.Servidor
 			dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
 			dataContext.SubmitChanges();
 
-			return "OK";
+            return js.Serialize("OK");
 		}
 		
 		
