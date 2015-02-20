@@ -181,13 +181,22 @@ namespace ComprasDigital.Servidor
 				return js.Serialize(new UsuarioNaoLogadoException());
 
 			var dataContext = new Model.DataClassesDataContext();
-			Model.tb_ProdutoDaLista novoProduto = new Model.tb_ProdutoDaLista();
-			novoProduto.id_lista = idLista;
-			novoProduto.id_produto = idProduto;
-			novoProduto.quantidade = quantidade;
-			dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+			var produtoDaLista = from p in dataContext.tb_ProdutoDaListas where p.id_lista == idLista && p.id_produto == idProduto select p;
+			Model.tb_ProdutoDaLista novoProduto;
+			if (produtoDaLista.Count() < 1)
+			{
+				novoProduto = new Model.tb_ProdutoDaLista();
+				novoProduto.id_lista = idLista;
+				novoProduto.id_produto = idProduto;
+				novoProduto.quantidade = quantidade;
+				dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+			}
+			else
+			{
+				novoProduto = produtoDaLista.First();
+				novoProduto.quantidade = quantidade;
+			}
 			dataContext.SubmitChanges();
-
             return js.Serialize("OK");
 		}
 		//Criar produto
@@ -199,20 +208,27 @@ namespace ComprasDigital.Servidor
 			if (!cUsuario.usuarioValido(idUsuario, token))
 				return js.Serialize(new UsuarioNaoLogadoException());
 
-            try{
-			    var dataContext = new Model.DataClassesDataContext();
-			    Model.tb_ProdutoDaLista novoProduto = new Model.tb_ProdutoDaLista();
-			    novoProduto.id_lista = idLista;
-			    novoProduto.id_produto = (new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem))).id_produto;
-			    novoProduto.quantidade = quantidade;
-			    dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
-			    dataContext.SubmitChanges();
-                return js.Serialize("OK");
-            }catch(Exception){
-                return js.Serialize(new ProdutoJaCadastradoException());
-            }
-
-			
+			var dataContext = new Model.DataClassesDataContext();
+			Model.tb_Produto produtoCriado = cProduto.criarProduto(marca, nome, unidade, embalagem);
+			var produtoDaLista = from p in dataContext.tb_ProdutoDaListas where p.id_lista == idLista && p.id_produto == produtoCriado.id_produto select p;
+			Model.tb_ProdutoDaLista novoProduto;
+			if (produtoDaLista.Count() < 1)
+			{
+				novoProduto = new Model.tb_ProdutoDaLista();
+				novoProduto.id_lista = idLista;
+				novoProduto.id_produto = produtoCriado.id_produto;
+				novoProduto.quantidade = quantidade;
+				dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+				dataContext.SubmitChanges();
+				return js.Serialize("OK");
+			}
+			else
+			{
+				novoProduto = produtoDaLista.First();
+				novoProduto.quantidade = quantidade;
+			}
+			dataContext.SubmitChanges();
+            return js.Serialize("OK");
 		}
 
 		//Criar produto Com Código
@@ -225,14 +241,26 @@ namespace ComprasDigital.Servidor
 				return js.Serialize(new UsuarioNaoLogadoException());
 
 			var dataContext = new Model.DataClassesDataContext();
-			Model.tb_ProdutoDaLista novoProduto = new Model.tb_ProdutoDaLista();
-			novoProduto.id_lista = idLista;
-			novoProduto.id_produto = (new cProduto(cProduto.criarProduto(marca, nome, unidade, embalagem, codigo, tipoCod))).id_produto;
-			novoProduto.quantidade = quantidade;
-			dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+			Model.tb_Produto produtoCriado = cProduto.criarProduto(marca, nome, unidade, embalagem, codigo, tipoCod);
+			var produtoDaLista = from p in dataContext.tb_ProdutoDaListas where p.id_lista == idLista && p.id_produto == produtoCriado.id_produto select p;
+			Model.tb_ProdutoDaLista novoProduto;
+			if (produtoDaLista.Count() < 1)
+			{
+				novoProduto = new Model.tb_ProdutoDaLista();
+				novoProduto.id_lista = idLista;
+				novoProduto.id_produto = produtoCriado.id_produto;
+				novoProduto.quantidade = quantidade;
+				dataContext.tb_ProdutoDaListas.InsertOnSubmit(novoProduto);
+				dataContext.SubmitChanges();
+				return js.Serialize("OK");
+			}
+			else
+			{
+				novoProduto = produtoDaLista.First();
+				novoProduto.quantidade = quantidade;
+			}
 			dataContext.SubmitChanges();
-
-            return js.Serialize("OK");
+			return js.Serialize("OK");
 		}
 		
 		
