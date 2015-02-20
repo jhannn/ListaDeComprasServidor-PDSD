@@ -301,5 +301,28 @@ namespace ComprasDigital.Servidor
 			Model.tb_Estabelecimento estabelecimento = dataContext.tb_Estabelecimentos.First(e => e.id_estabelecimento == idEstabelecimento);
 			return js.Serialize(new cListaDeItem(lista, estabelecimento));
 		}
+
+
+        //________________________________________ RETORNAR CHECKIN _______________________________________________//
+        [WebMethod]
+        public string retornarCheckin(int idUsuario, string token, int idLista, int idEstabelecimento)
+        {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException());
+
+            var dataContext = new Model.DataClassesDataContext();
+            var lista = from l in dataContext.tb_ProdutoDaListas where l.id_lista == idLista select l;
+            ArrayList itens = new ArrayList();
+
+            foreach(var list in lista){
+                Model.tb_Estabelecimento estabelecimento = dataContext.tb_Estabelecimentos.First(e => e.id_estabelecimento == idEstabelecimento);
+                Model.tb_Produto produto = dataContext.tb_Produtos.First(p => p.id_produto == list.id_produto);
+                itens.Add(new cItem(produto, estabelecimento));
+            }
+            return js.Serialize(itens);
+        }
+
     }
 }
