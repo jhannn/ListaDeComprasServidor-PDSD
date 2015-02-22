@@ -1,0 +1,10 @@
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll.config
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.dll
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\ComprasDigital.pdb
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.dll
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.dll
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.xml
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\bin\EntityFramework.SqlServer.xml
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Release\ComprasDigital.csprojResolveAssemblyReference.cache
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Release\ComprasDigital.dll
+C:\Users\jonnatha\Desktop\PDS\ListaDeComprasServidor-PDSD\ComprasDigital\ComprasDigital\obj\Release\ComprasDigital.pdb

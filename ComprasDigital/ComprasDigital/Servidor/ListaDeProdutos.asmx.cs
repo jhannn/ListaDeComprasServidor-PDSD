@@ -331,9 +331,9 @@ namespace ComprasDigital.Servidor
 		}
 
 
-        //________________________________________ RETORNAR CHECKIN _______________________________________________//
+        //________________________________________ RETORNAR ITENS _______________________________________________//
         [WebMethod]
-        public string retornarCheckin(int idUsuario, string token, int idLista, int idEstabelecimento)
+        public string retornarItens(int idUsuario, string token, int idLista, int idEstabelecimento)
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -347,7 +347,9 @@ namespace ComprasDigital.Servidor
             foreach(var list in lista){
                 Model.tb_Estabelecimento estabelecimento = dataContext.tb_Estabelecimentos.First(e => e.id_estabelecimento == idEstabelecimento);
                 Model.tb_Produto produto = dataContext.tb_Produtos.First(p => p.id_produto == list.id_produto);
-                itens.Add(new cItem(produto, estabelecimento));
+                var quantidade = from i in dataContext.tb_ProdutoDaListas where i.id_lista == idLista && i.id_produto == produto.id_produto select i;
+                foreach(var quant in quantidade)
+                itens.Add(new cItem(produto, estabelecimento,quant.quantidade));
             }
             return js.Serialize(itens);
         }
