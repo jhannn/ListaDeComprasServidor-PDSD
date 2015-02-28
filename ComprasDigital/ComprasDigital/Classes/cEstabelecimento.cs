@@ -15,6 +15,8 @@ namespace ComprasDigital.Classes
 		public string cidade { get; set; }
 		public int id_estabelecimento { get; set; }
 		public int numero { get; set; }
+        public double latitude { get; set; }
+        public double longitude { get; set; }
 
 		public cEstabelecimento() { }
 
@@ -25,6 +27,8 @@ namespace ComprasDigital.Classes
 			cidade = estab.cidade;
 			id_estabelecimento = estab.id_estabelecimento;
 			numero = estab.numero;
+            latitude = estab.latitude;
+            longitude = estab.longitude;
 		}
 	}
 }
