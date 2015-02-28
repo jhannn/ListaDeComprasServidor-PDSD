@@ -27,8 +27,8 @@ namespace ComprasDigital.Classes
 			cidade = estab.cidade;
 			id_estabelecimento = estab.id_estabelecimento;
 			numero = estab.numero;
-            latitude = estab.latitude;
-            longitude = estab.longitude;
+            latitude = Convert.ToDouble(estab.latitude);
+            longitude = Convert.ToDouble(estab.longitude);
 		}
 	}
 }

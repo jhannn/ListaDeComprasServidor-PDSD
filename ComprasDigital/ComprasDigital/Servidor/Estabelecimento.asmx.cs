@@ -32,12 +32,12 @@ namespace ComprasDigital.Servidor
 
         //_____________________________________ CADASTRAR ESTABELECIMENTO _______________________________________//
         [WebMethod]
-        public string cadastrarEstabelecimento(int idUsuario, string token, string nome, string bairro, string cidade, int numero)
+        public string cadastrarEstabelecimento(int idUsuario, string token, string nome, string bairro, string cidade, int numero,double latitude,double longitude)
         {
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
-			if (!cUsuario.usuarioValido(idUsuario, token))
-				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+            //if (!cUsuario.usuarioValido(idUsuario, token))
+            //    return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
 			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome == nome && estabelecimento.bairro == bairro && estabelecimento.cidade == cidade select estabelecimento;
@@ -48,6 +48,8 @@ namespace ComprasDigital.Servidor
 				novoEstabelecimento.bairro = bairro.ToLower();
 				novoEstabelecimento.cidade = cidade.ToLower();
 				novoEstabelecimento.numero = numero;
+                novoEstabelecimento.latitude = latitude;
+                novoEstabelecimento.longitude = longitude;
 				dataContext.tb_Estabelecimentos.InsertOnSubmit(novoEstabelecimento);
 				dataContext.SubmitChanges();
 
@@ -83,8 +85,8 @@ namespace ComprasDigital.Servidor
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
-			if (!cUsuario.usuarioValido(idUsuario, token))
-				return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
 			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome.ToLower().StartsWith(nome.ToLower())
