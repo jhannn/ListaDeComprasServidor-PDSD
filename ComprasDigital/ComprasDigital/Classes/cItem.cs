@@ -8,23 +8,26 @@ namespace ComprasDigital.Classes
 {
 	class cItem : cProduto
 	{
-        public int id_item { get; set; }
 		public int id_estabelecimento { get; set; }
-        public int id_produto { get; set; }
         public double preco { get; set; }
-        public int qualificacao { get; set; }
         public string dataAtual { get; set; }
 		public string nomeEstabelecimento { get; set; }
 		public int quantidade { get; set; }
 
-        public cItem(int idItem,int idEstabe, int idProduto,Double precoItem,int qualifi)
-        {
-            id_item = idItem;
-            id_estabelecimento = idEstabe;
-            id_produto = idProduto;
-            preco = precoItem;
-            qualificacao = qualifi;
-        }
+        //--gambiarra para ser apagada--//
+        public int id_item { get; set; }
+        public string nomeProduto { get; set; }
+	    public int qualificacao { get; set; }
+
+        public cItem(int idItem, string nome, string nomeEstab, Double precoItem, int qualifi)
+	    {
+		id_item = idItem;
+		nomeEstabelecimento = nomeEstab;
+		nomeProduto = nome;
+		preco = precoItem;
+		qualificacao = qualifi;
+	    }
+        //-----------------------------//
 
 		public cItem(tb_Produto prod, int qt = 0)
 			: base(prod)

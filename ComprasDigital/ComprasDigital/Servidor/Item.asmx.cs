@@ -17,7 +17,7 @@ namespace ComprasDigital.Servidor
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-    // [System.Web.Script.Services.ScriptService]
+    [System.Web.Script.Services.ScriptService]
     public class Item : System.Web.Services.WebService
 	{
 		//_______________________________________ PESQUISAR ITENS DE PRODUTO ___________________________________________//
@@ -70,10 +70,14 @@ namespace ComprasDigital.Servidor
             var itens = from i in dataContext.tb_Items where i.id_produto == idProduto select i;
 
             foreach(var item in itens){
-                listaItens.Add(new cItem(item.id_item,item.id_estabelecimento,item.id_produto,item.preco,item.qualificacao));
+                Model.tb_Produto produto = dataContext.tb_Produtos.First(p => p.id_produto == item.id_produto);
+                Model.tb_Estabelecimento estabelecimento = dataContext.tb_Estabelecimentos.First(e => e.id_estabelecimento == item.id_estabelecimento);
+
+                listaItens.Add(new cItem(item.id_item,produto.nome,estabelecimento.nome,item.preco,item.qualificacao));
             }
 
             return js.Serialize(listaItens);
         }
+
     }
 }

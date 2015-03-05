@@ -16,7 +16,8 @@ namespace ComprasDigital.Classes
 		public string embalagem { get; set; }
 		public string unidade { get; set; }
 
-        public cProduto(){}
+        public cProduto()
+        { }
 
 		public cProduto(tb_Produto prod)
 		{
