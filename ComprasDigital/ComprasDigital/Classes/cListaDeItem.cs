@@ -160,7 +160,7 @@ namespace ComprasDigital.Classes
 				}
 			}
 			dataContext.SubmitChanges();
-			return null;
+			return new jsHistoricoDeLista(dataContext.tb_ListaDeItens.First(l =>l.id_usuario == listaDeItens.idUsuario && l.dataDeCompras == listaDeItens.dataDeCompras));
 		}
 	}
 }
