@@ -10,40 +10,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/ComprasDigital.dll">
-      <publishTime>02/20/2015 20:18:01</publishTime>
+      <publishTime>03/05/2015 17:46:13</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>01/27/2015 09:34:51</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>01/27/2015 09:34:50</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="Model/DataClasses.dbml">
-      <publishTime>02/06/2015 18:19:48</publishTime>
+      <publishTime>03/02/2015 12:17:43</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>01/27/2015 09:34:47</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="Servidor/Estabelecimento.asmx">
-      <publishTime>01/27/2015 09:34:40</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="Servidor/Item.asmx">
-      <publishTime>01/27/2015 09:34:40</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="Servidor/ListaDeItens.asmx">
-      <publishTime>01/27/2015 09:34:40</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="Servidor/ListaDeProdutos.asmx">
-      <publishTime>01/27/2015 09:34:40</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="Servidor/Produto.asmx">
-      <publishTime>01/27/2015 09:34:40</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="Servidor/Usuario.asmx">
-      <publishTime>01/27/2015 09:34:40</publishTime>
+      <publishTime>02/19/2015 11:58:42</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/20/2015 20:18:03</publishTime>
+      <publishTime>03/05/2015 17:46:13</publishTime>
     </File>
   </ItemGroup>
 </Project>
