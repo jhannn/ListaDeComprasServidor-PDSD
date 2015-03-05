@@ -80,5 +80,20 @@ namespace ComprasDigital.Classes
 				}
 			}
 		}
+
+		public static void qualificarProduto(int idProduto)
+		{
+			DataClassesDataContext dataContext = new DataClassesDataContext();
+			var produtosInvalidos = from p in dataContext.tb_ProdutoInvalidos where p.id_produtoAntigo == idProduto || p.id_produtoNovo == idProduto select p;
+			foreach (tb_ProdutoInvalido p in produtosInvalidos)
+			{
+				if (p.id_produtoNovo == idProduto)
+					p.quantidadeDeOcorrencias++;
+				else
+					p.quantidadeDeOcorrencias--;
+					dataContext.tb_ProdutoInvalidos.InsertOnSubmit(p);
+				dataContext.SubmitChanges();
+			}
+		}
 	}
 }

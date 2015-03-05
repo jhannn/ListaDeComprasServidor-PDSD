@@ -36,8 +36,9 @@ namespace ComprasDigital.Servidor
 			 *	]}
 			/*/
 			jsListaDeItens listaDeItens = js.Deserialize<jsListaDeItens>(lista);
+			jsHistoricoDeLista listaRetorno = cListaDeItem.cadastrarLista(listaDeItens);
 
-			return js.Serialize(listaDeItens);
+			return js.Serialize(listaRetorno);
         }
     }
 }

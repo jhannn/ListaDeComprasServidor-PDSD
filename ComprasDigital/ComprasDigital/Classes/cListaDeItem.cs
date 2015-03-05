@@ -109,5 +109,58 @@ namespace ComprasDigital.Classes
 			}
 			return null;
 		}
-    }
+
+		public static jsHistoricoDeLista cadastrarLista(jsListaDeItens listaDeItens)
+		{
+			DataClassesDataContext dataContext = new DataClassesDataContext();
+			tb_ListaDeIten li = new tb_ListaDeIten();
+			li.dataDeCompras = listaDeItens.dataDeCompras;
+			li.id_usuario = listaDeItens.idUsuario;
+			dataContext.tb_ListaDeItens.InsertOnSubmit(li);
+			li = dataContext.tb_ListaDeItens.First(l => l.id_usuario == listaDeItens.idUsuario && l.dataDeCompras.Equals(listaDeItens.dataDeCompras));
+			tb_Produto produtoNovo;
+			tb_Item itemNovo;
+			foreach (jsItem item in listaDeItens.itensComprados)
+			{
+				if (item.idProduto > 0)
+				{//produto ja existente
+					produtoNovo = dataContext.tb_Produtos.First(p => p.id_produto == item.idProduto);
+					var itens = from i in dataContext.tb_Items where i.data == listaDeItens.dataDeCompras && i.id_estabelecimento == listaDeItens.idEstabelecimento && i.id_produto == produtoNovo.id_produto && i.preco == item.preco select i;
+					cProdutoInvalido.qualificarProduto(produtoNovo.id_produto);
+					if (itens.Count() < 1)
+					{
+						itemNovo = new tb_Item();
+						itemNovo.id_produto = produtoNovo.id_produto;
+						itemNovo.preco = item.preco;
+						itemNovo.id_estabelecimento = listaDeItens.idEstabelecimento;
+						itemNovo.data = listaDeItens.dataDeCompras;
+						itemNovo.qualificacao = 1;
+					}
+					else
+					{
+						itemNovo = itens.First();
+						item.quantidade++;
+					}
+					dataContext.tb_Items.InsertOnSubmit(itemNovo);
+				}
+				else
+				{//produto novo ou editado
+					if (item.codigoDeBarras != null)
+						produtoNovo = cProduto.criarProduto(item.marca, item.nome, item.unidade, item.embalagem);
+					else
+						produtoNovo = cProduto.criarProduto(item.marca, item.nome, item.unidade, item.embalagem, item.codigoDeBarras, item.tipoCodigo);
+					
+					itemNovo = new tb_Item();
+					itemNovo.id_produto = produtoNovo.id_produto;
+					itemNovo.preco = item.preco;
+					itemNovo.id_estabelecimento = listaDeItens.idEstabelecimento;
+					itemNovo.data = listaDeItens.dataDeCompras;
+					itemNovo.qualificacao = 1;
+					dataContext.tb_Items.InsertOnSubmit(itemNovo);
+				}
+			}
+			dataContext.SubmitChanges();
+			return null;
+		}
+	}
 }
