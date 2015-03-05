@@ -87,6 +87,8 @@
     <Compile Include="Classes\cProdutoInvalido.cs" />
     <Compile Include="Classes\cUsuario.cs" />
     <Compile Include="Classes\Enum.cs" />
+    <Compile Include="Classes\jsItem.cs" />
+    <Compile Include="Classes\jsListaDeItens.cs" />
     <Compile Include="Classes\Retorno.cs" />
     <Compile Include="Excecoes\Estabelecimento\EstabelecimentoExistenteException.cs" />
     <Compile Include="Excecoes\Estabelecimento\EstabelecimentoNaoExistenteException.cs" />
