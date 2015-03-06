@@ -31,8 +31,8 @@ namespace ComprasDigital.Servidor
 			/*/	Exemplo de entrada:
 			 *	{"idEstabelecimento":1,"dataDeCompras":"\/Date(1425524400000)\/","idUsuario":1,"itensComprados":
 			 *	[
-			 *		{"idProduto":1,"nome":"Nescau","marca":"Nestle","codigoDeBarras":null,"tipoCodigo":null,"embalagem":1,"unidade":0,"quantidade":2,"preco":2.5},
-			 *		{"idProduto":1,"nome":"milk","marca":"parmalat","codigoDeBarras":null,"tipoCodigo":null,"embalagem":2,"unidade":0,"quantidade":1,"preco":3}
+			 *		{"idProduto":19,"nome":"Nescau","marca":"Nestle","codigoDeBarras":null,"tipoCodigo":null,"embalagem":1,"unidade":1,"quantidade":2,"preco":2.5},
+			 *		{"idProduto":0,"nome":"milk","marca":"parmalat","codigoDeBarras":null,"tipoCodigo":null,"embalagem":2,"unidade":1,"quantidade":1,"preco":3}
 			 *	]}
 			/*/
 			jsListaDeItens listaDeItens = js.Deserialize<jsListaDeItens>(lista);
@@ -40,5 +40,12 @@ namespace ComprasDigital.Servidor
 
 			return js.Serialize(listaRetorno);
         }
+
+		[WebMethod]
+		public string jsonData(int dia, int mes, int ano)
+		{
+			JavaScriptSerializer js = new JavaScriptSerializer();
+			return js.Serialize(new DateTime(ano, mes, dia));
+		}
     }
 }

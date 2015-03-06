@@ -22,12 +22,13 @@ namespace ComprasDigital.Classes
 		public jsHistoricoDeLista(tb_ListaDeIten lista)
 		{
 			nomeEstabelecimento = "";
-			idEstabelecimento = 0;
+			idEstabelecimento = Convert.ToInt32(lista.id_estabelecimento);
 			dataDeCompras = lista.dataDeCompras.ToString();
 			idLista = lista.id_listaDeItens;
 			precoTotal = 0;
 			DataClassesDataContext dataContext = new DataClassesDataContext();
 			var itensDaLista = from i in dataContext.tb_ItemDaListas where i.id_lista == lista.id_listaDeItens select i;
+			itens = new List<jsHistoricoDeItem>();
 			foreach(tb_ItemDaLista item in itensDaLista)
 			{
 				precoTotal += item.preco * item.quantidade;

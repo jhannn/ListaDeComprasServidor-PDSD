@@ -102,7 +102,9 @@ CREATE TABLE tb_Estabelecimento
 	nome VARCHAR(50) NOT NULL,
 	bairro VARCHAR(100) NOT NULL,
 	cidade VARCHAR(100) NOT NULL,
-	numero INT NOT NULL
+	numero INT NOT NULL,
+	latitude DOUBLE PRECISION,
+	longitude DOUBLE PRECISION
 );
 
 
@@ -167,18 +169,21 @@ CREATE TABLE tb_ListaDeItens
 	id_listaDeItens INT PRIMARY KEY IDENTITY(1,1),
 	dataDeCompras DATE NOT NULL,
 	id_usuario INT FOREIGN KEY REFERENCES tb_Usuario(id_usuario) NOT NULL,
+	id_estabelecimento INT FOREIGN KEY REFERENCES tb_Estabelecimento(id_estabelecimento)
 );
 
 
 
 CREATE TABLE tb_ItemDaLista
 (
+	id_itemDaLista INT PRIMARY KEY IDENTITY(1,1),
 	id_lista INT FOREIGN KEY REFERENCES tb_ListaDeItens(id_listaDeItens) NOT NULL,
 	nome_produto VARCHAR(40) NOT NULL,
 	marca_produto VARCHAR(25) NOT NULL,
 	preco FLOAT NOT NULL,
 	unidade INT FOREIGN KEY REFERENCES tb_Unidade(id_unidade) NOT NULL,
 	quantidade INT NOT NULL,
+	id_produto INT FOREIGN KEY REFERENCES tb_Produto(id_produto)
 );
 
 
@@ -206,9 +211,9 @@ INSERT INTO tb_Marca VALUES ('garoto');
 INSERT INTO tb_Marca VALUES ('nestle');
 INSERT INTO tb_Marca VALUES ('parmalat');
 
-INSERT INTO tb_Estabelecimento VALUES ('Nordestão', 'ZN', 'Natal', 0);
-INSERT INTO tb_Estabelecimento VALUES ('Carrefour', 'ZN', 'Natal', 0);
-INSERT INTO tb_Estabelecimento VALUES ('Nordestão', 'ZS', 'Natal', 0);
+INSERT INTO tb_Estabelecimento VALUES ('Nordestão', 'ZN', 'Natal', 0, null, null);
+INSERT INTO tb_Estabelecimento VALUES ('Carrefour', 'ZN', 'Natal', 0, null, null);
+INSERT INTO tb_Estabelecimento VALUES ('Nordestão', 'ZS', 'Natal', 0, null, null);
 
 INSERT INTO tb_Produto VALUES('banana',1 , null, null, 2, 1);
 INSERT INTO tb_Produto VALUES('maçã',1 , null, null, 2, 1);

@@ -22,7 +22,7 @@ namespace ComprasDigital.Classes
 		public jsHistoricoDeItem(tb_ItemDaLista item)
 		{
 			DataClassesDataContext dataContext = new DataClassesDataContext();
-			idProduto = 0;
+			idProduto = Convert.ToInt32(item.id_produto);
 			nomeProduto = item.nome_produto;
 			marcaProduto = item.marca_produto;
 			unidade = dataContext.tb_Unidades.First(u => u.id_unidade == item.unidade).unidade;
