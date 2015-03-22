@@ -27,6 +27,14 @@ namespace ComprasDigital.Classes
 		preco = precoItem;
 		qualificacao = qualifi;
 	    }
+
+        public cItem(int idItem, string nome, Double precoItem, int qualifi)
+        {
+            id_item = idItem;
+            nomeProduto = nome;
+            preco = precoItem;
+            qualificacao = qualifi;
+        }
         //-----------------------------//
 
 		public cItem(tb_Produto prod, int qt = 0)

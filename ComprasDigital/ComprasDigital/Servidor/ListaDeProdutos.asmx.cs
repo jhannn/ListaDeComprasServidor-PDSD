@@ -354,5 +354,29 @@ namespace ComprasDigital.Servidor
             return js.Serialize(itens);
         }
 
+        //________________________________________ RETORNAR ITENS POR ESTABELECIMENTO _______________________________________________//
+        [WebMethod]
+        public string retornarItensPorEstabelecimento(int idUsuario, string token, int idEstabelecimento)
+        {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException());
+
+            var dataContext = new Model.DataClassesDataContext();
+            var itens = from i in dataContext.tb_Items where i.id_estabelecimento == idEstabelecimento select i;
+            ArrayList itensArray = new ArrayList();
+
+            foreach (var item in itens)
+            {
+                var produtos = from p in dataContext.tb_Produtos where p.id_produto == item.id_produto select p;
+                foreach (var prod in produtos)
+                {
+                    itensArray.Add(new cItem(item.id_item,prod.nome, item.preco, item.qualificacao));
+                }
+            }
+            return js.Serialize(itensArray);
+        }
+
     }
 }
