@@ -142,6 +142,7 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\WebServer.pubxml" />
+    <None Include="Properties\PublishProfiles\WebService.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
