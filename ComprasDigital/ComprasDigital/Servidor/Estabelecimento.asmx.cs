@@ -126,7 +126,7 @@ namespace ComprasDigital.Servidor
 
         //_____________________________________ EDITAR ESTABELECIMENTO _______________________________________//
 		[WebMethod]
-		public string editarEstabelecimento(int idUsuario, string token, int id, string nome, string bairro, string cidade, int numero)
+        public string editarEstabelecimento(int idUsuario, string token, int id, string nome, string bairro, string cidade, int numero, double latitude, double longitude)
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -142,6 +142,8 @@ namespace ComprasDigital.Servidor
 				objEstabelecimento.bairro = bairro;
 				objEstabelecimento.cidade = cidade;
 				objEstabelecimento.numero = numero;
+                objEstabelecimento.latitude = latitude;
+                objEstabelecimento.longitude = longitude;
 				dataContext.SubmitChanges();
 
 				return js.Serialize("OK");
