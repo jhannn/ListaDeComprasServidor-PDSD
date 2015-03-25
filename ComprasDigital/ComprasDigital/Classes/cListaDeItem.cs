@@ -109,5 +109,76 @@ namespace ComprasDigital.Classes
 			}
 			return null;
 		}
-    }
+
+		public static jsHistoricoDeLista cadastrarLista(jsListaDeItens listaDeItens)
+		{
+			DataClassesDataContext dataContext = new DataClassesDataContext();
+			tb_ListaDeIten li = new tb_ListaDeIten();
+			li.dataDeCompras = listaDeItens.dataDeCompras;
+			li.id_usuario = listaDeItens.idUsuario;
+			dataContext.tb_ListaDeItens.InsertOnSubmit(li);
+			dataContext.SubmitChanges();
+			li = dataContext.tb_ListaDeItens.First(l => l.id_usuario == listaDeItens.idUsuario && l.dataDeCompras.Equals(listaDeItens.dataDeCompras));
+			tb_Produto produtoNovo;
+			tb_Item itemNovo;
+			tb_ItemDaLista itemLista;
+			foreach (jsItem item in listaDeItens.itensComprados)
+			{
+				if (item.idProduto > 0)
+				{//produto ja existente
+					produtoNovo = dataContext.tb_Produtos.First(p => p.id_produto == item.idProduto);
+					cProdutoInvalido.qualificarProduto(produtoNovo.id_produto);
+				}
+				else
+				{
+					if (item.codigoDeBarras == null)
+						produtoNovo = cProduto.criarProduto(item.marca, item.nome, item.unidade, item.embalagem);
+					else
+						produtoNovo = cProduto.criarProduto(item.marca, item.nome, item.unidade, item.embalagem, item.codigoDeBarras, item.tipoCodigo);
+				}
+
+				var itens = from i
+							in dataContext.tb_Items
+							where
+								i.data.Day == listaDeItens.dataDeCompras.Day &&
+								i.data.Month == listaDeItens.dataDeCompras.Month &&
+								i.data.Year == listaDeItens.dataDeCompras.Year &&
+								i.id_estabelecimento == listaDeItens.idEstabelecimento &&
+								i.id_produto == produtoNovo.id_produto &&
+								i.preco == item.preco
+							select i;
+				cProdutoInvalido.qualificarProduto(produtoNovo.id_produto);
+				if (itens.Count() == 0)
+				{
+					itemNovo = new tb_Item();
+					itemNovo.id_produto = produtoNovo.id_produto;
+					itemNovo.preco = item.preco;
+					itemNovo.id_estabelecimento = listaDeItens.idEstabelecimento;
+					itemNovo.data = listaDeItens.dataDeCompras;
+					itemNovo.qualificacao = 1;
+					dataContext.tb_Items.InsertOnSubmit(itemNovo);
+				}
+				else
+				{
+					itemNovo = itens.First();
+					itemNovo.qualificacao = itemNovo.qualificacao + 1;
+				}
+				dataContext.SubmitChanges();
+
+				itemLista = new tb_ItemDaLista();
+				itemLista.id_produto = produtoNovo.id_produto;
+				itemLista.id_lista = li.id_listaDeItens;
+				itemLista.marca_produto = produtoNovo.tb_Marca.marca;
+				itemLista.nome_produto = produtoNovo.nome;
+				itemLista.preco = item.preco;
+				itemLista.quantidade = item.quantidade;
+				itemLista.unidade = produtoNovo.unidade;
+				dataContext.tb_ItemDaListas.InsertOnSubmit(itemLista);
+				dataContext.SubmitChanges();
+
+			}
+			dataContext.SubmitChanges();
+			return new jsHistoricoDeLista(dataContext.tb_ListaDeItens.First(l =>l.id_usuario == listaDeItens.idUsuario && l.dataDeCompras == listaDeItens.dataDeCompras));
+		}
+	}
 }
