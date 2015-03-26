@@ -31,7 +31,10 @@ namespace ComprasDigital.Classes
 			numero = estab.numero;
             latitude = Convert.ToDouble(estab.latitude);
             longitude = Convert.ToDouble(estab.longitude);
-            imagem_estabelecimento = Convert.ToBase64String(estab.imagem_estabelecimento.ToArray());
+            if (estab.imagem_estabelecimento != null)
+                imagem_estabelecimento = Convert.ToBase64String(estab.imagem_estabelecimento.ToArray());
+            else
+                imagem_estabelecimento = "null";
 		}
 	}
 }

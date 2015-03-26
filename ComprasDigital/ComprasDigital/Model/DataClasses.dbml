@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SistemaDeCompras" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=MARCOS-PC\SQLEXPRESS;Initial Catalog=SistemaDeCompras;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="SistemaDeComprasConnectionString2" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=CBMRN01\SQLEXPRESS;Initial Catalog=SistemaDeCompras;Integrated Security=True;Application Name=EntityFramework" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="SistemaDeComprasConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.tb_Embalagem" Member="tb_Embalagems">
     <Type Name="tb_Embalagem">
       <Column Name="id_embalagem" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -27,7 +27,7 @@
       <Column Name="qualificacao" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="data" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Association Name="tb_Produto_tb_Item" Member="tb_Produto" ThisKey="id_produto" OtherKey="id_produto" Type="tb_Produto" IsForeignKey="true" />
-      <Association Name="tb_Estabelecimento_tb_Item" Member="tb_Estabelecimento" Storage="_tb_Estabelecimento1" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_Estabelecimento" IsForeignKey="true" />
+      <Association Name="tb_Estabelecimento_tb_Item" Member="tb_Estabelecimento" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_Estabelecimento" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.tb_ListaDeProdutos" Member="tb_ListaDeProdutos">
@@ -106,19 +106,6 @@
       <Association Name="tb_Unidade_tb_ItemDaLista" Member="tb_ItemDaListas" ThisKey="id_unidade" OtherKey="unidade" Type="tb_ItemDaLista" />
     </Type>
   </Table>
-  <Table Name="dbo.tb_Estabelecimento" Member="tb_Estabelecimentos">
-    <Type Name="tb_Estabelecimento">
-      <Column Name="id_estabelecimento" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="bairro" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="cidade" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="numero" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="longitude" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Association Name="tb_Estabelecimento_tb_Item" Member="tb_Items" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_Item" />
-      <Association Name="tb_Estabelecimento_tb_ListaDeIten" Member="tb_ListaDeItens" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_ListaDeIten" />
-    </Type>
-  </Table>
   <Table Name="dbo.tb_ListaDeItens" Member="tb_ListaDeItens">
     <Type Name="tb_ListaDeIten">
       <Column Name="id_listaDeItens" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -126,8 +113,8 @@
       <Column Name="id_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="id_estabelecimento" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="tb_ListaDeIten_tb_ItemDaLista" Member="tb_ItemDaListas" ThisKey="id_listaDeItens" OtherKey="id_lista" Type="tb_ItemDaLista" />
-      <Association Name="tb_Estabelecimento_tb_ListaDeIten" Member="tb_Estabelecimento" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_Estabelecimento" IsForeignKey="true" />
       <Association Name="tb_Usuario_tb_ListaDeIten" Member="tb_Usuario" ThisKey="id_usuario" OtherKey="id_usuario" Type="tb_Usuario" IsForeignKey="true" />
+      <Association Name="tb_Estabelecimento_tb_ListaDeIten" Member="tb_Estabelecimento" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_Estabelecimento" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.tb_ItemDaLista" Member="tb_ItemDaListas">
@@ -143,6 +130,20 @@
       <Association Name="tb_ListaDeIten_tb_ItemDaLista" Member="tb_ListaDeIten" ThisKey="id_lista" OtherKey="id_listaDeItens" Type="tb_ListaDeIten" IsForeignKey="true" />
       <Association Name="tb_Produto_tb_ItemDaLista" Member="tb_Produto" ThisKey="id_produto" OtherKey="id_produto" Type="tb_Produto" IsForeignKey="true" />
       <Association Name="tb_Unidade_tb_ItemDaLista" Member="tb_Unidade" ThisKey="unidade" OtherKey="id_unidade" Type="tb_Unidade" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tb_Estabelecimento" Member="tb_Estabelecimentos">
+    <Type Name="tb_Estabelecimento">
+      <Column Name="id_estabelecimento" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="bairro" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="cidade" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="numero" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="longitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="imagem_estabelecimento" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="tb_Estabelecimento_tb_Item" Member="tb_Items" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_Item" />
+      <Association Name="tb_Estabelecimento_tb_ListaDeIten" Member="tb_ListaDeItens" ThisKey="id_estabelecimento" OtherKey="id_estabelecimento" Type="tb_ListaDeIten" />
     </Type>
   </Table>
 </Database>

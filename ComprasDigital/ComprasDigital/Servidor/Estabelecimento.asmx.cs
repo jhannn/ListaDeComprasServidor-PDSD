@@ -36,8 +36,8 @@ namespace ComprasDigital.Servidor
         {
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
-            //if (!cUsuario.usuarioValido(idUsuario, token))
-            //    return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
 			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome == nome && estabelecimento.bairro == bairro && estabelecimento.cidade == cidade select estabelecimento;
@@ -85,8 +85,8 @@ namespace ComprasDigital.Servidor
 		{
 			JavaScriptSerializer js = new JavaScriptSerializer();
 
-            if (!cUsuario.usuarioValido(idUsuario, token))
-                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+            //if (!cUsuario.usuarioValido(idUsuario, token))
+            //    return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
 
 			var dataContext = new Model.DataClassesDataContext();
 			var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.nome.ToLower().StartsWith(nome.ToLower())
