@@ -150,5 +150,30 @@ namespace ComprasDigital.Servidor
 			}
 			return js.Serialize(new OcorreuAlgumErroException());
 		}
+
+        //_____________________________________ SALVAR IMAGEM ESTABELECIMENTO _______________________________________//
+        [WebMethod]
+        public string salvarImagemEstabelecimento(int idUsuario, string token, int id, string imagem)
+        {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+
+            if (!cUsuario.usuarioValido(idUsuario, token))
+                return js.Serialize(new UsuarioNaoLogadoException()); //retorna a exception UsuarioNaoLogado
+
+            Byte[] arr = System.Convert.FromBase64String(imagem); 
+
+            var dataContext = new Model.DataClassesDataContext();
+            var estabelecimentos = from estabelecimento in dataContext.tb_Estabelecimentos where estabelecimento.id_estabelecimento == id select estabelecimento;
+            if (estabelecimentos.Count() == 1)
+            {
+                Model.tb_Estabelecimento objEstabelecimento = dataContext.tb_Estabelecimentos.Single(estabelecimento => estabelecimento.id_estabelecimento == id);
+                objEstabelecimento.imagem_estabelecimento = new System.Data.Linq.Binary(arr);
+                dataContext.SubmitChanges();
+
+
+                return js.Serialize("OK");
+            }
+            return js.Serialize(new OcorreuAlgumErroException());
+        }
     }
 }

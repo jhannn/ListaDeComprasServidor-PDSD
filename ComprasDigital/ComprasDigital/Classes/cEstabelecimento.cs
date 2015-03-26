@@ -5,6 +5,7 @@ using System.Web;
 using ComprasDigital.Model;
 using System.Web.Script.Serialization;
 using System.Collections;
+using System.Text;
 
 namespace ComprasDigital.Classes
 {
@@ -17,6 +18,7 @@ namespace ComprasDigital.Classes
 		public int numero { get; set; }
         public double latitude { get; set; }
         public double longitude { get; set; }
+        public string imagem_estabelecimento { get; set; }
 
 		public cEstabelecimento() { }
 
@@ -29,6 +31,7 @@ namespace ComprasDigital.Classes
 			numero = estab.numero;
             latitude = Convert.ToDouble(estab.latitude);
             longitude = Convert.ToDouble(estab.longitude);
+            imagem_estabelecimento = Convert.ToBase64String(estab.imagem_estabelecimento.ToArray());
 		}
 	}
 }
